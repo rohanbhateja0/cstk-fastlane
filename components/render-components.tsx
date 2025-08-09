@@ -11,6 +11,7 @@ import { BaseComponent } from '@/core/types/components/BaseComponent';
 type RenderProps = BaseComponent & {
   components: Component[];
   rendering: any;
+  $: any; // to pass params for Visual Builder
 }
 
 export default function RenderComponents(props: RenderProps) {
@@ -28,14 +29,14 @@ export default function RenderComponents(props: RenderProps) {
          
         if (component.content_section) {
           return (
-           <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.content_section)}>
+           <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.content_section)}>
               <ContentSection contentSection={component.content_section} page={props.page} key={`component-${key}`} />
             </div>
           );
         }
         if (component.content_card) {
           return (
-             <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.content_card)}>
+             <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.content_card)}>
             <ContentCard contentCard={component.content_card} page={props.page}  key={`component-${key}`} />
             </div>
           );
@@ -43,28 +44,28 @@ export default function RenderComponents(props: RenderProps) {
 
         if (component.flex_grid){
           return (
-            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+            <div key={`component-${key}`} {...props.$?.[`components__${key}`]}>
               <FlexGrid flexGrid={component.flex_grid} page={props.page} key={`component-${key}`} />
             </div>
           );
         }
         if (component.image){
           return (
-            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.image)}>
+            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.image)}>
               <ImageComponent image={component.image} page={props.page} key={`component-${key}`} />
             </div>
           );
         }
         if (component.rich_text){
           return (
-            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.rich_text)}>
+            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.rich_text)}>
               <RichText richText={component.rich_text} key={`component-${key}`} />
             </div>
           );
         }
         if (component.accordion){
           return (
-            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.accordion)}>
+            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.accordion)}>
               <Accordion accordion={component.accordion} page={props.page} key={`component-${key}`} />
             </div>
           );

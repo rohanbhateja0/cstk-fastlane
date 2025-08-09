@@ -59,6 +59,7 @@ export default function FlexGrid(props: FlexGridProps) {
             components={components}
             page={props.page}
             rendering={props.flexGrid}
+            $={props.flexGrid.components.$}
             />
         </div>
       </div>

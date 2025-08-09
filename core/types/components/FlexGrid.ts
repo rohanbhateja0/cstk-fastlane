@@ -3,7 +3,7 @@ import { CMSImageField } from "../Fields";
 
 export type FlexGridFields = {
     column_settings: ColumnSettingFields;
-    components: { components: Component[] };
+    components: { components: Component[], $:any };
     display_options: DisplayOptionFields;
     $: any;
 }
