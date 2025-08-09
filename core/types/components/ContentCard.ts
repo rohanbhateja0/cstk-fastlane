@@ -16,6 +16,7 @@ export type ContentCardRenderingOptions = {
     image_order: string;
     header_tag: string;
     link_type: string;
+    colspan: string;
     $: any;
 }
 

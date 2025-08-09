@@ -41,20 +41,20 @@ export const stack = contentstack.stack({
 export function initLivePreview() {
   ContentstackLivePreview.init({
     ssr: false, // Disabling server-side rendering for live preview
-    enable: true, // Enabling live preview if specified in environment variables
+    enable: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW === "true", // Enabling live preview if specified in environment variables
     mode: "builder", // Setting the mode to "builder" for visual builder
     stackSdk: stack.config as IStackSdk, // Passing the stack configuration
     stackDetails: {
-      apiKey: "cs1c73ef162a0bc2ddb95c02cb", // Setting the API key from environment variables
-      environment: "development", // Setting the environment from environment variables
+      apiKey: process.env.NEXT_PUBLIC_CONTENTSTACK_PREVIEW_TOKEN, // Setting the API key from environment variables
+      environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT, // Setting the environment from environment variables
     },
     clientUrlParams: {
         protocol: "https",
-        host: "app.contentstack.com", // Use region-specific host if applicable
+        host: process.env.NEXT_PUBLIC_CONTENTSTACK_APP_HOST, // Use region-specific host if applicable
         port: 443,
     },
     editButton: {
-      enable: true // Enabling the edit button for live preview
+      enable: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_EDIT_TAGS === "true" // Enabling the edit button for live preview
     },
   });
 }

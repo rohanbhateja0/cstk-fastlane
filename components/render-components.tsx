@@ -16,19 +16,26 @@ type RenderProps = BaseComponent & {
 export default function RenderComponents(props: RenderProps) {
   const { components } = props;
 
+  function getColspanClass(element: any){
+       const colspan = element.rendering_options?.colspan ?? ""; 
+       const colspanClass = colspan == "" || colspan == "1" ? "" : "col-span-" + colspan;
+       return colspanClass;
+  }
+
   return (
     <>
       {components?.map((component, key: number) => {
+         
         if (component.content_section) {
           return (
-           <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+           <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.content_section)}>
               <ContentSection contentSection={component.content_section} page={props.page} key={`component-${key}`} />
             </div>
           );
         }
         if (component.content_card) {
           return (
-             <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+             <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.content_card)}>
             <ContentCard contentCard={component.content_card} page={props.page}  key={`component-${key}`} />
             </div>
           );
@@ -43,21 +50,21 @@ export default function RenderComponents(props: RenderProps) {
         }
         if (component.image){
           return (
-            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.image)}>
               <ImageComponent image={component.image} page={props.page} key={`component-${key}`} />
             </div>
           );
         }
         if (component.rich_text){
           return (
-            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
-              <RichText richText={component.rich_text} page={props.page} key={`component-${key}`} />
+            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.rich_text)}>
+              <RichText richText={component.rich_text} key={`component-${key}`} />
             </div>
           );
         }
         if (component.accordion){
           return (
-            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]} className={getColspanClass(component.accordion)}>
               <Accordion accordion={component.accordion} page={props.page} key={`component-${key}`} />
             </div>
           );
