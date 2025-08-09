@@ -1,47 +1,103 @@
+# FastLane Component & Template Library
 
-# academy-upgrade
+> **A design-first Contentstack project with comprehensive component documentation for developers and AI generation.**
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+FastLane is a production-ready component and template library built for Contentstack, following a **design-first approach** from Figma to code. This project emphasizes front-end first development and provides structured documentation that works with both developers and AI coding assistants.
 
-## Getting Started
+## 🚀 Quick Start
 
-First, run the development server:
+### **New to FastLane?** → Start with the Documentation
+📚 **[Browse the FastLane Documentation](docs/)** - Complete component library with usage examples, Contentstack configuration, and AI-ready specifications.
+
+## 🎯 What is FastLane?
+
+FastLane is a **comprehensive component library** that provides:
+
+- **🔧 Production-Ready Components** - Built for Contentstack with TypeScript and modern React patterns
+- **🎨 Design System Integration** - Direct Figma specifications with component mappings
+- **🤖 AI-Generation Ready** - Structured documentation for AI tools (Cursor, GitHub Copilot, etc.)
+- **📋 Developer Documentation** 
+- **⚡ Front-End First Development** - 
+
+## 📁 Project Structure
+
+
+
+## 🏃‍♂️ Development Workflow
+
+### 1. **Frontend Development** (Start Here)
 
 ```bash
+
+npm install
+
+# Connect to Contentstack envrionment
+# Create .env.local using keys for stack you want to connect to
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# → Site available at http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. **Browse Documentation**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+### 3. **Design-First Approach**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. **Figma Design** → Component specifications with design tokens
+2. **Documentation** → Create/update component docs in `docs/pages/components/`
+3. **Implementation** → Build component in `headapps/nextjs-starter/src/components/`
+4. **Contentstack Integration** → 
+## 📚 Documentation
 
-## Learn More
+The **[FastLane Documentation](docs/)** is the best place to get started. It includes:
 
-To learn more about Next.js, take a look at the following resources:
+- **Component Library** - Complete specifications with Contentstack integration
+- **Getting Started Guides** - Installation, setup, and usage
+- **Developer Guides** - Implementation patterns and best practices  
+- **Template Library** - Pre-built page templates and layouts
+- **AI Integration** - Structured content for AI-assisted development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Key Documentation Locations:**
+- `docs/pages/components/` - Individual component documentation
+- `docs/pages/getting-started/` - Setup and installation guides
+- `docs/pages/for-developers/` - Developer-specific documentation
+- `docs/pages/templates/` - Page template specifications
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 🤝 Contributing
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Documentation Guidelines
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Follow existing component documentation structure
+- Include Figma design links and node IDs
+- Provide complete Contentstack field configurations
+- Add usage examples and implementation notes
+- Update navigation in `docs/pages/*/\_meta.ts` files
 
->>>>>>> da15541 (Initial commit from Create Next App)
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
+### Code Standards
+
+- **TypeScript** for all new components
+- **Responsive design** with mobile-first approach
+- **Accessibility** following WCAG guidelines
+- **Performance** considerations for Contentstack
+
+## 🛠️ Technology Stack
+
+- **Frontend**: Next.js 15, TypeScript, Tailwind CSS, ShadCN UI
+- **Documentation**: Nextra (Next.js-based), Vercel Password Protection
+- **CMS**: Contentstack
+- **Design**: Figma integration with design tokens
+- **Development**: Storybook, ESLint, Prettier
+
+## 📋 Prerequisites
+
+- **Node.js 18+** 
+- **Access to Contentstack
+- **Figma access** (for design specifications)
+
+## 🔗 Important Links
+- **[FastLane Documentation](docs/)** (Start here!)
+
+---
+
+**Questions?** Check the [FastLane Documentation](docs/) or review the component specifications in `docs/pages/components/`.
