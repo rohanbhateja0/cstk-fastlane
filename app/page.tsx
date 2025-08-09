@@ -14,7 +14,8 @@ import { GetPage } from "@/core/ContentQueries/GetPage"
 import FlexGrid from "@/components/flex-grid";
 import LivePreview from "@/components/LivePreview";
 
-export const revalidate = 0;
+export const timeout = parseInt(process.env.REVALIDATE_TIME_OUT || '0');
+export const revalidate = Number.isInteger(timeout) ? timeout : 0;
 
 export default async function Home() {
   const entryUrl = "/";
