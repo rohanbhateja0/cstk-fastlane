@@ -14,6 +14,11 @@ type AdditionalParam = {
   date: string;
 }
 
+type ContentSection = {
+  title: string;
+  $: AdditionalParam;
+}
+
 type Employee = {
   image: Image;
   name: string;
@@ -74,6 +79,7 @@ export type Component = {
   section_with_html_code?: AdditionalParamProps;
   our_team?: TeamProps;
   widget?: Widget;
+  content_section: ContentSection;
 }
 
 export type SectionWithBucket = {

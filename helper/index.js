@@ -51,7 +51,7 @@ export const getHomePageRes = async () => {
 
 export const getPageRes = async (entryUrl) => {
     const response = await Stack.getEntryByUrl({
-        contentTypeUid: "page",
+        contentTypeUid: "blank_page",
         entryUrl,
         referenceFieldPath: ["page_components.from_blog.featured_blogs", "page_components.superheroes.character"],
         jsonRtePath: [
@@ -62,6 +62,20 @@ export const getPageRes = async (entryUrl) => {
     });
     liveEdit && addEditableTags(response[0], "page", true);
     return response[0];
+};
+
+export const getFastLanePage = async (entryUrl) => {
+    console.log('in get fast Lane Page');
+    const response = await Stack.getEntryByUrl({
+        contentTypeUid: "blank_page",
+        entryUrl,
+        referenceFieldPath: [],
+        jsonRtePath: ["page_components.content_section.content.intro_text"],
+    });
+    liveEdit && addEditableTags(response[0], "blank_page", true);
+    console.log('returned');
+    console.log(response);
+    return response[0];    
 };
 
 export const getBlogListRes = async () => {

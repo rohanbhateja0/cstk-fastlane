@@ -1,101 +1,69 @@
 import React from 'react';
-import { RenderProps } from "../typescript/component";
-import BlogBanner from './blog-banner';
-import HeroBanner from './hero-banner';
-import Section from './section';
-import AboutSectionBucket from './about-section-bucket';
-import SectionBucket from './section-bucket';
-import BlogSection from './blog-section';
-import CardSection from './card-section';
-import SectionWithHtmlCode from './section-with-html-code';
-import TeamSection from './team-section';
-import GalleryReact from './gallery';
+import ContentSection from './content-section';
+import { Component } from '@/core/types/Component';
+import ImageComponent from './image';
+import RichText from './rich-text';
+import FlexGrid from './flex-grid';
+import ContentCard from './ContentCard';
+import Accordion from './Accordion';
+import { BaseComponent } from '@/core/types/components/BaseComponent';
+
+type RenderProps = BaseComponent & {
+  components: Component[];
+  rendering: any;
+}
 
 export default function RenderComponents(props: RenderProps) {
-  const { pageComponents, blogPost, entryUid, contentTypeUid, locale } = props;
+  const { components } = props;
 
   return (
-    <div
-      data-pageref={entryUid}
-      data-contenttype={contentTypeUid}
-      data-locale={locale}
-    >
-      {pageComponents?.map((component, key: number) => {
+    <>
+      {components?.map((component, key: number) => {
+        if (component.content_section) {
+          return (
+           <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+              <ContentSection contentSection={component.content_section} page={props.page} key={`component-${key}`} />
+            </div>
+          );
+        }
+        if (component.content_card) {
+          return (
+             <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+            <ContentCard contentCard={component.content_card} page={props.page}  key={`component-${key}`} />
+            </div>
+          );
+        }
 
-        if (component.hero_banner) {
-          return blogPost ? (
-            <BlogBanner
-              blogBanner={component.hero_banner}
-              key={`component-${key}`}
-            />
-          ) : (
-            <HeroBanner
-              banner={component.hero_banner}
-              key={`component-${key}`}
-            />
-          );
-        }
-        if (component.section) {
+        if (component.flex_grid){
           return (
-            <Section section={component.section} key={`component-${key}`} />
+            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+              <FlexGrid flexGrid={component.flex_grid} page={props.page} key={`component-${key}`} />
+            </div>
           );
         }
-        if (component.section_with_buckets) {
-          return component.section_with_buckets.bucket_tabular ? (
-            <AboutSectionBucket
-              sectionWithBuckets={component.section_with_buckets}
-              key={`component-${key}`}
-            />
-          ) : (
-            <SectionBucket
-              section={component.section_with_buckets}
-              key={`component-${key}`}
-            />
-          );
-        }
-        if (component.from_blog) {
+        if (component.image){
           return (
-            <BlogSection
-              fromBlog={component.from_blog}
-              key={`component-${key}`}
-            />
+            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+              <ImageComponent image={component.image} page={props.page} key={`component-${key}`} />
+            </div>
           );
         }
-        if (component.section_with_cards) {
+        if (component.rich_text){
           return (
-            <CardSection
-              cards={component.section_with_cards.cards}
-              key={`component-${key}`}
-            />
+            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+              <RichText richText={component.rich_text} page={props.page} key={`component-${key}`} />
+            </div>
           );
         }
-        if (component.section_with_html_code) {
+        if (component.accordion){
           return (
-            <SectionWithHtmlCode
-              embedCode={component.section_with_html_code}
-              key={`component-${key}`}
-            />
+            <div key={`component-${key}`} {...props.rendering.$?.[`components__${key}`]}>
+              <Accordion accordion={component.accordion} page={props.page} key={`component-${key}`} />
+            </div>
           );
         }
-        if (component.our_team) {
-          return (
-            <TeamSection
-              ourTeam={component.our_team}
-              key={`component-${key}`}
-            />
-          );
-        }
-        if (component?.superheroes) {
-          return (
-            <GalleryReact key={`component-${key}`}
-              data={component?.superheroes?.character}
-              heading={undefined} showFilter={false}
-              showDescription={false}
-              description={component?.description}
-            />
-          )
-        }
+
       })}
-    </div>
+    </>
   );
 }
