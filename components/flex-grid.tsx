@@ -52,7 +52,8 @@ export default function FlexGrid(props: FlexGridProps) {
               ? VB_EmptyBlockParentClass // Adding a class if no blocks are present
               : ""
           }`}
-          {...(props.page?.$?.flex_grid ?? {} )} // Adding editable tags if available
+          {...(props.flexGrid.components?.$?.components ?? {} )} // Adding editable tags if available
+           data-add-direction="vertical"
         >
         <div className={`grid grid-cols-${smallCols} md:grid-cols-${mediumCols} lg:grid-cols-${largeCols} gap-4`}>
             <RenderComponents
