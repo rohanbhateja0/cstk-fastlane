@@ -1,8 +1,9 @@
 import { AccordionFields } from "./components/Accordion";
+import { BreadcrumbFields } from "./components/Breadcrumb";
 import { ContentCardFields } from "./components/ContentCard";
 import { ContentSectionFields } from "./components/ContentSection";
 import { FlexGridFields } from "./components/FlexGrid";
-import { ImageFields, RichTextFields } from "./components/SimpleTypes";
+import { ImageFields, RichTextFields, VideoFields } from "./components/SimpleTypes";
 
 export type Component = {
   rich_text: RichTextFields;
@@ -10,5 +11,7 @@ export type Component = {
   content_section: ContentSectionFields;
   flex_grid: FlexGridFields;
   content_card: ContentCardFields;
-  accordion: AccordionFields
+  accordion: AccordionFields;
+  video: VideoFields;
+  breadcrumb: BreadcrumbFields;
 }

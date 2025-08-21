@@ -13,7 +13,7 @@ const FooterLinkRow = ({ data, className }: FooterLinkRowProps) => {
               className={`text-blue-600 hover:text-green-700 transition-colors ${className}`}
               prefetch={false}
             >
-              {link.text}
+              {link.title}
             </Link>
             {index < data.length - 1 && <span className="ml-2 text-gray-400">•</span>}
           </div>

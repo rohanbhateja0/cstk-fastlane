@@ -4,6 +4,7 @@ import { FlexGridFields } from "./components/FlexGrid";
 import { CustomButtonFields } from "./components/CustomButton";
 import { ContentCardFields } from "./components/ContentCard";
 import { AccordionFields } from "./components/Accordion";
+import { BreadcrumbFields } from "./components/Breadcrumb";
 import { BaseComponent } from "./components/BaseComponent";
 
 //Base Component adds pages Prop to all component props
@@ -34,4 +35,12 @@ export type CTAButtonProps = {
 
 export type AccordionProps= BaseComponent & {
   accordion : AccordionFields;
+}
+
+export type BreadcrumbProps = BaseComponent & {
+  breadcrumb: BreadcrumbFields;
+}
+
+export type VideoProps = BaseComponent & {
+  video: VideoProps;
 }

@@ -6,6 +6,7 @@ import RichText from './rich-text';
 import FlexGrid from './flex-grid';
 import ContentCard from './ContentCard';
 import Accordion from './Accordion';
+import Breadcrumb from './Breadcrumb';
 import { BaseComponent } from '@/core/types/components/BaseComponent';
 
 type RenderProps = BaseComponent & {
@@ -67,6 +68,13 @@ export default function RenderComponents(props: RenderProps) {
           return (
             <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.accordion)}>
               <Accordion accordion={component.accordion} page={props.page} key={`component-${key}`} />
+            </div>
+          );
+        }
+        if (component.breadcrumb){
+          return (
+            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.breadcrumb)}>
+              <Breadcrumb breadcrumb={component.breadcrumb} page={props.page} key={`component-${key}`} />
             </div>
           );
         }

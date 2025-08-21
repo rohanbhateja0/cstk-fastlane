@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import FlexGrid from "@/components/flex-grid";
 import LivePreview from "@/components/LivePreview";
 
-export const timeout = parseInt(process.env.REVALIDATE_TIME_OUT || '0');
+const timeout = parseInt(process.env.REVALIDATE_TIME_OUT || '0');
 export const revalidate = Number.isInteger(timeout) ? timeout : 0;
 
 export async function generateStaticParams() {
@@ -13,7 +13,7 @@ export async function generateStaticParams() {
   const entryPaths: Page[] = await GetAllPages();
   const paths = entryPaths.map((page) => {
     return { 
-      slug: page.url.split('/') 
+      slug: page.url.split('/').filter(segment => segment !== '') 
     };
   });
   return paths;

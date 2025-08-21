@@ -33,3 +33,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# dev templates
+/dev-templatess
+dev-templates/claude--md-template.md
+CLAUDE.md

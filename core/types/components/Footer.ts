@@ -20,3 +20,8 @@ export type AppStoreFields = {
   link_3 : CMSLinkField;
   link_3_image: CMSImageField;
 }
+
+export type FooterLinkRowProps = {
+  data: CMSLinkField[];
+  className?: string;
+}
