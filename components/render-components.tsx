@@ -5,6 +5,7 @@ import ImageComponent from './image';
 import RichText from './rich-text';
 import FlexGrid from './flex-grid';
 import ContentCard from './ContentCard';
+import HeroBanner from './HeroBanner';
 import Accordion from './Accordion';
 import Breadcrumb from './Breadcrumb';
 import { BaseComponent } from '@/core/types/components/BaseComponent';
@@ -39,6 +40,14 @@ export default function RenderComponents(props: RenderProps) {
           return (
              <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.content_card)}>
             <ContentCard contentCard={component.content_card} page={props.page}  key={`component-${key}`} />
+            </div>
+          );
+        }
+
+        if (component.hero_banner) {
+          return (
+            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.hero_banner)}>
+              <HeroBanner heroBanner={component.hero_banner} page={props.page} key={`component-${key}`} />
             </div>
           );
         }
