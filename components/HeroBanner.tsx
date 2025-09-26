@@ -5,6 +5,7 @@ import Heading from '@/core/atoms/Heading';
 import { cn } from '@/core/lib/utils';
 import { HeroBannerProps as HeroBannerPropsType } from '@/core/types/Props';
 import { CMSImageField } from '@/core/types/Fields';
+import Link from 'next/link';
 
 interface HeroBannerProps {
   heroBanner: HeroBannerPropsType['heroBanner'];
@@ -136,6 +137,7 @@ export default function HeroBanner(props: HeroBannerProps) {
             <div className="mt-8">
               <CMSLink
                 link={call_to_action}
+                href={call_to_action.href}
                 className={cn(
                   'inline-flex items-center px-8 py-4 text-lg font-semibold',
                   'bg-primary text-primary-foreground rounded-lg',
@@ -143,7 +145,7 @@ export default function HeroBanner(props: HeroBannerProps) {
                   'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
                   'shadow-lg hover:shadow-xl'
                 )}
-                {...(call_to_action?.$ ?? {})}
+                {...(call_to_action.$?.title ?? {})}
               >
                 {call_to_action.title || 'Learn More'}
               </CMSLink>

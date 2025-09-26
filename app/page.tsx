@@ -23,7 +23,7 @@ export default async function Home() {
             <FlexGrid flexGrid={grid} page={page} key={key} />
         </>
       )})}
-      <LivePreview page={page} />
+      {/* <LivePreview page={page} /> */}
     </>
   ) : (
     <>

@@ -34,6 +34,7 @@ ContentstackLivePreview.init({
   },
   enable: true,
   ssr: false,
+  mode: "builder",
 });
 
 export const { onEntryChange } = ContentstackLivePreview;

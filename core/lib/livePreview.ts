@@ -33,7 +33,7 @@ export const stack = contentstack.stack({
     preview_token: process.env.CONTENTSTACK_PREVIEW_TOKEN,
 
     // Setting the host for live preview based on the region
-    host: endpoints.preview,
+    host: process.env.CONTENTSTACK_PREVIEW_HOST,
   }
 });
 

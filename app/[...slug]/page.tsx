@@ -1,52 +1,49 @@
-import { Page } from "@/core/types/Page";
-import { GetPage } from "@/core/ContentQueries/GetPage"
-import { GetAllPages } from "@/core/ContentQueries/GetAllPages";
-import { notFound } from 'next/navigation';
-import FlexGrid from "@/components/flex-grid";
-import LivePreview from "@/components/LivePreview";
+'use client';
 
-const timeout = parseInt(process.env.REVALIDATE_TIME_OUT || '0');
-export const revalidate = Number.isInteger(timeout) ? timeout : 0;
+import RenderComponents from '@/components/render-components';
+import { onEntryChange } from '@/contentstack-sdk';
+import { GetPage } from '@/core/ContentQueries/GetPage';
+import { getPageRes, metaData } from '@/helper';
+import { Page as PageProp } from '@/typescript/pages';
+import { usePathname } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton';
 
-export async function generateStaticParams() {
+export default function Page() {
+    const entryUrl = usePathname();
 
-  const entryPaths: Page[] = await GetAllPages();
-  const paths = entryPaths.map((page) => {
-    return { 
-      slug: page.url.split('/').filter(segment => segment !== '') 
-    };
-  });
-  return paths;
-};
+    const [getEntry, setEntry] = useState<PageProp>();
 
-interface CMSPageProps {
-  params: {
-    slug: string[];
-  }
-}
+    async function fetchData() {
+        try {
+            const entryRes = await GetPage(entryUrl);
+            if (!entryRes) throw new Error('Status code 404');
+            setEntry(entryRes);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
-export default async function CMSPage({ params: { slug } }: CMSPageProps) {
-  //To Do Think about multilingual, extracting locale from first part of slug array
-  const entryUrl = '/' + slug.join('/');
-  const page = await GetPage(entryUrl) as Page;
-  if (!page){
-    notFound();
-  }
-  return page ? (
-    <>
-      {page.main?.map((grid, key: number) => {
-          return (
-            <>
-               <FlexGrid flexGrid={grid} page={page} key={key} />
-            </>
-          )})}
-        <LivePreview page={page} />
-    </>
-  ) : (
-    <>
-    <p> Entry Url: {entryUrl}</p>
-  
-    </>
-      
-  );
+    useEffect(() => {
+        onEntryChange(() => fetchData());
+    }, []);
+
+
+    return getEntry?.fastlane_components ? (
+        <>
+            {/* {getEntry.seo && getEntry.seo.enable_search_indexing && metaData(getEntry.seo)} */}
+            <RenderComponents
+                components={getEntry.fastlane_components}
+                contentTypeUid='page'
+                entryUid={getEntry.uid}
+                locale={getEntry.locale}
+                page={getEntry}
+                rendering={getEntry.fastlane_components}
+                $={getEntry.fastlane_components.$}
+            />
+        </>
+    ) : (
+      <></>
+        // <Skeleton count={3} height={300} />
+    );
 }

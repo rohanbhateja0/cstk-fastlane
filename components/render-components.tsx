@@ -12,12 +12,15 @@ import { BaseComponent } from '@/core/types/components/BaseComponent';
 
 type RenderProps = BaseComponent & {
   components: Component[];
+  contentTypeUid: string;
+  entryUid: string;
+  locale: string;
   rendering: any;
   $: any; // to pass params for Visual Builder
 }
 
 export default function RenderComponents(props: RenderProps) {
-  const { components } = props;
+  const { components, entryUid, contentTypeUid, locale } = props;
 
   function getColspanClass(element: any){
        const colspan = element.rendering_options?.colspan ?? ""; 
@@ -26,7 +29,11 @@ export default function RenderComponents(props: RenderProps) {
   }
 
   return (
-    <>
+    <div
+      data-pageref={entryUid}
+      data-contenttype={contentTypeUid}
+      data-locale={locale}
+    >
       {components?.map((component, key: number) => {
          
         if (component.content_section) {
@@ -89,6 +96,6 @@ export default function RenderComponents(props: RenderProps) {
         }
 
       })}
-    </>
+    </div>
   );
 }
