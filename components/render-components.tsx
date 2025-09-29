@@ -5,18 +5,22 @@ import ImageComponent from './image';
 import RichText from './rich-text';
 import FlexGrid from './flex-grid';
 import ContentCard from './ContentCard';
+import HeroBanner from './HeroBanner';
 import Accordion from './Accordion';
 import Breadcrumb from './Breadcrumb';
 import { BaseComponent } from '@/core/types/components/BaseComponent';
 
 type RenderProps = BaseComponent & {
   components: Component[];
+  contentTypeUid: string;
+  entryUid: string;
+  locale: string;
   rendering: any;
   $: any; // to pass params for Visual Builder
 }
 
 export default function RenderComponents(props: RenderProps) {
-  const { components } = props;
+  const { components, entryUid, contentTypeUid, locale } = props;
 
   function getColspanClass(element: any){
        const colspan = element.rendering_options?.colspan ?? ""; 
@@ -25,7 +29,11 @@ export default function RenderComponents(props: RenderProps) {
   }
 
   return (
-    <>
+    <div
+      data-pageref={entryUid}
+      data-contenttype={contentTypeUid}
+      data-locale={locale}
+    >
       {components?.map((component, key: number) => {
          
         if (component.content_section) {
@@ -39,6 +47,14 @@ export default function RenderComponents(props: RenderProps) {
           return (
              <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.content_card)}>
             <ContentCard contentCard={component.content_card} page={props.page}  key={`component-${key}`} />
+            </div>
+          );
+        }
+
+        if (component.hero_banner) {
+          return (
+            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.hero_banner)}>
+              <HeroBanner heroBanner={component.hero_banner} page={props.page} key={`component-${key}`} />
             </div>
           );
         }
@@ -80,6 +96,6 @@ export default function RenderComponents(props: RenderProps) {
         }
 
       })}
-    </>
+    </div>
   );
 }

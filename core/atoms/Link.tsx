@@ -13,7 +13,9 @@ export const CMSLink = (props: LinkProps) => {
   const linkText = props.children || props.link.title || effectiveHref;
 
   return (
-    <NextLink href={effectiveHref.toLowerCase()} prefetch={false} className={props.className}>
+    <NextLink href={effectiveHref.toLowerCase()} prefetch={false} className={props.className}
+    {...(props.link.$?.title ?? {})}
+    >
       {linkText}
     </NextLink>
   );
