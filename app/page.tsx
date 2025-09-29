@@ -17,7 +17,7 @@ export default async function Home() {
 
   return page ? (
     <>
-      {page.main?.map((grid, key: number) => {
+      {page.main?.map((grid: any, key: number) => {
       return (
         <>
             <FlexGrid flexGrid={grid} page={page} key={key} />
