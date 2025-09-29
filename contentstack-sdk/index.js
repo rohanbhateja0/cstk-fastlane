@@ -111,4 +111,40 @@ export default {
       );
     });
   },
+
+  /**
+   *fetches specific entry from a content-type by UID
+   *
+   * @param {* content-type uid} contentTypeUid
+   * @param {* UID for entry to be fetched} entryUid
+   * @param {* reference field name} referenceFieldPath
+   * @param {* Json RTE path} jsonRtePath
+   * @returns
+   */
+  getEntryByUid({
+    contentTypeUid, entryUid, referenceFieldPath, jsonRtePath,
+  }) {
+    return new Promise((resolve, reject) => {
+      const entryQuery = Stack.ContentType(contentTypeUid).Query();
+      if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
+      entryQuery.toJSON();
+      
+      const data = entryQuery.where('uid', `${entryUid}`).find();
+      data.then(
+        (result) => {
+          jsonRtePath
+          && Utils.jsonToHTML({
+            entry: result,
+            paths: jsonRtePath,
+            renderOption,
+          });
+          resolve(result[0]);
+        },
+        (error) => {
+          console.error(error);
+          reject(error);
+        },
+      );
+    });
+  },
 };

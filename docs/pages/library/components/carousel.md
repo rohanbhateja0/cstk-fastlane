@@ -1,102 +1,98 @@
-# Carousel
+# Carousel Component
 
-The Carousel component displays a horizontally scrollable set of slides. Authors add one or more `Carousel Slide` items into the Carousel. Each slide can contain rich content (e.g., images, headings, text, CTAs) via its own placeholder, making the component highly flexible for hero banners, feature highlights, and promotional sections.
+A responsive carousel component based on Figma designs that displays multiple slides with navigation controls and indicators. The component features a dark sky-blue background with centered content overlay and precise typography matching the design system.
 
-## Field Details
+## Features
 
-**Template Name:** Carousel  
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/Carousel/Carousel`
+- **Responsive Design**: Adapts to different screen sizes
+- **Auto-play**: Automatically cycles through slides (pauses on hover)
+- **Navigation Controls**: Previous/next arrow buttons
+- **Dot Indicators**: Clickable dots to jump to specific slides
+- **Touch Support**: Swipe gestures for mobile devices
+- **Accessibility**: Keyboard navigation and ARIA labels
+- **Smooth Transitions**: CSS transitions for slide changes
 
-| Field Name | Sitecore Field Type | Description |
-|------------|---------------------|-------------|
-| — | — | The Carousel itself does not hold content fields; it provides a placeholder for adding `Carousel Slide` items. |
+## Content Fields
 
-* * *
+### Carousel Object Structure
+The carousel component receives a carousel object with the following structure:
+```json
+{
+  "carousels": [
+    {
+      "uid": "blt39d9e14b9597a078",
+      "_content_type_uid": "carousel",
+      "$": { ... }
+    }
+  ],
+  "_metadata": { ... },
+  "$": { ... }
+}
+```
 
-## Authoring Model
+### Main Fields
+- **Title** (Single-Line Text, optional): Main heading for the carousel
+- **Description** (Rich Text, optional): Description text below the title
+- **Slides** (Reference): Array of carousel slide entries
 
-- Add the `Carousel` component to the page.
-- Inside the Carousel, add one or more `Carousel Slide` items to the `Slides` placeholder.
-- Open each `Carousel Slide` and add content into its `slide-{*}` placeholder (e.g., image, title, text, CTA components).
+### Slide Content Fields
+- **Title** (Single-Line Text, optional): Slide title
+- **Tag** (Single-Line Text, optional): Small tag/label for the slide
+- **Description** (Rich Text, optional): Slide description text
+- **Image** (Image, required): Slide background image
+- **Call to Action 1** (General Link, optional): Primary action button
+- **Call to Action 2** (General Link, optional): Secondary action button
 
-* * *
+## Rendering Options
 
-## Advanced Options (Rendering Parameters)
+- **Show Navigation** (Checkbox): Display previous/next arrow buttons
+- **Show Dots** (Checkbox): Display dot indicators at the bottom
+- **Colspan** (String): Grid column span for responsive layout
 
-| Option | Type | Description | Default |
-|--------|------|-------------|---------|
-| SlidesToShow | Number | Number of slides visible at once. | 1 |
-| SlidesToScroll | Number | Number of slides moved per navigation action. | 1 |
-| EnableCenterZoom | Checkbox | Enables a subtle center zoom effect on the active slide. | Off |
-| ArrowPosition | Droplist | Controls position/behavior of navigation UI. If set to `Bottom`, dots are hidden. | — |
+## Usage
 
-Notes:
-- The component renders navigation arrows and dots using a slick-based slider. Dots are shown unless `ArrowPosition` is set to `Bottom`.
-- For widths below 1024px, the component forces `slidesToShow: 1` for accessibility and readability.
+The carousel component automatically renders when added to a page through the ContentStack CMS. It supports:
 
-### Styling Options
-Common styling such as spacing, background, and alignment may be available via global styles. See `Global Styling Guide` for details.
+1. **Auto-play**: Slides change automatically every 5 seconds
+2. **User Interaction**: Auto-play pauses when user hovers or interacts
+3. **Keyboard Navigation**: Arrow keys for navigation
+4. **Mobile Support**: Touch/swipe gestures
 
-* * *
+## Styling
 
-## Placeholders
+The component uses Tailwind CSS classes and follows the Figma design specifications:
+- **Background**: Dark sky-blue (sky-900) background
+- **Typography**: Satoshi and Zodiak font families with precise sizing
+- **Navigation**: White chevron arrows positioned at 1.11% from edges
+- **Buttons**: Dark (zinc-900) and light (zinc-200) button styles
+- **Dots**: White circular indicators with proper spacing
+- **Content**: Centered overlay with specific gap spacing (16px)
+- **Responsive**: Adapts to different screen sizes while maintaining design integrity
 
-- `carouselslides-{*}`: Primary placeholder inside Carousel where authors add `Carousel Slide` items.
-- Each slide component (`Carousel Slide`) provides its own `slide-{*}` placeholder for authoring slide content.
-- Internally, the Carousel renders each slide into `carouselcontent-{DynamicPlaceholderId}` to mount one slide at a time.
+## Accessibility
 
-* * *
+- ARIA labels for navigation buttons
+- Keyboard navigation support
+- Screen reader friendly
+- Proper focus management
+- Semantic HTML structure
 
-## How It Works
+## Example
 
-- Initialization: The Carousel reads slide renderings from the `carouselslides-{*}` placeholder and prepares a slick slider.
-- Rendering: For each slide, the component re-renders the slide via a child placeholder `carouselcontent-{DynamicPlaceholderId}`. This ensures each slide hosts its own content tree.
-- Editing Experience: When the page is in editing mode, the `carouselslides-{*}` placeholder is shown so authors can add, remove, or reorder slides directly.
-- Parameters → Behavior:
-  - `SlidesToShow` sets how many slides are visible.
-  - `SlidesToScroll` sets how many slides advance per navigation.
-  - `EnableCenterZoom` toggles a `zoom-effect` CSS class on the wrapper, allowing a subtle scale on the active slide.
-  - `ArrowPosition` controls navigation UI: when set to `Bottom`, dots are hidden.
-- Navigation: Uses custom next/prev arrow buttons; dots are enabled by default unless overridden by `ArrowPosition`.
-- Responsive: Below 1024px width, the slider forces `slidesToShow: 1` for readability.
-- Centering: Uses slick’s `centerMode` with `centerPadding: 0` to keep the active slide centered.
+```tsx
+// The component is automatically rendered through the CMS
+// No manual implementation needed in pages
+```
 
-Notes:
-- Slide content is authored inside the `Carousel Slide` component’s `slide-{*}` placeholder. This allows any mix of child components (image, text, CTAs, etc.).
-- The Carousel uses `react-slick` under the hood and a shared `SlickArrowButton` for navigation.
+## Technical Details
 
-* * *
-
-## Related: Carousel Slide
-
-The `Carousel Slide` is a companion component used only inside the `Carousel`.
-
-**Template Name:** Carousel Slide  
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/Carousel/CarouselSlide`
-
-| Field Name | Sitecore Field Type | Description |
-|------------|---------------------|-------------|
-SlideTitle | Single-Line Text | The text used as the carousel slide title. |
-| — | — | The slide hosts a `slide-{*}` placeholder for adding other content components to build the slide. |
-
-Additional parameters available on slides:
-- `styles`: Optional CSS utility classes applied to the slide wrapper.
-- `RenderingIdentifier`: Optional HTML id for targeting/analytics.
-
-* * *
-
-## Screenshots
-
-1. Carousel with three slides visible, center zoom enabled
-
-![screenshot](/images/components/component-carousel-default-variant.png "Carousel with three slides visible, center zoom enabled")
-
-2. Carousel with arrows at bottom (dots hidden)
-
-![screenshot](/images/components/component-carousel-arrows.png "Carousel with arrows at bottom")
-
-3. Authoring view showing the `Slides` placeholder and slide content placeholder
-
-![screenshot](/images/components/component-carousel-placeholder.png "Authoring view")
-
-
+- Built with React and TypeScript
+- Uses 'use client' directive for client-side interactivity
+- Integrates with ContentStack SDK
+- Follows the project's component architecture
+- Includes proper TypeScript types and interfaces
+- **Data Fetching**: Automatically resolves carousel references using `getCarouselRes()` helper function
+- **Reference Support**: Handles both full carousel objects and UID references
+- **Array Support**: Processes the first carousel from the `carousels` array
+- **Loading States**: Includes loading indicator while fetching carousel data
+- **Error Handling**: Graceful fallback if carousel data cannot be fetched

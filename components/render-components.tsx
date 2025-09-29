@@ -8,6 +8,7 @@ import ContentCard from './ContentCard';
 import HeroBanner from './HeroBanner';
 import Accordion from './Accordion';
 import Breadcrumb from './Breadcrumb';
+import Carousel from './Carousel';
 import { BaseComponent } from '@/core/types/components/BaseComponent';
 
 type RenderProps = BaseComponent & {
@@ -91,6 +92,13 @@ export default function RenderComponents(props: RenderProps) {
           return (
             <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.breadcrumb)}>
               <Breadcrumb breadcrumb={component.breadcrumb} page={props.page} key={`component-${key}`} />
+            </div>
+          );
+        }
+        if (component.carousel){
+          return (
+            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.carousel)}>
+              <Carousel carousel={component.carousel} page={props.page} key={`component-${key}`} />
             </div>
           );
         }
