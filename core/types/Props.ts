@@ -3,6 +3,7 @@ import { ImageFields, RichTextFields } from "./components/SimpleTypes";
 import { FlexGridFields } from "./components/FlexGrid";
 import { CustomButtonFields } from "./components/CustomButton";
 import { ContentCardFields } from "./components/ContentCard";
+import { HeroBannerFields } from "./components/HeroBanner";
 import { AccordionFields } from "./components/Accordion";
 import { BreadcrumbFields } from "./components/Breadcrumb";
 import { BaseComponent } from "./components/BaseComponent";
@@ -39,6 +40,10 @@ export type AccordionProps= BaseComponent & {
 
 export type BreadcrumbProps = BaseComponent & {
   breadcrumb: BreadcrumbFields;
+}
+
+export type HeroBannerProps = BaseComponent & {
+  heroBanner: HeroBannerFields;
 }
 
 export type VideoProps = BaseComponent & {
