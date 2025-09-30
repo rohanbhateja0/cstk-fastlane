@@ -20,10 +20,7 @@ const nextConfig = {
             {
                 source: '/:path*',
                 headers: [
-                    {
-                        key: 'X-Frame-Options',
-                        value: 'ALLOWALL', // Allow iframe embedding for Contentstack Live Preview
-                    },
+                    
                     {
                         key: 'Content-Security-Policy',
                         value: "frame-ancestors 'self' https://*.contentstack.com https://app.contentstack.com https://*.vercel.app", // Allow Contentstack domains
