@@ -14,7 +14,24 @@ const nextConfig = {
     },
      images: {
         domains: ['images.contentstack.io'], // Add your image hostnames here
-      }
+      },
+    async headers() {
+        return [
+            {
+                source: '/:path*',
+                headers: [
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'ALLOWALL', // Allow iframe embedding for Contentstack Live Preview
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "frame-ancestors 'self' https://*.contentstack.com https://app.contentstack.com", // Allow Contentstack domains
+                    },
+                ],
+            },
+        ];
+    },
 };
 
 export default nextConfig;
