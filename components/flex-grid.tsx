@@ -61,6 +61,9 @@ export default function FlexGrid(props: FlexGridProps) {
             page={props.page}
             rendering={props.flexGrid}
             $={props.flexGrid.components.$}
+            contentTypeUid="page"
+            entryUid={props.page.uid || ""}
+            locale={props.page.locale || "en-us"}
             />
         </div>
       </div>

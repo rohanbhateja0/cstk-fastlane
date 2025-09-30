@@ -36,3 +36,10 @@ Create a production-ready component using the requirements specified in the cust
 
 CRITICAL: Follow guidelines @core-requirements.md documentation.
 CRITICAL: Reference the component documentation above for all business logic, field definitions, and Figma design links.
+
+
+## Content stack sdk improvements
+- Each field should have the edit tags for example  {...(call_to_action.$?.title ?? {})} is added for cta field
+- 'use client'; on top of the component file if useState hook is needed
+- Add the component to the (@components\render-components.tsx)
+- use (@helper\index.js) to create the getentry funtion in case of reference is used

@@ -162,6 +162,18 @@ export const getSuperheroGalleryRes = async () => {
     return response;
 };
 
+export const getCarouselRes = async (carouselUid) => {
+    const response = await Stack.getEntryByUid({
+        contentTypeUid: "carousel",
+        entryUid: carouselUid,
+        referenceFieldPath: ["slides"],
+        jsonRtePath: ["description", "slides.description"],
+    });
+    
+    liveEdit && addEditableTags(response, "carousel", true);
+    return response;
+};
+
 export const metaData = (seo) => {
     const metaArr = [];
     for (const key in seo) {
