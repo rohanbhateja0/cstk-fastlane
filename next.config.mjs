@@ -26,7 +26,7 @@ const nextConfig = {
                     },
                     {
                         key: 'Content-Security-Policy',
-                        value: "frame-ancestors 'self' https://*.contentstack.com https://app.contentstack.com", // Allow Contentstack domains
+                        value: "frame-ancestors 'self' https://*.contentstack.com https://app.contentstack.com https://*.vercel.app", // Allow Contentstack domains
                     },
                 ],
             },
