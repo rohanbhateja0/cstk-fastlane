@@ -25,12 +25,44 @@ export default withNextra({
   compiler: {
     removeConsole: false,
   },
-  // Override any parent PostCSS configuration
+  // Completely override webpack CSS processing
   webpack: (config, { isServer }) => {
+    // Remove PostCSS loader completely for docs
+    config.module.rules.forEach((rule) => {
+      if (rule.oneOf) {
+        rule.oneOf.forEach((oneOf) => {
+          if (oneOf.use && Array.isArray(oneOf.use)) {
+            oneOf.use = oneOf.use.filter((loader) => {
+              if (typeof loader === 'string') {
+                return !loader.includes('postcss-loader')
+              }
+              if (loader && loader.loader) {
+                return !loader.loader.includes('postcss-loader')
+              }
+              return true
+            })
+          }
+        })
+      }
+    })
+    
     // Ensure we don't inherit parent PostCSS config
     config.resolve.alias = {
       ...config.resolve.alias,
     }
+    
+    // Explicitly disable PostCSS
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+    }
+    
+    // Remove any PostCSS plugins
+    if (config.plugins) {
+      config.plugins = config.plugins.filter(plugin => {
+        return !plugin.constructor.name.includes('PostCSS')
+      })
+    }
+    
     return config
   },
   // Force specific CSS handling
