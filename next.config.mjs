@@ -14,7 +14,21 @@ const nextConfig = {
     },
      images: {
         domains: ['images.contentstack.io'], // Add your image hostnames here
-      }
+      },
+    async headers() {
+        return [
+            {
+                source: '/:path*',
+                headers: [
+                    
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "frame-ancestors 'self' https://*.contentstack.com https://app.contentstack.com https://*.vercel.app", // Allow Contentstack domains
+                    },
+                ],
+            },
+        ];
+    },
 };
 
 export default nextConfig;
