@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "buildCommand": "NODE_ENV=production NEXT_PUBLIC_IS_DOCS=true npm run build",
+  "buildCommand": "npm run build",
   "installCommand": "npm install",
   "outputDirectory": ".next",
   "env": {
