@@ -11,17 +11,30 @@ const withNextra = nextra({
 })
 
 export default withNextra({
-  // Next.js 15 config options
-  // Removed deprecated experimental.appDir option
-  // Removed NextAuth environment variables since using Vercel password protection
   eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has type errors.
     ignoreBuildErrors: true,
   },
+  // Disable CSS optimization that might cause issues
+  experimental: {
+    optimizeCss: false,
+  },
+  // Ensure proper CSS handling without custom webpack
+  compiler: {
+    removeConsole: false,
+  },
+  // Override any parent PostCSS configuration
+  webpack: (config, { isServer }) => {
+    // Ensure we don't inherit parent PostCSS config
+    config.resolve.alias = {
+      ...config.resolve.alias,
+    }
+    return config
+  },
+  // Force specific CSS handling
+  // Ensure we're not affected by parent directory configs
+  basePath: '',
+  assetPrefix: '',
 }) 

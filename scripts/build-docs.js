@@ -16,8 +16,19 @@ if (!fs.existsSync(path.join(docsDir, 'node_modules'))) {
   execSync('npm install', { stdio: 'inherit' });
 }
 
-// Build docs
+// Set environment variables to prevent parent config interference
+process.env.NODE_ENV = 'production';
+process.env.NEXT_PUBLIC_IS_DOCS = 'true';
+
+// Build docs with explicit isolation
 console.log('🔨 Building docs...');
-execSync('npm run build', { stdio: 'inherit' });
+execSync('npm run build', { 
+  stdio: 'inherit',
+  env: {
+    ...process.env,
+    NODE_ENV: 'production',
+    NEXT_PUBLIC_IS_DOCS: 'true'
+  }
+});
 
 console.log('✅ Docs build completed successfully!');
