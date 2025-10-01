@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:docs": "node scripts/build-docs.js",
+    "dev:docs": "cd docs && npm run dev",
+    "start:docs": "cd docs && npm run start",
+    "build:all": "npm run build && npm run build:docs"
   },
   "dependencies": {
     "@contentstack/delivery-sdk": "^4.8.0",
