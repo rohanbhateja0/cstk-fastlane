@@ -11,7 +11,7 @@ const Stack = contentstack.Stack({
   environment: process.env.CONTENTSTACK_ENVIRONMENT,
   region: process.env.CONTENTSTACK_REGION ? process.env.CONTENTSTACK_REGION : 'us',
   live_preview: {
-    enable: true,
+    enable: process.env.NODE_ENV === 'development',
     host: process.env.CONTENTSTACK_PREVIEW_HOST,
     preview_token: process.env.CONTENTSTACK_PREVIEW_TOKEN
   },
@@ -21,23 +21,27 @@ if (process.env.CONTENTSTACK_API_HOST) {
   Stack.setHost(process.env.CONTENTSTACK_API_HOST);
 }
 
-ContentstackLivePreview.init({
-  stackSdk: Stack,
-  stackDetails: {
-    apiKey: process.env.CONTENTSTACK_API_KEY,
-    environment: process.env.CONTENTSTACK_ENVIRONMENT,
-    branch: process.env.CONTENTSTACK_BRANCH,
-},
-   
-  clientUrlParams: {
-    host: process.env.CONTENTSTACK_APP_HOST,
+if (process.env.NODE_ENV === 'development') {
+  ContentstackLivePreview.init({
+    stackSdk: Stack,
+    stackDetails: {
+      apiKey: process.env.CONTENTSTACK_API_KEY,
+      environment: process.env.CONTENTSTACK_ENVIRONMENT,
+      branch: process.env.CONTENTSTACK_BRANCH,
   },
-  enable: true,
-  ssr: false,
-  mode: "builder",
-});
+     
+    clientUrlParams: {
+      host: process.env.CONTENTSTACK_APP_HOST,
+    },
+    enable: true,
+    ssr: false,
+    mode: "builder",
+  });
+}
 
-export const { onEntryChange } = ContentstackLivePreview;
+export const onEntryChange = process.env.NODE_ENV === 'development' 
+  ? ContentstackLivePreview.onEntryChange 
+  : () => {};
 
 const renderOption = {
   span: (node, next) => next(node.children),
