@@ -44,12 +44,12 @@ Complete workflow for adding new features to existing components while preservin
 ## Step 4: Update Sitecore Configuration (20 minutes)
 
 ### A. Add New Template Fields (if needed):
-1. **Navigate to existing template**: `/sitecore/templates/Feature/FastLane/Components/{ComponentName}`
+1. **Navigate to existing content type**: ContentStack Content Types for {ComponentName}
 2. **Add new fields** identified in Step 2
 3. **Set appropriate field types** and validation
 
 ### B. Update Rendering Parameters:
-1. **Open rendering definition**: `/sitecore/layout/Renderings/Feature/FastLane/{ComponentName}`
+1. **Open component definition**: ContentStack Components for {ComponentName}
 2. **Go to Builder tab** → Controls section
 3. **Add new parameters**:
    - For droplist: Add new options to existing droplists

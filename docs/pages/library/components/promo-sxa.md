@@ -1,23 +1,23 @@
-# Promo (SXA)
+# Promo
 
-**Promo -** The Promo component is a flexible, highly customizable SXA (Sitecore Experience Accelerator) component that displays promotional content with an icon, text, and optional links. It's designed to showcase features, announcements, or call-to-action content in a visually appealing format.
+**Promo -** The Promo component is a flexible, highly customizable ContentStack component that displays promotional content with an icon, text, and optional links. It's designed to showcase features, announcements, or call-to-action content in a visually appealing format.
 
-**Description:** A dynamic promotional component that renders promotional content from Sitecore's content with consistent formatting, performance optimization, and editing support for content managers.
+**Description:** A dynamic promotional component that renders promotional content from ContentStack's content with consistent formatting, performance optimization, and editing support for content managers.
 
 **Functionality:** Dynamically renders promotional content based on field configuration, supporting various content layouts, optional icons and links, and responsive design patterns.
 
 ## Component Details
 
-**Template Name:** JSON Rendering  
-**Item Path:** `/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Page Content/Promo`
+**Content Type:** Promo  
+**Content Type UID:** `promo`
 
 ## Field Details
 
-| Field Name | Sitecore Field Type | Description | Required |
+| Field Name | ContentStack Field Type | Description | Required |
 | :-- | :-- | :-- | :-- |
-| `PromoIcon` | Image | Icon or image to accompany the promotional content | No |
+| `PromoIcon` | File | Icon or image to accompany the promotional content | No |
 | `PromoText` | Rich Text | Primary promotional text content | Yes |
-| `PromoLink` | General Link | Call-to-action link for the promotion | No |
+| `PromoLink` | Link | Call-to-action link for the promotion | No |
 | `PromoText2` | Rich Text | Secondary text content (used in WithText variant) | No |
 | `PromoText3` | Rich Text | Tertiary text content (used in advanced variants) | No |
 

@@ -121,15 +121,15 @@ export default {
 
 
 
-## 🧩 SXA Component Integration
+## 🧩 ContentStack Component Integration
 
-### Organized SXA Components
+### Organized ContentStack Components
 
-SXA components are now organized in a dedicated folder:
+ContentStack components are now organized in a dedicated folder:
 
 ```
 src/components/
-├── sxa/                    # 🆕 SXA Components
+├── contentstack/           # 🆕 ContentStack Components
 │   ├── navigation/
 │   │   ├── Navigation.tsx
 │   │   └── Breadcrumb.tsx

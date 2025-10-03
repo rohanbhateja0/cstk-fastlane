@@ -1,6 +1,6 @@
 # MegaMenu Navigation (MegaNav & MegaNavItem)
 
-**Mega Menu Navigation:** The Mega Navigation component is designed to provide an expandable, multi-level navigation menu for the FastLane website, enhancing user navigation across various pages. It supports a hierarchical structure with headers and items, adhering to responsive design principles and theming via ShadCN UI and Tailwind CSS. The component is optimized for the Sitecore XM Cloud Pages Editor and includes nested templates for MegaNav and MegaNavItem to manage content and navigation structure.
+**Mega Menu Navigation:** The Mega Navigation component is designed to provide an expandable, multi-level navigation menu for the Catalyst website, enhancing user navigation across various pages. It supports a hierarchical structure with headers and items, adhering to responsive design principles and theming via ShadCN UI and Tailwind CSS. The component is optimized for the ContentStack editor and includes nested content types for MegaNav and MegaNavItem to manage content and navigation structure.
 
 **a. MegaNav:**
 
@@ -8,10 +8,10 @@
 
 **Functionality**: Provides a dropdown or expandable menu structure, allowing users to access primary site sections. Supports keyboard navigation and mobile-friendly collapse/expand behavior.
 
-**Authoring & Placeholders**
+**Authoring & Modular Blocks**
 
-- Add `MegaNavItem` components into the `meganav-{*}` placeholder when editing.
-- Runtime content renders via `meganav-{DynamicPlaceholderId}` for the active item (desktop overlay, mobile sheet, and editing view).
+- Add `MegaNavItem` components as modular blocks when editing.
+- Runtime content renders via modular blocks for the active item (desktop overlay, mobile sheet, and editing view).
 
 **Behavior Notes**
 
@@ -22,32 +22,32 @@
 
 ## MegaNav Field Details
 
-**Template Name:** MegaNav  
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/MegaNav/MegaNav`
+**Content Type:** MegaNav  
+**Content Type UID:** `mega_nav`
 
-| Field Name | Sitecore Field Type | Description |
-|------------|-------------------|-------------|
-| MegaNavHeaderTitle | Single-Line Text | The main header title for the navigation section |
+| Field Name | ContentStack Field Type | Description |
+|------------|------------------------|-------------|
+| MegaNavHeaderTitle | Text | The main header title for the navigation section |
 
 **b. MegaNavItem:**
 
-**Description**: Individual menu items within the MegaNavigation (e.g., "Getting Started," "Documentation"). It holds a Sitecore placeholder to add Image, RichText, Column / Row Splitter and MegaNavLinkList.
+**Description**: Individual menu items within the MegaNavigation (e.g., "Getting Started," "Documentation"). It holds a rich text area to add Image, RichText, and other content components.
 
-**Functionality**: Acts as a category or section header within the navigation, triggering the display of associated MegaNavLinkList items on hover or click.
+**Functionality**: Acts as a category or section header within the navigation, triggering the display of associated content items on hover or click.
 
 ## MegaNavItem Field Details
 
-**Template Name:** MegaNavItem
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/MegaNav/MegaNavItem`
+**Content Type:** MegaNavItem
+**Content Type UID:** `mega_nav_item`
 
-| Field Name | Sitecore Field Type | Description |
-|------------|-------------------|-------------|
-| MegaNavTitle | Single-Line Text | Title field for the navigation item |
+| Field Name | ContentStack Field Type | Description |
+|------------|------------------------|-------------|
+| MegaNavTitle | Text | Title field for the navigation item |
 
 **Screenshots:**
 
 **MegaNavigation:** 
     ![screenshot](/images/components/component-meganavigation.png "screenshot")
 
-**Mega NavItem displays Sitecore placeholder to add any components:**
+**Mega NavItem displays ContentStack modular blocks to add any components:**
     ![screenshot](/images/components/component-mega-navitem.png "screenshot")

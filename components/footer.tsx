@@ -2,7 +2,6 @@
 
 import ThemeProvider from "@/core/context/ThemeContext"
 import { ThemeSelector } from "./ThemeSelector";
-import { createServerContext } from 'react';
 import { GetFooter } from "@/core/ContentQueries/GetFooter";
 import { FooterFields } from "@/core/types/components/Footer";
 import { CMSLink } from "@/core/atoms/Link";

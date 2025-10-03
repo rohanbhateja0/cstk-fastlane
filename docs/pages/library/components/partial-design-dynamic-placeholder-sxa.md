@@ -1,13 +1,13 @@
-# Partial Design Dynamic Placeholder (SXA)
+# Partial Design Dynamic Placeholder
 
-**Partial Design Dynamic Placeholder -** The Partial Design Dynamic Placeholder component is a minimal React component used in Sitecore XM Cloud Next.js applications for dynamic placeholder rendering. It facilitates the rendering of dynamic placeholders within a Sitecore page layout by injecting the placeholder identified by a unique signature from rendering parameters.
+**Partial Design Dynamic Placeholder -** The Partial Design Dynamic Placeholder component is a minimal React component used in ContentStack Next.js applications for dynamic placeholder rendering. It facilitates the rendering of dynamic placeholders within a ContentStack page layout by injecting the placeholder identified by a unique signature from rendering parameters.
 
 **Description:**
 A lightweight utility component for rendering dynamic placeholders based on the rendering's parameter signature (`sig`). This allows modular, flexible layout designs where placeholder names are dynamically defined at runtime.
 
 **Functionality:**
 
-- Renders a Sitecore placeholder component using the `Placeholder` from the Sitecore Content SDK for Next.js.
+- Renders a ContentStack placeholder component using the `Placeholder` from the ContentStack SDK for Next.js.
 - Dynamically assigns the placeholder name based on the rendering parameter `sig`.
 - Supports nested or modular partial designs by enabling placeholder injection at runtime.
 - Does not correspond to any Sitecore rendering item in the content tree; implemented purely as a React component for dynamic placeholder support.

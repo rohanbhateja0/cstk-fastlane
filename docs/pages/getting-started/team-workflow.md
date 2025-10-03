@@ -1,24 +1,24 @@
 # Team Workflow
 
-**Complete project lifecycle and team collaboration process for FastLane projects.**
+**Complete project lifecycle and team collaboration process for Catalyst projects.**
 
 ## Overview
 
-FastLane projects follow a structured workflow that combines traditional development practices with AI-powered component generation and customer-specific customization capabilities.
+Catalyst projects follow a structured workflow that combines traditional development practices with AI-powered component generation and customer-specific customization capabilities.
 
 ## **Available Workflows**
 
 ### ✅ Customer Component Customization (Available Now)
 
-**Process**: Rapidly customize existing FastLane components to match customer designs while preserving all Sitecore functionality.
+**Process**: Rapidly customize existing Catalyst components to match customer designs while preserving all ContentStack functionality.
 
-**When to use**: When you have base FastLane components and need to apply customer branding/styling.
+**When to use**: When you have base Catalyst components and need to apply customer branding/styling.
 
 **Key phases**:
-1. **Design Preparation**: Copy FastLane components and apply customer styling in Figma
-2. **New Component Creation**: Use [Create Component Guide](../for-developers/component-development/ai-prompts/guide-using-create-component-prompt) for components that don't exist in FastLane yet
-3. **Existing Component Enhancement**: Use [Enhancement Guide](../for-developers/component-development/ai-prompts/guide-using-enhance-component-prompt) to customize existing FastLane components while preserving functionality
-4. **Integration & Testing**: Validate Sitecore functionality and content author workflows
+1. **Design Preparation**: Copy Catalyst components and apply customer styling in Figma
+2. **New Component Creation**: Use [Create Component Guide](../for-developers/component-development/ai-prompts/guide-using-create-component-prompt) for components that don't exist in Catalyst yet
+3. **Existing Component Enhancement**: Use [Enhancement Guide](../for-developers/component-development/ai-prompts/guide-using-enhance-component-prompt) to customize existing Catalyst components while preserving functionality
+4. **Integration & Testing**: Validate ContentStack functionality and content author workflows
 5. **Documentation & Handoff**: Generate change summaries and team materials
 
 **Success criteria**: Visual fidelity + functional preservation + content author experience + performance + accessibility + documentation completeness

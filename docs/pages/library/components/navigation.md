@@ -1,10 +1,10 @@
 # Navigation
 
-**Sidebar Navigation -** The Navigation component is a core element of the FastLane website, designed to provide a structured and accessible sidebar navigation experience. It leverages the out-of-the-box (OOTB) Sitecore Sidebar Navigation, enhanced with advanced styling options in the Sitecore Pages Editor. The component ensures seamless navigation across pages with support for hierarchical levels and customizable design parameters.
+**Sidebar Navigation -** The Navigation component is a core element of the Catalyst website, designed to provide a structured and accessible sidebar navigation experience. It leverages ContentStack's navigation capabilities, enhanced with advanced styling options in the ContentStack editor. The component ensures seamless navigation across pages with support for hierarchical levels and customizable design parameters.
 
- **Description**: Utilizes the OOTB Sitecore Sidebar Navigation to display a hierarchical menu.
+ **Description**: Utilizes ContentStack's navigation structure to display a hierarchical menu.
 
-**Functionality**: Provides a collapsible sidebar with multi-level navigation (e.g., "Home > About Us," "Our Leadership") for easy content exploration. Supports dynamic rendering based on Sitecore content tree structure.
+**Functionality**: Provides a collapsible sidebar with multi-level navigation (e.g., "Home > About Us," "Our Leadership") for easy content exploration. Supports dynamic rendering based on ContentStack content structure.
 
 **Advanced Styling Parameters:**
 

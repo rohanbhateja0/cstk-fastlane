@@ -1,23 +1,23 @@
-# Image (SXA)
+# Image
 
-**Image -** The Image component is a flexible, highly customizable SXA (Sitecore Experience Accelerator) component that displays images with configurable styling, responsive behavior, and optimization features. It supports multiple variants including standard image display, hero banner images, and clickable images with optional captions.
+**Image -** The Image component is a flexible, highly customizable ContentStack component that displays images with configurable styling, responsive behavior, and optimization features. It supports multiple variants including standard image display, hero banner images, and clickable images with optional captions.
 
-**Description:** A dynamic image component that renders images from Sitecore's media library with consistent formatting, performance optimization, and editing support for content managers.
+**Description:** A dynamic image component that renders images from ContentStack's media library with consistent formatting, performance optimization, and editing support for content managers.
 
 **Functionality:** Dynamically renders images based on field configuration, supporting responsive design, optional link wrapping, caption display, and hero banner styling with background images.
 
 ## Component Details
 
-**Template Name:** JSON Rendering  
-**Item Path:** `/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Media/Image`
+**Content Type:** Image  
+**Content Type UID:** `image`
 
 ## Field Details
 
-| Field Name | Sitecore Field Type | Description | Required |
+| Field Name | ContentStack Field Type | Description | Required |
 |------------|-------------------|-------------|----------|
-| Image | Image | The image to display | Yes |
-| ImageCaption | Single-Line Text | Caption text displayed below the image | No |
-| TargetUrl | General Link | Optional link for clickable images | No |
+| Image | File | The image to display | Yes |
+| ImageCaption | Text | Caption text displayed below the image | No |
+| TargetUrl | Link | Optional link for clickable images | No |
 
 ## Advanced Display Options
 

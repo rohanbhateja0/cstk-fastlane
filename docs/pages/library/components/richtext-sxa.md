@@ -1,19 +1,19 @@
-# RichText (SXA)
+# RichText
 
-**RichText -** The RichText component is a **Sitecore SXA (Sitecore Experience Accelerator) component** that renders rich text content with comprehensive HTML formatting and styling options. It's designed to display formatted content from Sitecore with consistent typography and responsive behavior.
+**RichText -** The RichText component is a **ContentStack component** that renders rich text content with comprehensive HTML formatting and styling options. It's designed to display formatted content from ContentStack with consistent typography and responsive behavior.
 
-**Description:** A dynamic rich text component that renders formatted text content from Sitecore's content with consistent formatting, performance optimization, and editing support for content managers.
+**Description:** A dynamic rich text component that renders formatted text content from ContentStack's content with consistent formatting, performance optimization, and editing support for content managers.
 
 **Functionality:** Dynamically renders rich text content based on field configuration, supporting various HTML formatting options, custom styling, and responsive design patterns.
 
 ## Component Details
 
-**Template Name:** JSON Rendering  
-**Item Path:** `/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Page Content/RichText`
+**Content Type:** RichText  
+**Content Type UID:** `richtext`
 
 ## Field Details
 
-| Field Name | Sitecore Field Type | Description | Required |
+| Field Name | ContentStack Field Type | Description | Required |
 | :-- | :-- | :-- | :-- |
 | `Text` | Rich Text | The formatted text content to display | Yes |
 

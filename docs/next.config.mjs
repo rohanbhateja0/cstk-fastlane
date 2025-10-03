@@ -1,4 +1,9 @@
 import nextra from 'nextra'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const withNextra = nextra({
   theme: 'nextra-theme-docs',
@@ -11,62 +16,11 @@ const withNextra = nextra({
 })
 
 export default withNextra({
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // Next.js 15 config options
+  // Removed deprecated experimental.appDir option
+  // Removed NextAuth environment variables since using Vercel password protection
+  outputFileTracingRoot: __dirname,
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Disable CSS optimization that might cause issues
-  experimental: {
-    optimizeCss: false,
-  },
-  // Ensure proper CSS handling without custom webpack
-  compiler: {
-    removeConsole: false,
-  },
-  // Completely override webpack CSS processing
-  webpack: (config, { isServer }) => {
-    // Remove PostCSS loader completely for docs
-    config.module.rules.forEach((rule) => {
-      if (rule.oneOf) {
-        rule.oneOf.forEach((oneOf) => {
-          if (oneOf.use && Array.isArray(oneOf.use)) {
-            oneOf.use = oneOf.use.filter((loader) => {
-              if (typeof loader === 'string') {
-                return !loader.includes('postcss-loader')
-              }
-              if (loader && loader.loader) {
-                return !loader.loader.includes('postcss-loader')
-              }
-              return true
-            })
-          }
-        })
-      }
-    })
-    
-    // Ensure we don't inherit parent PostCSS config
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    }
-    
-    // Explicitly disable PostCSS
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-    }
-    
-    // Remove any PostCSS plugins
-    if (config.plugins) {
-      config.plugins = config.plugins.filter(plugin => {
-        return !plugin.constructor.name.includes('PostCSS')
-      })
-    }
-    
-    return config
-  },
-  // Force specific CSS handling
-  // Ensure we're not affected by parent directory configs
-  basePath: '',
-  assetPrefix: '',
 }) 

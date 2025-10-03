@@ -22,7 +22,7 @@ Deep dive into Content SDK's architectural improvements:
 - **Component discovery requirements** for auto-generation
 - **Auto-generated componentMap** with configurable exclusions
 - **Enhanced page mode detection** with granular modes (`isEditing`, `isDesignLibrary`, etc.)
-- **SXA component integration** patterns
+- **ContentStack component integration** patterns
 - **ComponentMap configuration** via `sitecore.cli.config.ts`
 - **JSS migration guidance** with specific examples
 

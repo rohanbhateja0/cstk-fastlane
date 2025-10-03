@@ -1,4 +1,4 @@
-# FastLane Component Documentation Template (Author-Centric)
+# Catalyst Component Documentation Template (Author-Centric)
 
 ## 📌 1. Component Overview
 
@@ -11,7 +11,7 @@
 
 ## 🖊 2. Authoring Experience
 
-### ✍️ Content Fields (Datasource Template)
+### ✍️ Content Fields (Content Type)
 *List all the fields authors fill in — use plain English, not system terms.*
 
 | Field Label (as seen by author) | Description | Required? | Notes/Examples |
@@ -35,7 +35,7 @@
 
 ---
 
-### 🧠 Advanced Options (Rendering Parameters)
+### 🧠 Advanced Options (Component Parameters)
 *These are less commonly used, but available in the "Advanced" tab for more control.*
 
 | Option | Description | Example Use Case | Default |
@@ -48,9 +48,9 @@
 
 ## 🧷 3. Content Source Rules
 
-- **Datasource Template(s)**: What kind of content this component expects (e.g., "Hero Content", "Promo", etc.)
+- **Content Type(s)**: What kind of content this component expects (e.g., "Hero Content", "Promo", etc.)
 - **Where Content is Stored**: Local to page / Reusable from folder / Global shared content
-- **Can Authors Add This in Pages UI?**: Yes / No
+- **Can Authors Add This in ContentStack?**: Yes / No
 - **Can Authors Create New Content Items?**: Yes / No
 - **Can This Component Be Personalised?**: Yes / No
 - **Can This Component Be Hidden or Removed in a Page?**: Yes / No
@@ -80,7 +80,7 @@
 ## 📸 6. Screenshots / Examples
 
 - **Screenshot of Component in Use**: *(Paste or link to screenshot)*
-- **Screenshot of Pages UI with Component Selected**: *(Authoring interface view)*
+- **Screenshot of ContentStack with Component Selected**: *(Authoring interface view)*
 - **Figma Link** (if available):
 - **Storybook Link** (if available):
 
@@ -90,7 +90,7 @@
 
 | Item | Verified? |
 |------|-----------|
-| Fields appear correctly in Pages UI | [ ] |
+| Fields appear correctly in ContentStack | [ ] |
 | Styling and Advanced options display correctly | [ ] |
 | Component works across screen sizes | [ ] |
 | Component works with personalization | [ ] |

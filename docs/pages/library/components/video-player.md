@@ -5,12 +5,12 @@ The `VideoPlayer` component is a reusable video wrapper built using the **Plyr**
 
 ## Field Details
 
-**Template Name:** VideoPlayer
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/VideoPlayer/VideoPlayer`
+**Content Type:** VideoPlayer
+**Content Type UID:** `video_player`
 
-| Field Name | Sitecore Field Type | Description |
-|------------|-------------------|-------------|
-| VideoLink | General Link | The URL or internal link to the video content (e.g., YouTube, Vimeo) |
+| Field Name | ContentStack Field Type | Description |
+|------------|------------------------|-------------|
+| VideoLink | Link | The URL or internal link to the video content (e.g., YouTube, Vimeo) |
 
 ![screenshot](/images/components/component-video-1.png "screenshot")
 
