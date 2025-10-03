@@ -1,4 +1,5 @@
 /* Global styles for FastLane Nextra documentation */
+@import "tailwindcss";
 
 :root {
   --nextra-primary-hue: 210;
