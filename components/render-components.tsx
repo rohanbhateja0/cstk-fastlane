@@ -39,67 +39,84 @@ export default function RenderComponents(props: RenderProps) {
          
         if (component.content_section) {
           return (
-           <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.content_section)}>
-              <ContentSection contentSection={component.content_section} page={props.page} key={`component-${key}`} />
-            </div>
+            <ContentSection 
+              contentSection={component.content_section} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
           );
         }
         if (component.content_card) {
           return (
-             <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.content_card)}>
-            <ContentCard contentCard={component.content_card} page={props.page}  key={`component-${key}`} />
-            </div>
+            <ContentCard 
+              contentCard={component.content_card} 
+              page={props.page}  
+              key={`component-${key}`}
+            />
           );
         }
 
         if (component.hero_banner) {
           return (
-            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.hero_banner)}>
-              <HeroBanner heroBanner={component.hero_banner} page={props.page} key={`component-${key}`} />
-            </div>
+            <HeroBanner 
+              heroBanner={component.hero_banner} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
           );
         }
 
         if (component.flex_grid){
           return (
-            <div key={`component-${key}`} {...props.$?.[`components__${key}`]}>
-              <FlexGrid flexGrid={component.flex_grid} page={props.page} key={`component-${key}`} />
-            </div>
+            <FlexGrid 
+              flexGrid={component.flex_grid} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
           );
         }
         if (component.image){
           return (
-            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.image)}>
-              <ImageComponent image={component.image} page={props.page} key={`component-${key}`} />
-            </div>
+            <ImageComponent 
+              image={component.image} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
           );
         }
         if (component.rich_text){
           return (
-            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.rich_text)}>
-              <RichText richText={component.rich_text} key={`component-${key}`} />
-            </div>
+            <RichText 
+              richText={component.rich_text} 
+              key={`component-${key}`}
+            />
           );
         }
         if (component.accordion){
           return (
-            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.accordion)}>
-              <Accordion accordion={component.accordion} page={props.page} key={`component-${key}`} />
-            </div>
+            <Accordion 
+              accordion={component.accordion} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
           );
         }
         if (component.breadcrumb){
           return (
-            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.breadcrumb)}>
-              <Breadcrumb breadcrumb={component.breadcrumb} page={props.page} key={`component-${key}`} />
-            </div>
+            <Breadcrumb 
+              breadcrumb={component.breadcrumb} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
           );
         }
         if (component.carousel){
           return (
-            <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.carousel)}>
-              <Carousel carousel={component.carousel} page={props.page} key={`component-${key}`} />
-            </div>
+            <Carousel 
+              carousel={component.carousel} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
           );
         }
 
