@@ -1,14 +1,14 @@
-# 📚 FastLane Library
+# 📚 Catalyst Library
 
-**Complete catalog of FastLane components and templates.** Explore reusable components, page layouts, and implementation examples to accelerate your development.
+**Complete catalog of Catalyst components and templates.** Explore reusable components, page layouts, and implementation examples to accelerate your development.
 
 ## 🧩 [Components](./library/components)
-**Reusable UI building blocks for FastLane applications**
+**Reusable UI building blocks for Catalyst applications**
 
-Browse the complete collection of FastLane components with live examples, implementation guidance, and customization options. Each component includes:
+Browse the complete collection of Catalyst components with live examples, implementation guidance, and customization options. Each component includes:
 - Live preview and variants
 - Implementation examples
-- Sitecore Content SDK integration
+- ContentStack SDK integration
 - Customization guidelines
 
 ## 📄 [Templates](./library/templates)
@@ -35,4 +35,4 @@ Pre-built page templates that combine multiple components into common layout pat
 
 ---
 
-**Ready to explore?** Start with [Components](./library/components) to see all available FastLane components, or check out [Templates](./library/templates) for page layout examples! 🚀
+**Ready to explore?** Start with [Components](./library/components) to see all available Catalyst components, or check out [Templates](./library/templates) for page layout examples! 🚀

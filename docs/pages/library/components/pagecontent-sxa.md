@@ -1,9 +1,9 @@
-# PageContent (SXA)
+# PageContent
 
-**Page Content -** The Page Content component is a flexible React component for use in Sitecore XM Cloud sites, designed to render rich text content originating from a single Sitecore Rich Text field. It leverages the Sitecore Page Context to dynamically access and display the appropriate content field for the current page, with support for custom styling and consistent formatting.
+**Page Content -** The Page Content component is a flexible React component for use in ContentStack sites, designed to render rich text content originating from a single ContentStack Rich Text field. It leverages the ContentStack Page Context to dynamically access and display the appropriate content field for the current page, with support for custom styling and consistent formatting.
 
 **Description:**
-A context-aware rich text content component that renders and displays the value of a Sitecore Rich Text field, providing full support for embedded content, HTML formatting, personalization, and inline editing within Experience Editor.
+A context-aware rich text content component that renders and displays the value of a ContentStack Rich Text field, providing full support for embedded content, HTML formatting, personalization, and inline editing within ContentStack editor.
 
 **Functionality:**
 
@@ -15,13 +15,13 @@ A context-aware rich text content component that renders and displays the value 
 
 ## Component Details
 
-**Template Name:** JSON Rendering  
-**Item Path:** `/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Page Content/PageContent`
+**Content Type:** PageContent  
+**Content Type UID:** `pagecontent`
 
 
 ## Field Details
 
-| Field Name | Sitecore Field Type | Description | Required |
+| Field Name | ContentStack Field Type | Description | Required |
 | :-- | :-- | :-- | :-- |
 | Content | Rich Text | The main rich text content to render | Yes |
 

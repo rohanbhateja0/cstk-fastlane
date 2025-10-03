@@ -1,6 +1,6 @@
 # Landing Page
 
-**Landing Page:** A standalone entry page (e.g., homepage) with a comprehensive layout as described. The Landing Page template is a core component of the FastLane Website built on Sitecore, inheriting properties and fields from the base "Page" template.
+**Landing Page:** A standalone entry page (e.g., homepage) with a comprehensive layout as described. The Landing Page template is a core component of the Catalyst Website built on ContentStack, inheriting properties and fields from the base "Page" content type.
 
 This template is tailored to create high-impact entry pages that effectively communicate the brand message, engage visitors, and guide them toward desired actions.
 

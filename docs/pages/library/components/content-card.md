@@ -21,18 +21,18 @@ The ContentCard component supports four distinct visual variants based on Figma 
 
 ## Field Details
 
-**Template Name:** Content Card  
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/ContentCard/ContentCard`
+**Content Type:** Content Card  
+**Content Type UID:** `content_card`
 
-| Field Name | Sitecore Field Type | Description |
-|------------|-------------------|-------------|
-| Title | Single-Line Text | Field for the section or item/page title |
-| Category | Single-Line Text | Field to categorize the content |
+| Field Name | ContentStack Field Type | Description |
+|------------|------------------------|-------------|
+| Title | Text | Field for the section or item/page title |
+| Category | Text | Field to categorize the content |
 | IntroText | Rich Text | Introductory text for the content |
-| Icon | Image | An icon to accent the card (32x32px) |
-| Image | Image | An image to visually represent the card content (16:9 aspect ratio) |
-| CalltoActionLinkMain | General Link | Primary call-to-action link |
-| CalltoActionLinkSecondary | General Link | Secondary call-to-action link |
+| Icon | File | An icon to accent the card (32x32px) |
+| Image | File | An image to visually represent the card content (16:9 aspect ratio) |
+| CalltoActionLinkMain | Link | Primary call-to-action link |
+| CalltoActionLinkSecondary | Link | Secondary call-to-action link |
 
 ## Advanced Styling Options
 

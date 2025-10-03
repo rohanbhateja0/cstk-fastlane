@@ -1,31 +1,31 @@
 # New Project Setup
 
-**For teams starting a new customer project with FastLane components.**
+**For teams starting a new customer project with Catalyst components.**
 
-This guide covers Sprint 0/Day 1 activities to get from zero to a production-ready FastLane-powered site for your customer project.
+This guide covers Sprint 0/Day 1 activities to get from zero to a production-ready Catalyst-powered site for your customer project.
 
 ## Sprint 0 Overview
 
 By the end of Sprint 0, you'll have:
-- ✅ FastLane deployed to XM Cloud
-- ✅ **FastLane Demo site** (showcasing components and examples)
-- ✅ **FastLane Global site** (shared components and content)
-- ✅ **New customer site** created from FastLane template
+- ✅ Catalyst deployed to ContentStack
+- ✅ **Catalyst Demo site** (showcasing components and examples)
+- ✅ **Catalyst Global site** (shared components and content)
+- ✅ **New customer site** created from Catalyst template
 - ✅ Production-ready environment configured
 
 ## Day 1: Initial Deployment
 
-### Step 1: Deploy FastLane via XM Cloud Deploy
+### Step 1: Deploy Catalyst via ContentStack
 
-> 📋 **Coming Soon**: Detailed XM Cloud Deploy instructions will be available soon.
+> 📋 **Coming Soon**: Detailed ContentStack deployment instructions will be available soon.
 
 **Key activities:**
-1. Access XM Cloud Deploy portal
-2. Deploy the FastLane project template
+1. Access ContentStack portal
+2. Deploy the Catalyst project template
 3. Configure environment settings
 4. Verify successful deployment
 
-**Expected outcome:** Production-ready XM Cloud environment with FastLane installed.
+**Expected outcome:** Production-ready ContentStack environment with Catalyst installed.
 
 ### Step 2: Verify Default Sites
 

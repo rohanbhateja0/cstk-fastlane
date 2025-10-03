@@ -1,6 +1,6 @@
-# Content Block (SXA)
+# Content Block
 
-**Content Block -** The Content Block component is the most **fundamental building block** in Sitecore XM Cloud SXA projects, providing a simple structure to display a **heading and rich text content**. It is ideal for paragraphs, informational sections, or introductory copy on any page. Highly reusable, it forms the backbone for content-heavy layouts and editorial storytelling.
+**Content Block -** The Content Block component is the most **fundamental building block** in ContentStack projects, providing a simple structure to display a **heading and rich text content**. It is ideal for paragraphs, informational sections, or introductory copy on any page. Highly reusable, it forms the backbone for content-heavy layouts and editorial storytelling.
 
 **Description:** A foundational content component that renders a heading and rich text content with consistent styling and semantic HTML structure, supporting full rich text formatting capabilities.
 
@@ -11,9 +11,9 @@
 *This component is implemented as a React component and does not have a corresponding Sitecore rendering item.*
 
 
-| Field Name | Sitecore Field Type | Description | Required |
+| Field Name | ContentStack Field Type | Description | Required |
 | :-- | :-- | :-- | :-- |
-| `heading` | Single-Line Text | The main heading or title for the content block | Yes |
+| `heading` | Text | The main heading or title for the content block | Yes |
 | `content` | Rich Text | The descriptive or body content for the content block | Yes |
 
 ## Advanced Content Options

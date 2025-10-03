@@ -10,14 +10,14 @@ The `Alert` component is used to display important messages, warnings, or notifi
 
 ## Field Details
 
-**Template Name:** Alert/Notification Banner  
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/NotificationBanner/NotificationBanner`
+**Content Type:** Alert/Notification Banner  
+**Content Type UID:** `alert_notification_banner`
 
-| Field Name | Sitecore Field Type | Description                                                                       |
-| ---------- | ------------------- | --------------------------------------------------------------------------------- |
-| Icon       | Image               | Optional icon element to visually represent the type of alert (e.g., info, error) |
-| Title      | Single-Line Text    | Short heading that gives a brief context of the alert message                     |
-| Text       | Rich Text           | Detailed message or content for the alert                                         |
+| Field Name | ContentStack Field Type | Description                                                                       |
+| ---------- | ----------------------- | --------------------------------------------------------------------------------- |
+| Icon       | File                    | Optional icon element to visually represent the type of alert (e.g., info, error) |
+| Title      | Text                    | Short heading that gives a brief context of the alert message                     |
+| Text       | Rich Text               | Detailed message or content for the alert                                         |
 
 ---
 

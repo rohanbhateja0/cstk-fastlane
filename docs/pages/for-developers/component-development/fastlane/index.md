@@ -35,7 +35,7 @@ Comprehensive testing strategies for FastLane components:
 
 ### [Design Library](./fastlane/design-library)
 FastLane's Design Library integration for component showcase:
-- Understanding Design Library mode vs. SXA Partial Designs
+- Understanding Design Library mode vs. ContentStack Partial Designs
 - Optimizing components for Design Library
 - Layout integration and setup
 - Testing Design Library components
