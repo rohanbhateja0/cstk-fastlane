@@ -30,13 +30,25 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "core/**/*.ts",
+    "core/**/*.tsx",
+    "lib/**/*.ts",
+    "lib/**/*.tsx",
+    "typescript/**/*.ts",
+    "contentstack-sdk/**/*.js",
+    "helper/**/*.js",
     ".next/types/**/*.ts",
-    "tailwind.config.js"
+    "tailwind.config.js",
+    "component-map.ts"
   ],
   "exclude": [
     "node_modules",
-    "docs"
+    "docs",
+    "figma",
+    "scripts"
   ]
 }

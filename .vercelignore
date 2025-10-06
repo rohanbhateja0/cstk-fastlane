@@ -1,4 +1,7 @@
 docs/
 figma/
 logs/
+stack/
+scripts/
+package-workspace.json.disabled
 
