@@ -1,6 +1,6 @@
-# Container (SXA)
+# Container
 
-**Container -** The Container component is a versatile structural wrapper for grouping and aligning content in Sitecore XM Cloud SXA. It provides flexible layout options including fluid or boxed width, custom backgrounds, borders, and content centering capabilities.
+**Container -** The Container component is a versatile structural wrapper for grouping and aligning content in ContentStack. It provides flexible layout options including fluid or boxed width, custom backgrounds, borders, and content centering capabilities.
 
 **Description:** A foundational structural component that organizes page sections with consistent spacing, alignment, and background support through configurable CSS utility classes.
 
@@ -8,8 +8,8 @@
 
 ## Component Details
 
-**Template Name:** JSON Rendering  
-**Item Path:** `/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Page Structure/Container`
+**Content Type:** Container  
+**Content Type UID:** `container`
 
 ## Advanced Layout Options
 

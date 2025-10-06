@@ -64,7 +64,7 @@ npm run bootstrap        # Initialize project after clone
 Complete Sitecore setup for brand new components:
 
 #### Data Template Setup
-1. **Navigate to:** `/sitecore/templates/Feature/[YourFeature]/`
+1. **Navigate to:** ContentStack Content Types section
 2. **Create new template** based on component requirements
 3. **Add field sections** with proper field types:
    ```
@@ -78,7 +78,7 @@ Complete Sitecore setup for brand new components:
 5. **Set Standard Values** with default content
 
 #### Rendering Parameters Template
-1. **Navigate to:** `/sitecore/templates/Feature/[YourFeature]/Renderings/[ComponentName]/`
+1. **Navigate to:** ContentStack Content Types section for component parameters
 2. **Create "Rendering Parameters" template**
 3. **Use Builder tab** to add parameter fields:
    ```
@@ -105,7 +105,7 @@ Complete Sitecore setup for brand new components:
    ```
 
 #### Rendering Item Configuration
-1. **Navigate to:** `/sitecore/layout/Renderings/Feature/[YourFeature]/`
+1. **Navigate to:** ContentStack Components section
 2. **Create rendering item** with:
    - **Component Name:** Exact match to TypeScript component file
    - **Parameters Template:** Link to rendering parameters template
@@ -144,7 +144,7 @@ Add new features to existing components:
 2. **Right-click parameter folder**
 3. **Insert → Insert from template**:
    ```
-   Select: /sitecore/templates/Project/FastLane/General Components/[ParameterType]/[ParameterType]
+   Select: ContentStack Content Types for [ParameterType]
    Name: newoptionvalue
    Set Name field: newoptionvalue
    ```

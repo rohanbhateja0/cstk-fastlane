@@ -5,13 +5,13 @@ The **Button Component** is a versatile UI element that supports different style
 
 ## Field Details
 
-**Template Name:** CTAButton  
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/CTAButton/CTAButton`
+**Content Type:** CTAButton  
+**Content Type UID:** `cta_button`
 
-| Field Name | Sitecore Field Type | Description |
-|------------|-------------------|-------------|
-| ButtonImage | Image | Optional icon/image to display alongside the button |
-| ButtonLink | General Link | The target URL or internal link for the button |
+| Field Name | ContentStack Field Type | Description |
+|------------|------------------------|-------------|
+| ButtonImage | File | Optional icon/image to display alongside the button |
+| ButtonLink | Link | The target URL or internal link for the button |
 
 ## Advanced Styling Options
 

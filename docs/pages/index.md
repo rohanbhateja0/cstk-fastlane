@@ -1,16 +1,16 @@
-# FastLane Component & Template Library
+# Catalyst Component & Template Library
 
 <div class="hero">
-  <img src="/logo_light.png" alt="FastLane Logo" class="hero-logo" />
-  <h1 class="hero-title">FastLane</h1>
+  <!-- <img src="/logo_light.png" alt="Catalyst Logo" class="hero-logo" /> -->
+  <h1 class="hero-title">Catalyst</h1>
   <h2 class="hero-subtitle">Component & Template Library</h2>
   <p class="hero-description">
-    Production-ready components and templates for Sitecore XM Cloud, designed for developers and AI generation
+    Production-ready components and templates for ContentStack, designed for developers and AI generation
   </p>
   <div class="hero-actions">
     <a href="/library/components" class="btn btn-primary">View Components</a>
     <a href="/library/templates" class="btn btn-secondary">Browse Templates</a>
-    <a href="https://github.com/altudo-dev/xmc-fast-lane" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">GitHub</a>
+    <a href="https://github.com/Altudo-Dev/contentstack-fast-lane" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">GitHub</a>
   </div>
 </div>
 
@@ -20,7 +20,7 @@
   <div class="feature-card">
     <div class="feature-icon">🔧</div>
     <h3>Developer-Focused</h3>
-    <p>Comprehensive documentation with Sitecore templates, rendering parameters, data source structure, and usage guidelines.</p>
+    <p>Comprehensive documentation with ContentStack content types, field definitions, component parameters, and usage guidelines.</p>
   </div>
   
   <div class="feature-card">
@@ -32,7 +32,7 @@
   <div class="feature-card">
     <div class="feature-icon">⚡</div>
     <h3>Production-Ready</h3>
-    <p>Built for Sitecore XM Cloud with TypeScript, ShadCN UI, and modern React patterns.</p>
+    <p>Built for ContentStack with TypeScript, ShadCN UI, and modern React patterns.</p>
   </div>
   
   <div class="feature-card">
@@ -56,26 +56,26 @@
 
 ---
 
-## 🚀 How FastLane Accelerates Customer Projects
+## 🚀 How Catalyst Accelerates Customer Projects
 
-**Transform customer designs into production-ready Sitecore components in hours, not weeks.**
+**Transform customer designs into production-ready ContentStack components in hours, not weeks.**
 
 ### Step 1: 🎨 Design Match
-Copy FastLane base components in Figma and apply your customer's branding, colors, and styling. Keep the same structure, just make it look like their brand.
+Copy Catalyst base components in Figma and apply your customer's branding, colors, and styling. Keep the same structure, just make it look like their brand.
 
 **↓**
 
 ### Step 2: 🤖 AI Generation  
-Feed both the original FastLane design and customer variant into AI. Get pixel-perfect components that match the customer design while keeping all Sitecore functionality intact.
+Feed both the original Catalyst design and customer variant into AI. Get pixel-perfect components that match the customer design while keeping all ContentStack functionality intact.
 
 **↓**
 
 ### Step 3: ⚡ Deploy Ready
-Components work immediately in Sitecore Page Editor. Content authors can start building pages right away with fully functional, branded components.
+Components work immediately in ContentStack editor. Content authors can start building pages right away with fully functional, branded components.
 
 ---
 
-### **The FastLane Advantage**
+### **The Catalyst Advantage**
 
 | Benefit | Impact |
 |---------|--------|
@@ -84,22 +84,22 @@ Components work immediately in Sitecore Page Editor. Content authors can start b
 | 🔒 **Zero Risk** | Sitecore functionality guaranteed to work |  
 | 💰 **Cost Effective** | Reduce custom development by 80% |
 
-#### **Why FastLane AI Works: Context is King** 🧠
+#### **Why Catalyst AI Works: Context is King** 🧠
 
-FastLane succeeds where generic AI code generation fails because we provide **comprehensive context**:
+Catalyst succeeds where generic AI code generation fails because we provide **comprehensive context**:
 
-- **📋 Complete Documentation**: Every component includes field definitions, rendering parameters, and business logic patterns
+- **📋 Complete Documentation**: Every component includes field definitions, component parameters, and business logic patterns
 - **🎨 Figma Integration**: Direct design access with exact node IDs and semantic variables  
-- **🔧 Proven Patterns**: Real implementation examples with Sitecore Content SDK integration
+- **🔧 Proven Patterns**: Real implementation examples with ContentStack SDK integration
 - **⚠️ Pitfall Avoidance**: Built-in knowledge of common mistakes and how to avoid them
 - **🎯 Preservation Rules**: Clear instructions on what must never change vs what can be customized
 
-**The Result**: AI generates production-ready, fully-functional Sitecore components instead of generic boilerplate code.
+**The Result**: AI generates production-ready, fully-functional ContentStack components instead of generic boilerplate code.
 
 ### **Perfect for Sales Conversations**
 
-- **"Show me your designs"** → FastLane can match any visual style
-- **"We need it to work in Sitecore"** → Every component is pre-built for Sitecore XM Cloud
+- **"Show me your designs"** → Catalyst can match any visual style
+- **"We need it to work in ContentStack"** → Every component is pre-built for ContentStack
 - **"How long will this take?"** → Components ready for testing in same day
 - **"What about maintenance?"** → Built on proven patterns with full documentation
 - **"Can content authors use this?"** → Designed specifically for content author workflows
@@ -113,8 +113,8 @@ FastLane succeeds where generic AI code generation fails because we provide **co
 ### For Developers
 
 Browse our component library at `/components` to understand:
-- Sitecore field configurations
-- Rendering parameters and styling options
+- ContentStack field configurations
+- Component parameters and styling options
 - Implementation patterns and best practices
 - Accessibility and performance guidelines
 
@@ -123,23 +123,23 @@ Browse our component library at `/components` to understand:
 Our documentation is structured to provide AI systems with:
 - Complete component specifications
 - Figma design references with node IDs
-- Template paths and field definitions
+- Content type definitions and field definitions
 - Implementation examples and patterns
 
 ### Contributing
 
-Want to add or improve components? Check out our GitHub repository at `https://github.com/altudo-dev/xmc-fast-lane` and contribution guidelines.
+Want to add or improve components? Check out our GitHub repository at `https://github.com/Altudo-Dev/contentstack-fast-lane` and contribution guidelines.
 
 ## What's Included
 
-- **Components**: Reusable UI components with full Sitecore integration
+- **Components**: Reusable UI components with full ContentStack integration
 - **Templates**: Complete page templates and content structures
 - **Design System**: Consistent styling and theming guidelines
 - **Figma Integration**: Direct links to design specifications
 
 ## Built With
 
-- [Sitecore XM Cloud](https://sitecore.com/products/content-management/experience-management)
+- [Content Stack](https://www.contentstack.com/docs)
 - [Next.js 15](https://nextjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [ShadCN UI](https://ui.shadcn.com/)

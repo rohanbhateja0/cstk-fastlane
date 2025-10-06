@@ -2,7 +2,7 @@
 
 ## 📄 1. Page Template Overview
 
-- **Page Template Name**:
+- **Page Content Type**:
 - **Brief Description**: What type of pages does this template create? What is its main purpose?
 - **Target Audience**: Who will use pages created with this template? (e.g., marketing pages, product pages, news articles)
 - **Expected Usage**: How often will this page type be created? (e.g., frequently for campaigns, occasionally for special events)

@@ -1,6 +1,6 @@
 # For Designers
 
-Welcome to the FastLane design resources! This section provides design system guidelines and tools for creating consistent, brand-compliant user interfaces.
+Welcome to the Catalyst design resources! This section provides design system guidelines and tools for creating consistent, brand-compliant user interfaces.
 
 ## 🎨 Design System Guides
 
@@ -27,7 +27,7 @@ Comprehensive guide for using Figma Token Studio to map customer brand colors in
 - **Mode Collection**: Define base tokens for CSS export
 
 ### **Design System Components**
-- All FastLane components are designed with Token Studio integration
+- All Catalyst components are designed with Token Studio integration
 - Components use semantic tokens for consistent theming
 - Brand customization through token overrides, not component modifications
 

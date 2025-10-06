@@ -3,19 +3,19 @@
 The component is a flexible, layout-aware section designed to display rich content with optional media, supporting various layout and styling customizations. It includes support for variants, background themes, image ordering, and text alignment. While the heading level is fixed to `h1` (not configurable), the component is ideal for storytelling sections and marketing-focused pages.
 
 ## Field Details
-**Template Name:** PageTitleBanner  
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/PageTitleBanner/PageTitleBanner`
+**Content Type:** PageTitleBanner  
+**Content Type UID:** `page_title_banner`
 
-| Field Name | Sitecore Field Type | Description |
-|------------|-------------------|-------------|
-| Image | Image | The main visual/media used in the component for the background |
-| Category | Single-Line Text | A small label typically shown above the title |
-| Title | Single-Line Text | The main heading text for the section |
+| Field Name | ContentStack Field Type | Description |
+|------------|------------------------|-------------|
+| Image | File | The main visual/media used in the component for the background |
+| Category | Text | A small label typically shown above the title |
+| Title | Text | The main heading text for the section |
 | IntroText | Rich Text | A descriptive body or intro content |
-| CalltoActionLinkMain | General Link | Primary CTA button or link |
-| CalltoActionLinkSecondary | General Link | Secondary CTA for optional interaction |
+| CalltoActionLinkMain | Link | Primary CTA button or link |
+| CalltoActionLinkSecondary | Link | Secondary CTA for optional interaction |
 | Content | Rich Text | Main content / Page Content |
-| NavigationDescription | Single-Line Text | Descriptive text or label for navigation elements. |
+| NavigationDescription | Text | Descriptive text or label for navigation elements. |
 
 
 * * *

@@ -31,17 +31,17 @@ The carousel component receives a carousel object with the following structure:
 ```
 
 ### Main Fields
-- **Title** (Single-Line Text, optional): Main heading for the carousel
+- **Title** (Text, optional): Main heading for the carousel
 - **Description** (Rich Text, optional): Description text below the title
 - **Slides** (Reference): Array of carousel slide entries
 
 ### Slide Content Fields
-- **Title** (Single-Line Text, optional): Slide title
-- **Tag** (Single-Line Text, optional): Small tag/label for the slide
+- **Title** (Text, optional): Slide title
+- **Tag** (Text, optional): Small tag/label for the slide
 - **Description** (Rich Text, optional): Slide description text
-- **Image** (Image, required): Slide background image
-- **Call to Action 1** (General Link, optional): Primary action button
-- **Call to Action 2** (General Link, optional): Secondary action button
+- **Image** (File, required): Slide background image
+- **Call to Action 1** (Link, optional): Primary action button
+- **Call to Action 2** (Link, optional): Secondary action button
 
 ## Rendering Options
 

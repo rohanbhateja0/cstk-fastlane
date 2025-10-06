@@ -1,13 +1,13 @@
-# Getting Started with FastLane
+# Getting Started with Catalyst
 
-FastLane is a comprehensive component library for Sitecore XM Cloud. Choose your starting point based on your role and immediate goals:
+Catalyst is a comprehensive component library for ContentStack. Choose your starting point based on your role and immediate goals:
 
 ## 🚀 Quick Navigation
 
 ### 1. [New Project Setup](./getting-started/new-project-setup)
-**For teams starting a new customer project with FastLane**
-- Deploy FastLane via XM Cloud Deploy (Sprint 0/Day 1)
-- Create customer sites using FastLane templates
+**For teams starting a new customer project with Catalyst**
+- Deploy Catalyst via ContentStack (Sprint 0/Day 1)
+- Create customer sites using Catalyst templates
 - Configure project-specific settings
 
 👥 **Who needs this**: Project managers, solution architects, delivery teams
@@ -26,24 +26,24 @@ FastLane is a comprehensive component library for Sitecore XM Cloud. Choose your
 
 ## 👩‍💻 For Developers
 
-**Ready to build with FastLane?** The developer documentation has been reorganized into a clear workflow-based path:
+**Ready to build with Catalyst?** The developer documentation has been reorganized into a clear workflow-based path:
 
 ### 🏁 [Start Here](../for-developers/start-here/)
 **Essential setup and prerequisites**
 - Development environment setup (Node.js, Git, dependencies)
-- Sitecore component prerequisites
+- ContentStack component prerequisites
 - Step-by-step workflow guides
 
 ### 🔧 [Component Development](../for-developers/component-development/)
-**AI-powered development and FastLane patterns**
+**AI-powered development and Catalyst patterns**
 - AI prompts and templates for rapid development
-- FastLane component development patterns
+- Catalyst component development patterns
 - Testing and architectural guidance
 
 ### 🚀 [Tools & Advanced](../for-developers/tools-and-advanced/)
 **Advanced tools and deeper technical knowledge**
 - Figma MCP Server setup for design integration
-- Content SDK and architectural concepts
+- ContentStack SDK and architectural concepts
 
 ---
 
@@ -51,15 +51,15 @@ FastLane is a comprehensive component library for Sitecore XM Cloud. Choose your
 
 **Start here based on your immediate goal:**
 
-- **"I need to set up FastLane for a new customer project"** → [New Project Setup](./getting-started/new-project-setup)
-- **"I want to understand how teams work with FastLane"** → [Team Workflow](./getting-started/team-workflow)
-- **"I want to develop/modify FastLane components"** → [Developer Start Here](../for-developers/start-here/)
+- **"I need to set up Catalyst for a new customer project"** → [New Project Setup](./getting-started/new-project-setup)
+- **"I want to understand how teams work with Catalyst"** → [Team Workflow](./getting-started/team-workflow)
+- **"I want to develop/modify Catalyst components"** → [Developer Start Here](../for-developers/start-here/)
 
 ---
 
 ## 📚 Additional Resources
 
-- [Component Development Guide](../for-developers/component-development/fastlane/) - Deep dive into component development
-- [Content SDK Architecture](../for-developers/tools-and-advanced/content-sdk/component-architecture) - Understanding the technical foundation
+- [Component Development Guide](../for-developers/component-development/catalyst/) - Deep dive into component development
+- [ContentStack SDK Architecture](../for-developers/tools-and-advanced/content-sdk/component-architecture) - Understanding the technical foundation
 - [Component Library](../library/components/) - Browse available components
 - [Page Templates](../library/templates/) - Explore layout options 

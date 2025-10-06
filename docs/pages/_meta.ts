@@ -1,5 +1,5 @@
 export default {
-  index: "🚀 FastLane Overview",
+  index: "🚀 Catalyst Overview",
   library: "📚 Library",
   "getting-started": "🏁 Getting Started",
   "for-developers": "👩‍💻 For Developers",

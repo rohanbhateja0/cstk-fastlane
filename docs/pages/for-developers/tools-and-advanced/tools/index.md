@@ -16,10 +16,28 @@ Set up the Figma Model Context Protocol (MCP) server to enable direct AI access 
 - ⚡ **Accurate Code Generation** - Create components that precisely match designs
 
 **Perfect for:**
-- Converting Figma designs to FastLane components
+- Converting Figma designs to Catalyst components
 - Extracting design tokens for Tailwind configuration
 - Automated component generation with AI assistance
 - Design-to-code workflow optimization
+
+### [ContentStack MCP Server Setup](./contentstack-mcp-server-setup)
+**AI-Powered Content Management Integration**
+
+Set up the ContentStack Model Context Protocol (MCP) server to enable direct AI access to your ContentStack instance for automated content management and operations.
+
+**Key Features:**
+- 📝 **Direct ContentStack Access** - AI manages content without manual API calls
+- 🏗️ **Content Type Operations** - Create, update, and manage content types
+- 📄 **Entry Management** - Create, update, publish, and delete content entries
+- 🖼️ **Asset Operations** - Upload, manage, and organize media assets
+- 🌍 **Environment Management** - Publish content across different environments
+
+**Perfect for:**
+- Automated content creation and management
+- Content type setup and configuration
+- Bulk content operations and migrations
+- AI-assisted content workflows
 
 ## 🎯 Tool Integration Workflow
 
@@ -30,8 +48,25 @@ graph TD
     A[Figma Design] --> B[Figma MCP Server]
     B --> C[AI Assistant Analysis]
     C --> D[Component Generation]
-    D --> E[FastLane Component]
-    E --> F[Testing & Integration]
+    D --> E[Catalyst Component]
+    E --> F[ContentStack MCP Server]
+    F --> G[Content Management]
+    G --> H[Testing & Integration]
+```
+
+### Content Management Pipeline
+
+```mermaid
+graph TD
+    A[Content Requirements] --> B[ContentStack MCP Server]
+    B --> C[AI Assistant Processing]
+    C --> D[Content Type Creation]
+    C --> E[Entry Management]
+    C --> F[Asset Operations]
+    D --> G[ContentStack Instance]
+    E --> G
+    F --> G
+    G --> H[Published Content]
 ```
 
 ### Recommended Development Stack

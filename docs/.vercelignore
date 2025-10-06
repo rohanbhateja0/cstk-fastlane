@@ -1,0 +1,4 @@
+# Ignore parent directory PostCSS config
+../postcss.config.mjs
+../tailwind.config.js
+../.env.local

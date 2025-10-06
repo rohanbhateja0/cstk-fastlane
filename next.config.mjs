@@ -13,22 +13,15 @@ const nextConfig = {
         CONTENTSTACK_API_HOST: process.env.CONTENTSTACK_API_HOST,
     },
      images: {
-        domains: ['images.contentstack.io'], // Add your image hostnames here
-      },
-    async headers() {
-        return [
-            {
-                source: '/:path*',
-                headers: [
-                    
-                    {
-                        key: 'Content-Security-Policy',
-                        value: "frame-ancestors 'self' https://*.contentstack.com https://app.contentstack.com https://*.vercel.app", // Allow Contentstack domains
-                    },
-                ],
-            },
-        ];
-    },
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'images.contentstack.io',
+            port: '',
+            pathname: '/**',
+          },
+        ],
+      }
 };
 
 export default nextConfig;

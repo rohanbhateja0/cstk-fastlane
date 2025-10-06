@@ -6,7 +6,7 @@ import { GetBlogLandingPage } from '@/core/ContentQueries/GetBlogLandingPage';
 import { getPageRes, metaData } from '@/helper';
 import { Page as PageProp } from '@/typescript/pages';
 import { usePathname } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 export default function Page() {
@@ -14,7 +14,7 @@ export default function Page() {
 
     const [getEntry, setEntry] = useState<PageProp>();
 
-    async function fetchData() {
+    const fetchData = useCallback(async () => {
         try {
             const entryRes = await GetBlogLandingPage(entryUrl);
             if (!entryRes) throw new Error('Status code 404');
@@ -22,11 +22,11 @@ export default function Page() {
         } catch (error) {
             console.error(error);
         }
-    }
+    }, [entryUrl]);
 
     useEffect(() => {
         onEntryChange(() => fetchData());
-    }, []);
+    }, [fetchData]);
 
 
     return getEntry?.fastlane_components ? (

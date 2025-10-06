@@ -1,6 +1,6 @@
 # Page Templates Overview
 
-This section contains documentation for all FastLane page templates - complete page layouts and structures that define how content is organized and presented in Sitecore XM Cloud.
+This section contains documentation for all Catalyst page templates - complete page layouts and structures that define how content is organized and presented in ContentStack.
 
 ## Available Page Templates
 
@@ -41,22 +41,22 @@ Templates for content aggregation and browsing:
 
 Each page template documentation includes:
 
-1. **Template Information**: Sitecore template path, ID, and inheritance
-2. **Layout Configuration**: Placeholder structure and rendering definitions
+1. **Template Information**: ContentStack content type path, UID, and inheritance
+2. **Layout Configuration**: Modular block structure and component definitions
 3. **Content Structure**: Page sections and content organization
 4. **Page Fields**: SEO metadata, hero content, and page-specific fields
-5. **Component Usage**: Which FastLane components are used and how
+5. **Component Usage**: Which Catalyst components are used and how
 6. **Usage Guidelines**: When to use this template vs alternatives
 7. **Content Editor Guide**: Instructions for content creation and management
 
 ## Page Template Features
 
-All FastLane page templates include:
+All Catalyst page templates include:
 
 - **Responsive Design**: Mobile-first layouts with breakpoint optimization
 - **SEO Optimization**: Meta tags, structured data, and semantic HTML
-- **Component Integration**: Seamless use of FastLane components
-- **Content Editor Friendly**: Intuitive editing experience in Sitecore Pages
+- **Component Integration**: Seamless use of Catalyst components
+- **Content Editor Friendly**: Intuitive editing experience in ContentStack
 - **Performance Optimized**: Lazy loading, efficient rendering, and caching
 
 ## Layout Components
@@ -84,7 +84,7 @@ To document a new page template:
 
 ## Design Patterns
 
-Common page layout patterns used in FastLane:
+Common page layout patterns used in Catalyst:
 
 - **Single Column**: Full-width content for articles and basic pages
 - **Sidebar Layout**: Main content with complementary sidebar
