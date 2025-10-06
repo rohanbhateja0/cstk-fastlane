@@ -1,4 +1,4 @@
-# AI Prompt Examples
+# AI Prompt Examples for Contentstack
 
 This directory contains working examples of how to customize the AI prompt templates for different types of components.
 
