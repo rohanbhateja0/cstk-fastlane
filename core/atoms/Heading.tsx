@@ -8,7 +8,7 @@ interface HeadingProps {
 
 function Heading( props : HeadingProps) {
   const { level, children } = props;
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements; 
+  const Tag = `h${level}` as keyof React.JSX.IntrinsicElements; 
 
   return <Tag {...props}>{children}</Tag>;
 }
