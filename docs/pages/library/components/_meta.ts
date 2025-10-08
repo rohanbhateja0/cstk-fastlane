@@ -7,14 +7,14 @@ export default {
     "title": "Media Components"
   },
   "carousel": "Carousel",
-  "image-sxa": "Image (SXA)",
+  "image-sxa": "Image",
   "video-player": "Video Player",
   "---navigation": {
     "type": "separator", 
     "title": "Navigation Components"
   },
   "breadcrumb": "Breadcrumb",
-  "linklist-sxa": "LinkList (SXA)",
+  "linklist-sxa": "LinkList",
   "megamenu-navigation-meganav-meganavitem": "MegaMenu Navigation",
   "meganavlinklist": "MegaNavLinkList",
   "navigation": "Navigation",  
@@ -27,24 +27,24 @@ export default {
   "content-section": "Content Section",
   "cta-button": "CTA Button",
   "alertnotification-banner": "Alert/Notification Banner",
-  "pagecontent-sxa": "PageContent (SXA)",
-  "promo-sxa": "Promo (SXA)",
-  "richtext-sxa": "RichText (SXA)",
+  "pagecontent-sxa": "PageContent",
+  "promo-sxa": "Promo",
+  "richtext-sxa": "RichText",
   "social-share": "Social Share",
-  "title-sxa": "Title (SXA)",
+  "title-sxa": "Title",
   "articledate": "ArticleDate",
   "pagetitlebanner": "Page Title Banner",
   "---page-structure": {
     "type": "separator",
     "title": "PageStructure Components"
   },
-  "container-sxa": "Container (SXA)",
-  "column-splitter-sxa": "Column Splitter (SXA)",
+  "container-sxa": "Container",
+  "column-splitter-sxa": "Column Splitter",
   "modal": "Modal",
-  "row-splitter-sxa": "Row Splitter (SXA)",
+  "row-splitter-sxa": "Row Splitter",
   "tabs": "Tabs",
   "theme-selector": "Theme Selector",
   "accordion": "Accordion",
-  "partial-design-dynamic-placeholder-sxa": "Partial Design Dynamic Placeholder (SXA)",
-  "content-block-sxa": "Content Block (SXA)"
+  "partial-design-dynamic-placeholder-sxa": "Partial Design Dynamic Placeholder",
+  "content-block-sxa": "Content Block"
 } 

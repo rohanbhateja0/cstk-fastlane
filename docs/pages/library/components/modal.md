@@ -3,21 +3,21 @@
 ### 📖 Overview
 The **Modal** component is used to display information or interactive content in a popup overlay on the screen. It is triggered by a user action (typically a button click) and allows for flexible content placement via a drag-and-drop placeholder.
 
-## 🧩 Placeholder
-A **dynamic area** inside the modal where any component can be placed. The placeholder becomes visible **after the button is clicked**, allowing for flexible, on-demand content rendering within the modal.
+## 🧩 Modular Blocks
+A **dynamic area** inside the modal where any component can be placed. The modular blocks become visible **after the button is clicked**, allowing for flexible, on-demand content rendering within the modal.
 
 * * *
 
 ## Field Details
 
-**Template Name:** Modal
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/Modal/Modal`
+**Content Type:** Modal
+**Content Type UID:** `modal`
 
-| Field Name | Sitecore Field Type | Description |
-|------------|-------------------|-------------|
-| Button Text | Single-Line Text | Text displayed on the trigger button that opens the modal |
-| Title | Single-Line Text | Heading shown at the top of the modal popup once it opens |
-| CTAMainLink | General Link | The primary URL or internal link for the modal's main action |
+| Field Name | ContentStack Field Type | Description |
+|------------|------------------------|-------------|
+| Button Text | Text | Text displayed on the trigger button that opens the modal |
+| Title | Text | Heading shown at the top of the modal popup once it opens |
+| CTAMainLink | Link | The primary URL or internal link for the modal's main action |
 
 * * *
 

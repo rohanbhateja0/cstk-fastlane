@@ -1,6 +1,6 @@
 # Theme Selector
 
-**Theme Selector:** The Theme Selector component is a reusable UI element for the FastLane website, designed to enable users to switch between light and dark themes. Built using React, Radix UI, and Tailwind CSS, it integrates with a ThemeContext to manage theme state. The component features a toggle button with sun and moon icons, providing an intuitive way to adjust the visual experience.
+**Theme Selector:** The Theme Selector component is a reusable UI element for the Catalyst website, designed to enable users to switch between light and dark themes. Built using React, Radix UI, and Tailwind CSS, it integrates with a ThemeContext to manage theme state. The component features a toggle button with sun and moon icons, providing an intuitive way to adjust the visual experience.
 
 **Description:** A button that toggles between light and dark themes, displaying a sun icon for light mode and a moon icon for dark mode.
 

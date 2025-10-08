@@ -1,5 +1,6 @@
 import { AccordionFields } from "./components/Accordion";
 import { BreadcrumbFields } from "./components/Breadcrumb";
+import { CarouselFields } from "./components/Carousel";
 import { ContentCardFields } from "./components/ContentCard";
 import { ContentSectionFields } from "./components/ContentSection";
 import { FlexGridFields } from "./components/FlexGrid";
@@ -16,5 +17,9 @@ export type Component = {
   accordion: AccordionFields;
   video: VideoFields;
   breadcrumb: BreadcrumbFields;
-  content_cards: ContentCardFields;
+  carousel: {
+    carousels: CarouselFields[];
+    _metadata?: any;
+    $: any;
+  };
 }

@@ -1,9 +1,9 @@
-# Title (SXA)
+# Title
 
-**Title -** The Title component is a flexible, context-aware React component for Sitecore XM Cloud sites, designed to render and optionally link a page or item’s Title field. It uses the Sitecore Page Context and integrated GraphQL data to obtain the appropriate Title value, providing consistent formatting, robust editing support, and customizable styles.
+**Title -** The Title component is a flexible, context-aware React component for ContentStack sites, designed to render and optionally link a page or item's Title field. It uses the ContentStack Page Context and integrated data to obtain the appropriate Title value, providing consistent formatting, robust editing support, and customizable styles.
 
 **Description:**
-A dynamic heading or title component that displays the value of a Sitecore Text field, supporting both standalone text and automatic linking to the relevant page (when not in editing mode). The component enables in-place editing within Experience Editor and supports custom class styling for easy layout control.
+A dynamic heading or title component that displays the value of a ContentStack Text field, supporting both standalone text and automatic linking to the relevant page (when not in editing mode). The component enables in-place editing within ContentStack editor and supports custom class styling for easy layout control.
 
 **Functionality:**
 
@@ -15,12 +15,12 @@ A dynamic heading or title component that displays the value of a Sitecore Text 
 
 ## Field Details
 
-**Template Name:** JSON Rendering  
-**Item Path:** `/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Page Content/Title`
+**Content Type:** Title  
+**Content Type UID:** `title`
 
 ## Field Details
 
-| Field Name | Sitecore Field Type | Description | Required |
+| Field Name | ContentStack Field Type | Description | Required |
 | :-- | :-- | :-- | :-- |
 | Title | Text | The main title or heading to display | Yes |
 

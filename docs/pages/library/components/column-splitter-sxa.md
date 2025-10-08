@@ -1,6 +1,6 @@
-# Column Splitter (SXA)
+# Column Splitter
 
-**Column Splitter -** The Column Splitter component is a flexible, layout-controlling SXA (Sitecore Experience Accelerator) component that allows editors to divide content into configurable columns within a page section. Each column can have its own width and custom styles, making it ideal for responsive layouts, multi-column sections, and marketing blocks.
+**Column Splitter -** The Column Splitter component is a flexible, layout-controlling ContentStack component that allows editors to divide content into configurable columns within a page section. Each column can have its own width and custom styles, making it ideal for responsive layouts, multi-column sections, and marketing blocks.
 
 **Description:** A dynamic layout component that renders up to 8 columns based on configuration, with customizable widths and styling for each column.
 
@@ -8,8 +8,8 @@
 
 ## Component Details
 
-**Template Name:** JSON Rendering  
-**Item Path:** `/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Page Structure/Column Splitter`
+**Content Type:** Column Splitter  
+**Content Type UID:** `column_splitter`
 
 ## Advanced Layout Options
 

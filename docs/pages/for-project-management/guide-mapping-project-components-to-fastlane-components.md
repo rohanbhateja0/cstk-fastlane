@@ -1,12 +1,12 @@
-# Guide: Mapping Project Components to FastLane Components
+# Guide: Mapping Project Components to Catalyst Components
 
 ## 📋 Overview
 
-This guide is designed for **Project Managers**, **Business Analysts**, and **Delivery Teams** to understand how to identify project requirements and map them to existing FastLane components or determine when new components need to be developed.
+This guide is designed for **Project Managers**, **Business Analysts**, and **Delivery Teams** to understand how to identify project requirements and map them to existing Catalyst components or determine when new components need to be developed.
 
 ## 🎯 Purpose
 
-- **Accelerate Development**: Leverage existing FastLane components to reduce development time
+- **Accelerate Development**: Leverage existing Catalyst components to reduce development time
 - **Ensure Consistency**: Maintain design system standards across all projects
 - **Optimize Resources**: Avoid rebuilding components that already exist
 - **Facilitate Communication**: Provide clear mapping between business requirements and technical implementation
@@ -28,10 +28,10 @@ Before mapping components, gather:
 - Are there accessibility requirements?
 - What are the visual specifications?
 
-### Step 2: FastLane Component Inventory
+### Step 2: Catalyst Component Inventory
 
 #### **✅ Available Content Components**
-| Component | Use Case | Sitecore Fields | Complexity |
+| Component | Use Case | ContentStack Fields | Complexity |
 |-----------|----------|------------------|------------|
 | **[Content Card](../library/components/content-card.md)** | Feature highlights, news items, product cards | Title, Category, IntroText, Image, CTA Links | Medium |
 | **[Content Section](../library/components/content-section.md)** | Large content blocks, article sections | Title, Content, Background options | Low |
@@ -41,7 +41,7 @@ Before mapping components, gather:
 | **[Page Title Banner](../library/components/pagetitlebanner.md)** | Page headers, hero sections | Title, subtitle, background image | Medium |
 
 #### **✅ Available Navigation Components**
-| Component | Use Case | Sitecore Fields | Complexity |
+| Component | Use Case | ContentStack Fields | Complexity |
 |-----------|----------|------------------|------------|
 | **[Navigation](../library/components/navigation.md)** | Main site navigation | Menu items, structure | High |
 | **[Breadcrumb](../library/components/breadcrumb.md)** | Page hierarchy, user orientation | Path structure, links | Low |
@@ -49,7 +49,7 @@ Before mapping components, gather:
 | **[MegaNavLinkList](../library/components/meganavlinklist.md)** | Grouped navigation links | Link groups, categories | Medium |
 
 #### **✅ Available Interactive Components**
-| Component | Use Case | Sitecore Fields | Complexity |
+| Component | Use Case | ContentStack Fields | Complexity |
 |-----------|----------|------------------|------------|
 | **[Modal](../library/components/modal.md)** | Overlays, popups, confirmations | Content, trigger, styling | Medium |
 | **[Tabs](../library/components/tabs.md)** | Content organization, panels | Tab titles, content areas | Medium |
@@ -57,7 +57,7 @@ Before mapping components, gather:
 | **[Alert/Notification Banner](../library/components/alertnotification-banner.md)** | System messages, announcements | Message, type, dismissible | Low |
 
 #### **✅ Available Social Components**
-| Component | Use Case | Sitecore Fields | Complexity |
+| Component | Use Case | ContentStack Fields | Complexity |
 |-----------|----------|------------------|------------|
 | **[Social Links](../library/components/social-links.md)** | Social media connections | Platform links, icons | Low |
 | **[Social Share](../library/components/social-share.md)** | Content sharing functionality | Share options, content | Medium |
@@ -71,7 +71,7 @@ Before mapping components, gather:
    - Define functional and visual requirements
    - Determine content management needs
 
-2. **Check FastLane Inventory**
+2. **Check Catalyst Inventory**
    - Review available components above
    - Assess functional alignment (80%+ match recommended)
    - Evaluate customization possibilities
@@ -80,7 +80,7 @@ Before mapping components, gather:
    
    | Scenario | Recommendation | Action Required |
    |----------|---------------|-----------------|
-   | **Exact Match** (95%+ alignment) | ✅ Use existing component | Configure in Sitecore |
+   | **Exact Match** (95%+ alignment) | ✅ Use existing component | Configure in ContentStack |
    | **Good Match** (80-95% alignment) | ✅ Use with minor customization | Theme/style adjustments |
    | **Partial Match** (60-80% alignment) | ⚠️ Evaluate effort vs. custom build | Technical assessment needed |
    | **Poor Match** (<60% alignment) | ❌ Build new component | Add to development backlog |
@@ -106,7 +106,7 @@ REQUIREMENT ANALYSIS:
 □ Accessibility requirements noted
 
 COMPONENT MAPPING:
-FastLane Component: _________________
+Catalyst Component: _________________
 Match Percentage: _____%
 Customization Required: □ Yes □ No
 Complexity Level: □ Low □ Medium □ High
@@ -124,7 +124,7 @@ _________________________________
 
 ### **Project Component Inventory Template**
 
-| Page/Section | Component Need | FastLane Match | Decision | Priority | Effort |
+| Page/Section | Component Need | Catalyst Match | Decision | Priority | Effort |
 |--------------|----------------|-----------------|----------|----------|--------|
 | Homepage Hero | Hero banner with CTA | Page Title Banner | Use existing | High | 1 day |
 | News Section | Article listing | Content Card | Use existing | Medium | 0.5 days |
@@ -135,7 +135,7 @@ _________________________________
 ### **When to Use Existing Components**
 - ✅ Functional requirements align 80%+
 - ✅ Visual customization is achievable through theming
-- ✅ Sitecore field structure meets content needs
+- ✅ ContentStack field structure meets content needs
 - ✅ Component supports required user interactions
 
 ### **When to Build New Components**
@@ -202,4 +202,4 @@ Track these KPIs for component reuse:
 
 ---
 
-*This guide should be used in conjunction with the FastLane component documentation and regularly updated as new components are added to the library.* 
+*This guide should be used in conjunction with the Catalyst component documentation and regularly updated as new components are added to the library.* 

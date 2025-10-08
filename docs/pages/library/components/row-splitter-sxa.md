@@ -1,6 +1,6 @@
-# Row Splitter (SXA)
+# Row Splitter
 
-**Row Splitter -** The Row Splitter component is a flexible, layout-controlling SXA (Sitecore Experience Accelerator) component that allows editors to divide content into configurable rows within a page section. Each row can have its own styling and background, making it ideal for creating visual separation, stacked content layouts, and marketing sections with alternating themes.
+**Row Splitter -** The Row Splitter component is a flexible, layout-controlling ContentStack component that allows editors to divide content into configurable rows within a page section. Each row can have its own styling and background, making it ideal for creating visual separation, stacked content layouts, and marketing sections with alternating themes.
 
 **Description:** A dynamic layout component that renders up to 8 rows based on configuration, with customizable styling for each row to create visual hierarchy and content organization.
 
@@ -8,8 +8,8 @@
 
 ## Component Details
 
-**Template Name:** JSON Rendering  
-**Item Path:** `/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Page Structure/Row Splitter`
+**Content Type:** Row Splitter  
+**Content Type UID:** `row_splitter`
 
 ## Advanced Layout Options
 

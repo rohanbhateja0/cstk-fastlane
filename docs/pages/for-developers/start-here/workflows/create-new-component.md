@@ -34,7 +34,7 @@ Complete workflow for creating new components from Figma designs with Sitecore i
 
 ## Step 3: Configure Sitecore Template (20 minutes)
 
-1. **Navigate to**: `/sitecore/templates/Feature/FastLane/Components/`
+1. **Navigate to**: ContentStack Content Types section
 2. **Create new template**: `{ComponentName}`
 3. **Add fields** identified in Step 1:
    - Right-click → Insert → Template Field
@@ -44,7 +44,7 @@ Complete workflow for creating new components from Figma designs with Sitecore i
 
 ## Step 4: Configure Sitecore Rendering (15 minutes)
 
-1. **Navigate to**: `/sitecore/layout/Renderings/Feature/FastLane/`
+1. **Navigate to**: ContentStack Components section
 2. **Create rendering definition**: `{ComponentName}`
 3. **Link to template** created in Step 3
 4. **Add rendering parameters** via Builder tab:

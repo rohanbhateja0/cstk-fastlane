@@ -5,6 +5,7 @@ import { CMSLink } from "@/core/atoms/Link";
 import { CMSImage } from "@/core/atoms/Image";
 import CTAButton from "./cta-button";
 import MegaNav from "./MegaNav";
+import Link from "next/link";
 
 export default async function Header() {
   
@@ -26,9 +27,9 @@ export default async function Header() {
                               
                               <div className="component image basis-full">
                                 <div className="component-content">
-                                  <a href="/">
+                                  <Link href="/">
                                   <CMSImage image={header.logo} alt="corporate_brand_logo" width="323" height="76" />
-                                  </a>
+                                  </Link>
                                 </div>
                               </div>
                               

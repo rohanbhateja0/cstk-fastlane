@@ -1,32 +1,32 @@
-# LinkList (SXA)
+# LinkList
 
-**LinkList -** The LinkList component is a flexible, highly customizable SXA (Sitecore Experience Accelerator) component that displays collections of links in various formats and layouts. It's designed to render lists of links with configurable styling, responsive behavior, and multiple display variants.
+**LinkList -** The LinkList component is a flexible, highly customizable ContentStack component that displays collections of links in various formats and layouts. It's designed to render lists of links with configurable styling, responsive behavior, and multiple display variants.
 
-**Description:** A dynamic link list component that renders collections of links from Sitecore's content with consistent formatting, performance optimization, and editing support for content managers.
+**Description:** A dynamic link list component that renders collections of links from ContentStack's content with consistent formatting, performance optimization, and editing support for content managers.
 
 **Functionality:** Dynamically renders link lists based on field configuration, supporting various list styles, optional link text and descriptions, and responsive design patterns.
 
 ## Component Details
 
-**Template Name:** Link List Folder
-**Item Path:** `/sitecore/templates/Feature/JSS Experience Accelerator/Navigation/Datasource/Link List`
+**Content Type:** Link List  
+**Content Type UID:** `link_list`
 
 ## Field Details
 
-| Field Name | Sitecore Field Type | Description | Required |
+| Field Name | ContentStack Field Type | Description | Required |
 | :-- | :-- | :-- | :-- |
-| Title | Single-Line Text | The display title for the link list | No |
+| Title | Text | The display title for the link list | No |
 
 
-**Child Item Template:** Link List Item
-**Item Path:** `/sitecore/templates/Feature/JSS Experience Accelerator/Navigation/Datasource/Link`
+**Child Content Type:** Link List Item  
+**Child Content Type UID:** `link_list_item`
 
 
-| Field Name | Sitecore Field Type | Description | Required |
+| Field Name | ContentStack Field Type | Description | Required |
 | :-- | :-- | :-- | :-- |
-| Link | General Link | The URL or Sitecore item to link to | Yes |
-| Title | Single-Line Text | The display text for the link | No |
-| Source | Single-Line Text | Data source for link (advanced use cases) | No |
+| Link | Link | The URL or ContentStack item to link to | Yes |
+| Title | Text | The display text for the link | No |
+| Source | Text | Data source for link (advanced use cases) | No |
 
 ## Advanced Display Options
 

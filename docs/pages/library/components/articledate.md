@@ -4,11 +4,11 @@
 
 ## Field Details
 
-**Template Name:** ArticleDate  
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/ArticleDate/ArticleDate`
+**Content Type:** ArticleDate  
+**Content Type UID:** `article_date`
 
-| Field Name | Sitecore Field Type | Description |
-|------------|-------------------|-------------|
+| Field Name | ContentStack Field Type | Description |
+|------------|------------------------|-------------|
 | PublishedDate | Date | Field to store the publication date |
 
 ## Screenshot

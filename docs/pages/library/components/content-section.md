@@ -4,17 +4,17 @@ The **Content Section** component is a flexible, layout-aware section component 
 
 ## Field Details
 
-**Template Name:** Content Section  
-**Item Path:** `/sitecore/templates/Feature/FastLane/Renderings/ContentSection/ContentSection`
+**Content Type:** Content Section  
+**Content Type UID:** `content_section`
 
-| Field Name | Sitecore Field Type | Description |
-|------------|-------------------|-------------|
-| Image | Image | The main visual/media used in the component |
-| Category | Single-Line Text | A small label typically shown above the title |
-| Title | Single-Line Text | The main heading text for the section |
+| Field Name | ContentStack Field Type | Description |
+|------------|------------------------|-------------|
+| Image | File | The main visual/media used in the component |
+| Category | Text | A small label typically shown above the title |
+| Title | Text | The main heading text for the section |
 | IntroText | Rich Text | A descriptive body or intro content |
-| CalltoActionLinkMain | General Link | Primary CTA button or link |
-| CalltoActionLinkSecondary | General Link | Secondary CTA for optional interaction |
+| CalltoActionLinkMain | Link | Primary CTA button or link |
+| CalltoActionLinkSecondary | Link | Secondary CTA for optional interaction |
 
 * * *
 

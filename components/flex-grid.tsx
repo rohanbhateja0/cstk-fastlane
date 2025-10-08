@@ -4,6 +4,13 @@ import { VB_EmptyBlockParentClass} from "@contentstack/live-preview-utils";
 import RenderComponents from './render-components';
 import { cn } from '@/core/lib/utils';
 
+// Helper function to get colspan class
+function getColspanClass(element: any){
+  const colspan = element.rendering_options?.colspan ?? ""; 
+  const colspanClass = colspan == "" || colspan == "1" ? "" : "col-span-" + colspan;
+  return colspanClass;
+}
+
 export default function FlexGrid(props: FlexGridProps) {
 
   const smallCols = props.flexGrid.column_settings.small_device_columns;
@@ -56,12 +63,36 @@ export default function FlexGrid(props: FlexGridProps) {
            data-add-direction="vertical"
         >
         <div className={`grid grid-cols-${smallCols} md:grid-cols-${mediumCols} lg:grid-cols-${largeCols} gap-4`}>
-            <RenderComponents
-            components={components}
-            page={props.page}
-            rendering={props.flexGrid}
-            $={props.flexGrid.components.$}
-            />
+            {components?.map((component, key: number) => {
+              // Determine the component type and get the appropriate element for colspan
+              let elementForColspan = null;
+              if (component.content_section) elementForColspan = component.content_section;
+              else if (component.content_card) elementForColspan = component.content_card;
+              else if (component.hero_banner) elementForColspan = component.hero_banner;
+              else if (component.image) elementForColspan = component.image;
+              else if (component.rich_text) elementForColspan = component.rich_text;
+              else if (component.accordion) elementForColspan = component.accordion;
+              else if (component.breadcrumb) elementForColspan = component.breadcrumb;
+              else if (component.carousel) elementForColspan = component.carousel;
+
+              return (
+                <div 
+                  key={`component-${key}`} 
+                  {...props.flexGrid.components?.$?.[`components__${key}`]} 
+                  className={getColspanClass(elementForColspan)}
+                >
+                  <RenderComponents
+                    components={[component]}
+                    page={props.page}
+                    rendering={props.flexGrid}
+                    $={props.flexGrid.components.$}
+                    contentTypeUid="page"
+                    entryUid={props.page.uid || ""}
+                    locale={props.page.locale || "en-us"}
+                  />
+                </div>
+              );
+            })}
         </div>
       </div>
       </div>

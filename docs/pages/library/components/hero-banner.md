@@ -4,7 +4,7 @@ A full-screen hero banner component with background image support, content align
 
 ## Figma Design Reference
 
-- **Design URL**: https://www.figma.com/design/M37xh0dT7qtPPiEDIRuA4X/XMC-Fastlane---Official-Altudo-Version?node-id=16847-18910&m=dev
+- **Design URL**: https://www.figma.com/design/M37xh0dT7qtPPiEDIRuA4X/Catalyst---Official-Altudo-Version?node-id=16847-18910&m=dev
 - **Component Name**: Content Section - With Image
 
 ## Features
@@ -109,12 +109,12 @@ The component uses semantic design tokens from the project's design system:
 - `text-primary-foreground` for button text
 - Overlay opacity classes: `bg-black/20`, `bg-black/40`, `bg-black/60`
 
-## Sitecore Integration
+## ContentStack Integration
 
-- Fully compatible with Sitecore Content SDK
+- Fully compatible with ContentStack SDK
 - Supports page mode detection (editing, preview, normal)
-- Uses `withDatasourceCheck()` for proper datasource validation
-- Integrates with Sitecore's styling system via `styles` parameter
+- Uses proper content validation for ContentStack entries
+- Integrates with ContentStack's styling system via `styles` parameter
 
 ## Component Variants
 

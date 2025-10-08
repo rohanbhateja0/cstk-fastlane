@@ -5,19 +5,19 @@ import { DocsThemeConfig } from 'nextra-theme-docs'
 const config: DocsThemeConfig = {
   logo: (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <img src="/logo_light.png" alt="FastLane" style={{ height: 32, marginRight: 8 }} />
-      <strong>FastLane Documentation</strong>
+      <img src="/catalyst.jpg" alt="Catalyst" style={{ height: 32, marginRight: 8 }} />
+      <strong>Catalyst Documentation</strong>
     </div>
   ),
   project: {
-    link: 'https://github.com/altudo-dev/xmc-fast-lane',
+    link: 'https://github.com/Altudo-Dev/contentstack-fast-lane',
   },
   /* chat: {
     link: 'https://discord.gg/sitecore', // Replace with your Discord
   }, */
-  docsRepositoryBase: 'https://github.com/altudo-dev/xmc-fast-lane/tree/develop/docs',
+  docsRepositoryBase: 'https://github.com/Altudo-Dev/contentstack-fast-lane/tree/dev/docs',
   footer: {
-    content: 'Built with ❤️ by Altudo for Sitecore XM Cloud',
+    content: 'Built with ❤️ by Altudo for ContentStack',
   },
     navbar: {
     extraContent: () => {
@@ -54,12 +54,12 @@ const config: DocsThemeConfig = {
   head: (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta property="og:title" content="FastLane Documentation" />
-      <meta property="og:description" content="Component and template library documentation for Sitecore XM Cloud" />
+      <meta property="og:title" content="Catalyst Documentation" />
+      <meta property="og:description" content="Component and template library documentation for ContentStack" />
       <link rel="icon" href="/favicon.ico" />
     </>
   ),
   // Note: primaryHue and primarySaturation removed - theming API changed in Nextra 3.x
 }
 
-export default config 
+export default config

@@ -11,7 +11,7 @@ Design Library mode is a special **Content SDK feature** that allows components 
 - **Variant Generation** - AI-powered component variant creation
 - **Quality Assurance** - Test components independently
 
-> **⚠️ Important**: Design Library mode (`page.mode.isDesignLibrary`) is completely separate from **SXA Partial Design templates** (`templateName === 'Partial Design'`). These are different concepts that serve different purposes.
+> **⚠️ Important**: Design Library mode (`page.mode.isDesignLibrary`) is completely separate from **ContentStack Partial Design templates** (`templateName === 'Partial Design'`). These are different concepts that serve different purposes.
 
 ## 🏗️ FastLane's Design Library Implementation
 
@@ -122,7 +122,7 @@ const MyComponent = (props) => {
 };
 ```
 
-**Note**: The Partial Design template logic in FastLane's Breadcrumb component is **SXA-specific** functionality for providing mock navigation data when components are used in SXA Partial Design templates. This is completely separate from Design Library mode.
+**Note**: The Partial Design template logic in FastLane's Breadcrumb component is **ContentStack-specific** functionality for providing mock navigation data when components are used in ContentStack Partial Design templates. This is completely separate from Design Library mode.
 
 ### 2. Meaningful Empty States
 
@@ -389,7 +389,7 @@ FastLane's Design Library integration provides a **seamless component showcase e
 - Replaces entire layout with `<DesignLibrary />` component
 - Used for component documentation and variant generation
 
-**SXA Partial Design Templates** (`templateName === 'Partial Design'`):
-- SXA-specific feature for template building
+**ContentStack Partial Design Templates** (`templateName === 'Partial Design'`):
+- ContentStack-specific feature for template building
 - Provides mock data for navigation and other contextual components
 - Completely separate from Design Library functionality 

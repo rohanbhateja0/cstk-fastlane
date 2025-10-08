@@ -13,7 +13,14 @@ const nextConfig = {
         CONTENTSTACK_API_HOST: process.env.CONTENTSTACK_API_HOST,
     },
      images: {
-        domains: ['images.contentstack.io'], // Add your image hostnames here
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'images.contentstack.io',
+            port: '',
+            pathname: '/**',
+          },
+        ],
       }
 };
 
