@@ -42,4 +42,4 @@ export const config = {
     '/((?!api/auth|auth|_next/static|_next/image|favicon.ico|logo_light.png|logo_dark.png).*)',
   ],
 }
-*/ 
+*/
