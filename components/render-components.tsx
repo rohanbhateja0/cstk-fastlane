@@ -35,6 +35,8 @@ export default function RenderComponents(props: RenderProps) {
       data-locale={locale}
     >
       {components?.map((component, key: number) => {
+
+        console.log('component', component);
          
         if (component.content_section) {
           return (
@@ -44,6 +46,7 @@ export default function RenderComponents(props: RenderProps) {
           );
         }
         if (component.content_card) {
+          console.log('inside content card');
           return (
              <div key={`component-${key}`} {...props.$?.[`components__${key}`]} className={getColspanClass(component.content_card)}>
             <ContentCard contentCard={component.content_card} page={props.page}  key={`component-${key}`} />

@@ -9,11 +9,22 @@
 - @{ComponentName}.tsx  (main wrapper)
 
 **New features to add:**
-1. [Feature 1 name and description]
-2. [Feature 2 name and description]  
-3. [Feature 3 name and description]
-4. [Additional features as needed]
+- [Feature 1 name and description]
+- [Feature 2 name and description]  
+- [Feature 3 name and description]
+- [Additional features as needed]
 
+**Updated or New Parameters:**
+- [Parameter 1: Type and description]
+- [Parameter 2: Type and description]
+- [Additional parameters as needed]
+
+**Updated or new Fields:**
+- [Field 1: Field type and description]
+- [Field 2: Field type and description] 
+- [Additional fields as needed]
+
+Verify that existing content is not broken by new changes.
 ---
 
 ## ENHANCEMENT TASK - READ FIRST

@@ -17,6 +17,10 @@ export type ContentCardRenderingOptions = {
     header_tag: string;
     link_type: string;
     colspan: string;
+    hide_image: boolean;
+    hide_border: boolean;
+    use_title_as_link_text: boolean;
+    swap_image: boolean;
     $: any;
 }
 

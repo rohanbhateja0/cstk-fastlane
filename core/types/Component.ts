@@ -16,4 +16,5 @@ export type Component = {
   accordion: AccordionFields;
   video: VideoFields;
   breadcrumb: BreadcrumbFields;
+  content_cards: ContentCardFields;
 }
