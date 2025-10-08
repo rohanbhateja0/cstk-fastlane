@@ -62,4 +62,4 @@ const config: DocsThemeConfig = {
   // Note: primaryHue and primarySaturation removed - theming API changed in Nextra 3.x
 }
 
-export default config 
+export default config

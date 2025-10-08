@@ -81,7 +81,7 @@ export default async function RootLayout({
         
         
       </head>
-      <body>
+      <body className={`${satoshi.variable} ${zodiak.variable}`}>
         <div className="fastlanewebsite">
           <Header />
           <main>

@@ -38,3 +38,5 @@ yarn-error.log*
 /dev-templatess
 dev-templates/claude--md-template.md
 CLAUDE.md
+docs/package-lock.json
+package-lock.json
