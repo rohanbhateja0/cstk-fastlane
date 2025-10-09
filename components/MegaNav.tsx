@@ -30,7 +30,7 @@ export default function MegaNav(props: MegaNavProps){
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <nav className="w-full" role="navigation" aria-label="Main menu">
-              <ul className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-none">
+              <ul className="inline-flex h-12 w-full items-center justify-start gap-2 rounded-none">
                 {props.items.map((menuItem) => {
                   const item = menuItem.menu_item;
                   const title = item.link.title;
@@ -41,7 +41,7 @@ export default function MegaNav(props: MegaNavProps){
                       <Link
                         href={href}
                         className={cn(
-                          'bg-background inline-flex h-full w-full items-center justify-center whitespace-nowrap px-4 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground rounded-md'
+                          'bg-transparent border-transparent inline-flex h-full w-full items-center justify-center whitespace-nowrap px-4 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground rounded-md'
                         )}
                       >
                         {title && (
@@ -59,7 +59,7 @@ export default function MegaNav(props: MegaNavProps){
 
           {/* Mobile Navigation */}
           <div className="md:hidden">
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center justify-between p-4 border-b border-transparent bg-transparent">
               <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
                   <Button
@@ -89,7 +89,7 @@ export default function MegaNav(props: MegaNavProps){
                           <Link
                             key={href}
                             href={href}
-                            className="flex items-center justify-start px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground rounded-md"
+                            className="flex items-center justify-start px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground rounded-md border-transparent bg-transparent"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             {title && <div>{title}</div>}
