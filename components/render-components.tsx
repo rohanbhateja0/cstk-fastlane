@@ -9,6 +9,7 @@ import HeroBanner from './HeroBanner';
 import Accordion from './Accordion';
 import Breadcrumb from './Breadcrumb';
 import Carousel from './Carousel';
+import UserList from './UserList';
 import { BaseComponent } from '@/core/types/components/BaseComponent';
 
 type RenderProps = BaseComponent & {
@@ -114,6 +115,16 @@ export default function RenderComponents(props: RenderProps) {
           return (
             <Carousel 
               carousel={component.carousel} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
+          );
+        }
+
+        if (component.user_list){
+          return (
+            <UserList 
+              userList={component.user_list} 
               page={props.page} 
               key={`component-${key}`}
             />
