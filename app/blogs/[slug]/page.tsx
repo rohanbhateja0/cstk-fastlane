@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { generateSlug } from '@/core/lib/utils';
 import RichText from '@/components/rich-text';
 import ImageComponent from '@/components/image';
+// import LivePreview from '@/components/LivePreview';
 import { onEntryChange } from '@/contentstack-sdk';
 import { GetContentCardBySlug } from '@/core/ContentQueries/GetContentCard';
 
@@ -70,6 +71,7 @@ export default function BlogDetailPage() {
   const [blogPost, setBlogPost] = useState<ContentCardModel | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const livePreviewSetup = useRef(false);
 
 
 
@@ -83,47 +85,7 @@ export default function BlogDetailPage() {
       if (blogPost) {
         setBlogPost(blogPost);
       } else {
-        // Fallback: create a mock blog post for testing
-        const fallbackPost: ContentCardModel = {
-          title: `Blog Post: ${slug}`,
-          content: {
-            title: `Blog Post: ${slug}`,
-            category: 'Test Category',
-            intro_text: `This is a fallback blog post for the slug: ${slug}. The actual ContentStack data was not found.`,
-            image: {
-              uid: 'fallback',
-              url: 'https://via.placeholder.com/600x400?text=Blog+Image',
-              filename: 'fallback-image.jpg',
-              title: 'Fallback Image',
-              description: 'Fallback image for testing',
-              height: 400,
-              width: 600
-            }
-          },
-          call_to_action: {
-            link: {
-              title: 'Read More',
-              href: '#'
-            },
-            secondary_link: {
-              title: 'Back to Blogs',
-              href: '/blogs'
-            }
-          },
-          rendering_options: {
-            card_orientation: 'Vertical',
-            link_type: 'Button',
-            hide_image: false,
-            hide_border: false,
-            use_title_as_link_text: false,
-            swap_image: false
-          },
-          uid: 'fallback',
-          locale: 'en-us',
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        };
-        setBlogPost(fallbackPost);
+        setError('Blog post not found');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -139,15 +101,15 @@ export default function BlogDetailPage() {
     }
   }, [slug]);
 
-  // Set up live preview (disabled to prevent loops)
-  // useEffect(() => {
-  //   if (blogPost) {
-  //     const unsubscribe = onEntryChange(() => fetchBlogPost());
-  //     return () => {
-  //       if (unsubscribe) unsubscribe();
-  //     };
-  //   }
-  // }, [blogPost]);
+  // Set up live preview - only once per component mount
+  useEffect(() => {
+    if (!livePreviewSetup.current) {
+      livePreviewSetup.current = true;
+      onEntryChange(() => {
+        fetchBlogPost();
+      });
+    }
+  }, [slug]);
 
   if (loading) {
     return (

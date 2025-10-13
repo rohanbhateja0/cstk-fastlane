@@ -1,7 +1,7 @@
 import Stack from "@/contentstack-sdk";
 import { addEditableTags } from "@contentstack/utils";
 
-const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true";
+const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true" || process.env.NODE_ENV === "development";
 
 export const GetContentCard = async (entryUid: string) => {
     const response = await Stack.getEntryByUid({
@@ -23,15 +23,21 @@ export const GetContentCardBySlug = async (slug: string) => {
             jsonRtePath: ["content.intro_text"],
         });
         
-        liveEdit && response[0].forEach((entry: any) => addEditableTags(entry, "content_card_model", true));
-        
-        // Find entry by slug
+        // Find entry by slug first
         const foundEntry = response[0].find((entry: any) => {
             const entrySlug = entry.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
             return entrySlug === slug;
         });
         
-        return foundEntry || null;
+        if (foundEntry) {
+            // Add live edit tags to the found entry
+            if (liveEdit) {
+                addEditableTags(foundEntry, "content_card_model", true);
+            }
+            return foundEntry;
+        }
+        
+        return null;
     } catch (error) {
         console.error('Error in GetContentCardBySlug:', error);
         return null;
