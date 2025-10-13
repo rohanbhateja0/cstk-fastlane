@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { UserListFields, User } from '@/core/types/components/UserList';
 import { BaseComponent } from '@/core/types/components/BaseComponent';
+import { generateSlug } from '@/core/lib/utils';
 
 type UserListProps = BaseComponent & {
   userList: UserListFields;
@@ -12,6 +14,7 @@ export default function UserList({ userList, page }: UserListProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
 
   const { content, rendering_options } = userList;
   const { title, description } = content;
@@ -56,7 +59,11 @@ export default function UserList({ userList, page }: UserListProps) {
   };
 
   const renderUserCard = (user: User) => (
-    <div key={user.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+    <Link 
+      key={user.id} 
+      href={`/providers/${generateSlug(user.name)}`}
+      className="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer"
+    >
       <div className="flex items-center mb-4">
         <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
           {user.name.charAt(0)}
@@ -81,10 +88,9 @@ export default function UserList({ userList, page }: UserListProps) {
         {show_contact && (
           <p className="text-sm text-gray-700">
             <span className="font-medium">Website:</span> 
-            <a href={`https://${user.website}`} target="_blank" rel="noopener noreferrer" 
-               className="text-blue-600 hover:text-blue-800 ml-1">
+            <span className="text-blue-600 ml-1">
               {user.website}
-            </a>
+            </span>
           </p>
         )}
         
@@ -107,11 +113,22 @@ export default function UserList({ userList, page }: UserListProps) {
           </div>
         )}
       </div>
-    </div>
+      
+      {/* View Details indicator */}
+      <div className="mt-4 pt-3 border-t border-gray-200">
+        <p className="text-sm text-blue-600 font-medium text-center">
+          View Details →
+        </p>
+      </div>
+    </Link>
   );
 
   const renderUserListItem = (user: User) => (
-    <div key={user.id} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
+    <Link 
+      key={user.id} 
+      href={`/providers/${generateSlug(user.name)}`}
+      className="block bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer"
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
@@ -122,14 +139,19 @@ export default function UserList({ userList, page }: UserListProps) {
             <p className="text-sm text-gray-600">@{user.username} • {user.email}</p>
           </div>
         </div>
-        {show_company && (
-          <div className="text-right">
-            <p className="text-sm font-medium text-gray-900">{user.company.name}</p>
-            <p className="text-xs text-gray-600">{user.phone}</p>
+        <div className="flex items-center">
+          {show_company && (
+            <div className="text-right mr-4">
+              <p className="text-sm font-medium text-gray-900">{user.company.name}</p>
+              <p className="text-xs text-gray-600">{user.phone}</p>
+            </div>
+          )}
+          <div className="text-blue-600 font-medium">
+            View Details →
           </div>
-        )}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 
   if (loading) {
