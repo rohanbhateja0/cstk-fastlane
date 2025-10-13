@@ -11,6 +11,7 @@ import Heading from '@/core/atoms/Heading';
 import NextLink from 'next/link';
 import { CMSLinkField } from '@/core/types/Fields';
 import { getContentCardRes } from '@/helper';
+import { generateSlug } from '@/core/lib/utils';
 
 export interface CardListingProps {
   cardListing: {
@@ -79,13 +80,19 @@ const CardListing = (props: CardListingProps): JSX.Element => {
           if (card.uid && card._content_type_uid === 'content_card_model') {
             try {
               const cardData = await getContentCardRes(card.uid);
-              return cardData[0]; // getContentCardRes returns an array, we need the first item
+              const fetchedCard = cardData[0]; // getContentCardRes returns an array, we need the first item
+              // Add the content type identifier to the fetched card
+              return {
+                ...fetchedCard,
+                _content_type_uid: 'content_card_model'
+              };
             } catch (error) {
               console.error('Error fetching card data for UID:', card.uid, error);
               // Return a placeholder card if fetching fails
               return {
                 uid: card.uid,
                 title: 'Card data unavailable',
+                _content_type_uid: 'content_card_model',
                 content: {
                   title: 'Card data unavailable',
                   category: '',
@@ -236,14 +243,14 @@ const CardListing = (props: CardListingProps): JSX.Element => {
                 {content.title}
               </Heading>
 
-              {content.intro_text && (
+              {/* {content.intro_text && (
                 <div 
                   className="mt-3 text-zinc-500 text-sm leading-5" 
                   {...(content?.$?.intro_text ?? {})}
                 >
                   {parse(content.intro_text)}
                 </div>
-              )}
+              )} */}
             </div>
 
             {(isHorizontal || isHorizontalFlex || !isVertical) && shouldRenderButton && (
@@ -263,11 +270,22 @@ const CardListing = (props: CardListingProps): JSX.Element => {
     );
 
     const linkField = call_to_action.link as CMSLinkField | undefined;
+    
+    // For Content Card Model entries, always link to blog detail page
+    const blogDetailUrl = `/blogs/${generateSlug(card.title)}`;
+    
+    // Determine if this should be a clickable card
+    const shouldBeClickable = LinkType === 'Card' && linkField?.href;
+    const isContentCardModel = card._content_type_uid === 'content_card_model';
 
     return (
       <div key={`card-${index}`} {...(card.$ ?? {})}>
-        {LinkType === 'Card' && linkField?.href ? (
-          <NextLink href={linkField.href} className="block">
+        {shouldBeClickable ? (
+          <NextLink href={linkField!.href} className="block">
+            {cardContent}
+          </NextLink>
+        ) : isContentCardModel ? (
+          <NextLink href={blogDetailUrl} className="block hover:shadow-lg transition-shadow duration-300">
             {cardContent}
           </NextLink>
         ) : (
