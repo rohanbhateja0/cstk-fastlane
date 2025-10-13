@@ -6,6 +6,8 @@ import { ContentSectionFields } from "./components/ContentSection";
 import { FlexGridFields } from "./components/FlexGrid";
 import { HeroBannerFields } from "./components/HeroBanner";
 import { ImageFields, RichTextFields, VideoFields } from "./components/SimpleTypes";
+import { UserListFields } from "./components/UserList";
+import { CardListingFields } from "./components/CardListing";
 
 export type Component = {
   rich_text: RichTextFields;
@@ -22,4 +24,6 @@ export type Component = {
     _metadata?: any;
     $: any;
   };
+  user_list: UserListFields;
+  card_listing: CardListingFields;
 }
