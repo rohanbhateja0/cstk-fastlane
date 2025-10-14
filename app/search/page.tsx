@@ -285,10 +285,11 @@ function ResultsPerPageSelector() {
       <span className="text-sm text-gray-600">Show:</span>
       <HitsPerPage
         items={[
-          { label: '5 per page', value: 5, default: true },
-          { label: '10 per page', value: 10 },
-          { label: '20 per page', value: 20 },
-          { label: '50 per page', value: 50 }
+          { label: '6 per page', value: 6, default: true },
+          { label: '12 per page', value: 12 },
+          { label: '18 per page', value: 18 },
+          { label: '24 per page', value: 24 },
+          { label: '30 per page', value: 30 }
         ]}
         classNames={{
           root: 'flex items-center space-x-2',

@@ -17,7 +17,7 @@ export const INDEX_NAME = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'dev_con
 
 // Search configuration
 export const searchConfig = {
-  hitsPerPage: 5, // Default, can be changed by HitsPerPage component
+  hitsPerPage: 6, // Default, can be changed by HitsPerPage component
   attributesToRetrieve: [
     'title',
     'content',
