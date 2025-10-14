@@ -1,0 +1,424 @@
+{
+  "title": "Content Card Model",
+  "uid": "content_card_model",
+  "schema": [
+    {
+      "data_type": "text",
+      "display_name": "Title",
+      "field_metadata": {
+        "_default": true,
+        "version": 3
+      },
+      "mandatory": true,
+      "uid": "title",
+      "unique": true,
+      "multiple": false,
+      "non_localizable": false
+    },
+    {
+      "data_type": "group",
+      "display_name": "Content",
+      "field_metadata": {
+        "description": "",
+        "instruction": ""
+      },
+      "schema": [
+        {
+          "data_type": "text",
+          "display_name": "Title",
+          "uid": "title",
+          "field_metadata": {
+            "description": "",
+            "default_value": ""
+          },
+          "format": "",
+          "error_messages": {
+            "format": ""
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "text",
+          "display_name": "Category",
+          "uid": "category",
+          "field_metadata": {
+            "description": "",
+            "default_value": ""
+          },
+          "format": "",
+          "error_messages": {
+            "format": ""
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "text",
+          "display_name": "Intro Text",
+          "uid": "intro_text",
+          "field_metadata": {
+            "allow_rich_text": true,
+            "description": "",
+            "multiline": false,
+            "rich_text_type": "advanced",
+            "options": [],
+            "version": 3
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "file",
+          "display_name": "Image",
+          "uid": "image",
+          "field_metadata": {
+            "description": "",
+            "rich_text_type": "standard",
+            "image": true
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false,
+          "dimension": {
+            "width": {
+              "min": null,
+              "max": null
+            },
+            "height": {
+              "min": null,
+              "max": null
+            }
+          }
+        },
+        {
+          "data_type": "file",
+          "display_name": "Icon",
+          "uid": "icon",
+          "field_metadata": {
+            "description": "",
+            "rich_text_type": "standard",
+            "image": true
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false,
+          "dimension": {
+            "width": {
+              "min": null,
+              "max": null
+            },
+            "height": {
+              "min": null,
+              "max": null
+            }
+          }
+        }
+      ],
+      "uid": "content",
+      "mandatory": false,
+      "multiple": false,
+      "non_localizable": false,
+      "unique": false
+    },
+    {
+      "data_type": "group",
+      "display_name": "Call to Action",
+      "field_metadata": {
+        "description": "",
+        "instruction": ""
+      },
+      "schema": [
+        {
+          "data_type": "link",
+          "display_name": "Link",
+          "uid": "link",
+          "field_metadata": {
+            "description": "",
+            "default_value": {
+              "title": "",
+              "url": ""
+            }
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "link",
+          "display_name": "Secondary Link",
+          "uid": "secondary_link",
+          "field_metadata": {
+            "description": "",
+            "default_value": {
+              "title": "",
+              "url": ""
+            }
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false
+        }
+      ],
+      "uid": "call_to_action",
+      "mandatory": false,
+      "multiple": false,
+      "non_localizable": false,
+      "unique": false
+    },
+    {
+      "data_type": "group",
+      "display_name": "Rendering Options",
+      "field_metadata": {
+        "description": "",
+        "instruction": ""
+      },
+      "schema": [
+        {
+          "data_type": "text",
+          "display_name": "Card Orientation",
+          "display_type": "dropdown",
+          "enum": {
+            "advanced": false,
+            "choices": [
+              {
+                "value": "Horizontal Equal"
+              },
+              {
+                "value": "Horizontal Flex"
+              },
+              {
+                "value": "Vertical"
+              },
+              {
+                "value": "Vertical Wide"
+              }
+            ]
+          },
+          "multiple": false,
+          "uid": "card_orientation",
+          "field_metadata": {
+            "description": "",
+            "default_value": "Horizontal Equal"
+          },
+          "mandatory": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "text",
+          "display_name": "Image Order",
+          "display_type": "dropdown",
+          "enum": {
+            "advanced": false,
+            "choices": [
+              {
+                "value": "left"
+              },
+              {
+                "value": "right"
+              }
+            ]
+          },
+          "multiple": false,
+          "uid": "image_order",
+          "field_metadata": {
+            "description": "",
+            "default_value": "left"
+          },
+          "mandatory": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "text",
+          "display_name": "Header Tag",
+          "display_type": "dropdown",
+          "enum": {
+            "advanced": false,
+            "choices": [
+              {
+                "value": "H1"
+              },
+              {
+                "value": "H2"
+              },
+              {
+                "value": "H3"
+              },
+              {
+                "value": "H4"
+              },
+              {
+                "value": "H5"
+              },
+              {
+                "value": "H6"
+              }
+            ]
+          },
+          "multiple": false,
+          "uid": "header_tag",
+          "field_metadata": {
+            "description": "",
+            "default_value": "H3"
+          },
+          "mandatory": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "text",
+          "display_name": "Link Type",
+          "display_type": "dropdown",
+          "enum": {
+            "advanced": false,
+            "choices": [
+              {
+                "value": "Button"
+              },
+              {
+                "value": "Card"
+              },
+              {
+                "value": "Link"
+              }
+            ]
+          },
+          "multiple": false,
+          "uid": "link_type",
+          "field_metadata": {
+            "description": "",
+            "default_value": "Button"
+          },
+          "mandatory": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "text",
+          "display_name": "Colspan",
+          "display_type": "dropdown",
+          "enum": {
+            "advanced": false,
+            "choices": [
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "7"
+              },
+              {
+                "value": "8"
+              },
+              {
+                "value": "9"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "11"
+              }
+            ]
+          },
+          "multiple": false,
+          "uid": "colspan",
+          "field_metadata": {
+            "description": "",
+            "default_value": ""
+          },
+          "mandatory": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "boolean",
+          "display_name": "Hide Image",
+          "uid": "hide_image",
+          "field_metadata": {
+            "description": "",
+            "default_value": false
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "boolean",
+          "display_name": "Hide Border",
+          "uid": "hide_border",
+          "field_metadata": {
+            "description": "",
+            "default_value": false
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "boolean",
+          "display_name": "Use Title As Link Text",
+          "uid": "use_title_as_link_text",
+          "field_metadata": {
+            "description": "",
+            "default_value": false
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false
+        },
+        {
+          "data_type": "boolean",
+          "display_name": "Swap Image",
+          "uid": "swap_image",
+          "field_metadata": {
+            "description": "",
+            "default_value": false
+          },
+          "mandatory": false,
+          "multiple": false,
+          "non_localizable": false,
+          "unique": false
+        }
+      ],
+      "uid": "rendering_options",
+      "mandatory": false,
+      "multiple": false,
+      "non_localizable": false,
+      "unique": false
+    }
+  ],
+  "description": "A content type for individual content cards that can be used in card listings and other components. Based on the content_card global field structure with additional rendering options.",
+  "options": {
+    "is_page": false,
+    "singleton": false,
+    "sub_title": [],
+    "title": "title"
+  }
+}

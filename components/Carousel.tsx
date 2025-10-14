@@ -97,12 +97,12 @@ export default function Carousel({ carousel, page }: CarouselProps) {
 
   return (
     <div 
-      className="carousel-container relative w-full bg-sky-900"
+      className="carousel-container relative w-full bg-sky-900 min-h-[400px]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Carousel Wrapper */}
-      <div className="carousel-wrapper relative overflow-hidden">
+      <div className="carousel-wrapper relative overflow-hidden min-h-[400px]">
         {/* Slides Container */}
         <div 
           className="carousel-slides flex transition-transform duration-500 ease-in-out"
@@ -111,12 +111,12 @@ export default function Carousel({ carousel, page }: CarouselProps) {
           {slides.map((slide, index) => (
             <div 
               key={index} 
-              className="carousel-slide w-full flex-shrink-0"
+              className="carousel-slide w-full flex-shrink-0 min-h-[400px]"
             >
-              <div className="slide-content relative">
+              <div className="slide-content relative min-h-[400px] bg-sky-900">
                 {/* Slide Image */}
                 {slide.image && (
-                  <div className="slide-image">
+                  <div className="slide-image absolute inset-0">
                     <ImageComponent 
                       image={{ image: slide.image, rendering_options: { colspan: "1" } }} 
                       page={page}
@@ -125,7 +125,7 @@ export default function Carousel({ carousel, page }: CarouselProps) {
                 )}
 
                 {/* Slide Content - Centered like Figma design */}
-                <div className="slide-content absolute inset-0 flex items-center justify-center">
+                <div className="slide-content absolute inset-0 flex items-center justify-center z-10">
                   <div className="slide-text text-white text-center flex flex-col gap-4 items-center max-w-2xl">
                     {slide.tag && (
                       <div 

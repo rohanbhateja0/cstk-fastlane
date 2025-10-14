@@ -174,6 +174,18 @@ export const getCarouselRes = async (carouselUid) => {
     return response;
 };
 
+export const getContentCardRes = async (cardUid) => {
+    const response = await Stack.getEntryByUid({
+        contentTypeUid: "content_card_model",
+        entryUid: cardUid,
+        referenceFieldPath: [],
+        jsonRtePath: ["content.intro_text"],
+    });
+    
+    liveEdit && addEditableTags(response, "content_card_model", true);
+    return response;
+};
+
 export const metaData = (seo) => {
     const metaArr = [];
     for (const key in seo) {
