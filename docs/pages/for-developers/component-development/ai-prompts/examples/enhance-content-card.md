@@ -33,45 +33,26 @@ Whenever new props/fields are added:
    - `UseTitleAsLinkText` → `use_title_as_link_text` (Boolean)
    - `SwapImage` → `swap_image` (Boolean)
 
-2. **Use the helper function `syncContentTypeOrGlobalField` from `lib/syncContentTypeOrGlobalField.ts`**.  
-   This helper automatically:
-   - Updates the Content Type if it exists
-   - Falls back to updating the corresponding Global Field if the Content Type does not exist
-   - Creates a new Content Type if neither exists
+2. Start ContentStack MCP server (PowerShell example):
 
-3. Prefilled schema & options:
+$env:CONTENTSTACK_API_KEY="your_api_key_here"
+$env:CONTENTSTACK_MANAGEMENT_TOKEN="your_management_token_here"
+$env:CONTENTSTACK_DELIVERY_TOKEN="your_delivery_token_here"
+npx -y @contentstack/mcp
 
-```ts
-import { syncContentTypeOrGlobalField } from '@/lib/syncContentTypeOrGlobalField';
+3. Confirm Content Type UID
+Verify the content type you want to update exists:
+UID: content_card
+Check this through the MCP server call get_a_single_content_type or get_a_single_global_field
 
-const schema = [
-  { display_name: "Title", uid: "title", data_type: "text", mandatory: true },
-  { display_name: "Category", uid: "category", data_type: "text" },
-  { display_name: "IntroText", uid: "intro_text", data_type: "rich_text" },
-  { display_name: "Icon", uid: "icon", data_type: "file" },
-  { display_name: "Image", uid: "image", data_type: "file" },
-  { display_name: "CalltoActionLinkMain", uid: "cta_main", data_type: "link" },
-  { display_name: "CalltoActionLinkSecondary", uid: "cta_secondary", data_type: "link" },
-  // New fields for this enhancement
-  { display_name: "Hide Image", uid: "hide_image", data_type: "boolean", field_metadata: { default_value: false } },
-  { display_name: "Hide Border", uid: "hide_border", data_type: "boolean", field_metadata: { default_value: false } },
-  { display_name: "Use Title As Link Text", uid: "use_title_as_link_text", data_type: "boolean", field_metadata: { default_value: false } },
-  { display_name: "Swap Image", uid: "swap_image", data_type: "boolean", field_metadata: { default_value: false } },
-];
+4. Validate that the new fields appear in Contentstack UI and the component renders correctly based on the response of the above MCP server calls.
 
-const options = {
-  title: "title",
-  publishable: true,
-  is_page: false,
-  singleton: false
-};
+5. Integrate in enhance_content_card Prompt
+Detect if Content Type exists using above MCP server calls
+Else, generate a scheme to update the global field through API using the route /api/contentstack and pass appropriate parameters and schema.
+Preserve existing fields.
 
-// Apply the Contentstack update
-await syncContentTypeOrGlobalField("content_card", schema, options);
-4. Ensure that existing content entries are preserved and not broken.
-
-5. Validate that the new fields appear in Contentstack UI and the component renders correctly.
-
+6. Verify the updated global field via MCP commands in Cursor.
 
 PRESERVE all existing functionality while adding these enhancements.
 

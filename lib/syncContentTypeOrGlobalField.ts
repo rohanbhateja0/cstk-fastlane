@@ -110,25 +110,21 @@ export async function syncContentTypeOrGlobalField(
   options?: any,
   globalFieldFallback: boolean = true
 ) {
-    console.log('Reaching the sync call', uid, schema, options, globalFieldFallback);
   const existingCT = await getContentType(uid);
-  console.log('existingCT', existingCT);
+  console.log('existing Content Type', existingCT);
   if (existingCT) {
     console.log(`Updating Content Type: ${uid}`);
     return updateContentType(uid, schema, options);
   }
-
   if (globalFieldFallback) {
     console.log('Updating Global Field');
     const existingGF = await getGlobalField(uid);
     console.log('existingGF', existingGF);
     if (existingGF) {
-      console.log(`Content Type not found. Updating Global Field: ${uid}`, schema);
+      console.log(`Content Type not found. Updating Global Field: ${uid}`);
       return updateGlobalField(uid, schema, uid);
     }
   }
-
   console.log(`Content Type not found. Creating new Content Type: ${uid}`);
-  console.log('Creating new Content Type');
   return createContentType(uid, schema, options);
 }

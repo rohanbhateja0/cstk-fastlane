@@ -5,6 +5,7 @@ import { ContentCardFields } from "./components/ContentCard";
 import { ContentSectionFields } from "./components/ContentSection";
 import { FlexGridFields } from "./components/FlexGrid";
 import { HeroBannerFields } from "./components/HeroBanner";
+import { NewsSectionFields } from "./components/NewsSection";
 import { ImageFields, RichTextFields, VideoFields } from "./components/SimpleTypes";
 
 export type Component = {
@@ -14,6 +15,7 @@ export type Component = {
   flex_grid: FlexGridFields;
   content_card: ContentCardFields;
   hero_banner: HeroBannerFields;
+  news_section: NewsSectionFields;
   accordion: AccordionFields;
   video: VideoFields;
   breadcrumb: BreadcrumbFields;

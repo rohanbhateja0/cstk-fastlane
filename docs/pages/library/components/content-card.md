@@ -33,6 +33,10 @@ The ContentCard component supports four distinct visual variants based on Figma 
 | Image | File | An image to visually represent the card content (16:9 aspect ratio) |
 | CalltoActionLinkMain | Link | Primary call-to-action link |
 | CalltoActionLinkSecondary | Link | Secondary call-to-action link |
+| HideImage | Boolean | Controls whether the card image is displayed |
+| HideBorder | Boolean | Controls whether the card border is displayed |
+| UseTitleAsLinkText | Boolean | Makes the title clickable as a link |
+| SwapImage | Boolean | Swaps image and content positions in vertical layouts |
 
 ## Advanced Styling Options
 
@@ -44,6 +48,7 @@ The ContentCard component supports four distinct visual variants based on Figma 
 | Option | Description | Use Case |
 |--------|-------------|----------|
 | vertical | Image and text stack vertically | Standard content cards, feature highlights |
+| verticalwide | Image and text stack vertically with wider layout | Enhanced vertical cards with more space |
 | horizontalflex | Image occupies 30% of the card width, and text occupies 70% | Content with supporting imagery |
 | horizontalequal | Image and text split the card width equally (50% - 50%) | Balanced content presentation |
 
@@ -94,6 +99,27 @@ The ContentCard component supports four distinct visual variants based on Figma 
 
 * screenshot:
     ![screenshot](/images/components/component-content-card-link-type.png "screenshot")
+
+### 5. Visibility and Layout Controls
+
+**Rendering Parameters:** `HideImage`, `HideBorder`, `UseTitleAsLinkText`, `SwapImage`  
+**Description:** Advanced controls for customizing card appearance and behavior.
+
+| Parameter | Type | Description | Default |
+|-----------|------|-------------|---------|
+| HideImage | Boolean | Hides the card image completely | false |
+| HideBorder | Boolean | Removes the card border outline | false |
+| UseTitleAsLinkText | Boolean | Makes the title clickable as a link | false |
+| SwapImage | Boolean | Swaps image and content positions in vertical layouts | false |
+
+**Use Cases:**
+- **HideImage**: Text-only cards, icon-only layouts, minimalist designs
+- **HideBorder**: Seamless integration with background, modern flat designs
+- **UseTitleAsLinkText**: Enhanced accessibility, cleaner link presentation
+- **SwapImage**: Creative layouts, emphasis on content over imagery
+
+* screenshot:
+    ![screenshot](/images/components/component-content-card-visibility-controls.png "screenshot")
 
 
 ## Button Behavior and Styling
