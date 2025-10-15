@@ -40,11 +40,17 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
   const contentOrderClass = image_order === 'right' ? 'order-1' : 'order-2';
 
   return (
-    <div className="bg-white border border-zinc-300 rounded-lg overflow-hidden">
+    <div 
+      className="bg-white border border-zinc-300 rounded-lg overflow-hidden"
+      {...(newsItem.$ ?? {})}
+    >
       <div className="flex gap-6 p-6">
         {/* Image Section */}
         {image?.url ? (
-          <div className={`relative w-[314px] h-[177px] rounded-md overflow-hidden flex-shrink-0 ${imageOrderClass}`}>
+          <div 
+            className={`relative w-[314px] h-[177px] rounded-md overflow-hidden flex-shrink-0 ${imageOrderClass}`}
+            {...(newsItem.$?.image ?? {})}
+          >
             <Image
               src={image.url}
               alt={image.filename || title || 'News image'}
@@ -71,20 +77,29 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
             {/* Category/Earmark */}
             {category && (
               <div className="flex items-center">
-                <p className="font-['Satoshi'] font-medium text-sm leading-5 text-zinc-900">
+                <p 
+                  className="font-['Satoshi'] font-medium text-sm leading-5 text-zinc-900"
+                  {...(newsItem.$?.category ?? {})}
+                >
                   {category}
                 </p>
               </div>
             )}
             
             {/* Title */}
-            <HeaderTag className="font-['Satoshi'] font-bold text-2xl leading-none text-zinc-950 tracking-[-0.4px]">
+            <HeaderTag 
+              className="font-['Satoshi'] font-bold text-2xl leading-none text-zinc-950 tracking-[-0.4px]"
+              {...(newsItem.$?.title ?? {})}
+            >
               {title}
             </HeaderTag>
             
             {/* Description */}
             {description && (
-              <p className="font-['Satoshi'] font-normal text-base leading-6 text-zinc-500">
+              <p 
+                className="font-['Satoshi'] font-normal text-base leading-6 text-zinc-500"
+                {...(newsItem.$?.description ?? {})}
+              >
                 {description}
               </p>
             )}
@@ -96,6 +111,7 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
               <a 
                 href={linkField.href}
                 className="bg-white border border-zinc-200 rounded-md px-3 py-2 h-9 flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors"
+                {...(newsItem.call_to_action?.$?.link ?? {})}
               >
                 <div className="flex flex-col font-['Satoshi'] font-medium text-sm leading-5 text-zinc-900 whitespace-nowrap">
                   <p className="leading-5">{linkField.title || 'Read the Article'}</p>
