@@ -38,27 +38,7 @@ export default async function Header() {
                         
                         <div className="basis-1/2 lg:basis-3/4 md:basis-3/4 px-2">
                           <div className="row">
-                            
-                            {/* Search Link */}
-                            <div className="basis-full mb-2">
-                              <Link 
-                                href="/search" 
-                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
-                              >
-                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                Search
-                              </Link>
-                            </div>
-                            
-                            {header.top_links.map((item, index) => { 
-                              return(
-                              <div className="basis-full " key={`component-${index}`}>
-                                <CTAButton button={item.link}  />                         
-                              </div>)
-                            })}
-                            
+                            {/* Empty space for logo alignment */}
                           </div>
                         </div>
                         
@@ -68,8 +48,38 @@ export default async function Header() {
                   <div className="container-fluid">
                     <div>
                       <div className="row">
-                        <div className="w-full basis-full  mega-nav-container relative">
-                            <MegaNav items={header.mega_menu} />
+                        <div className="w-full basis-full mega-nav-container relative">
+                            {/* Desktop Layout */}
+                            <div className="hidden md:flex items-center justify-between w-full">
+                              <MegaNav items={header.mega_menu} />
+                              
+                              {/* Top Links - Desktop */}
+                              <div className="flex items-center space-x-4">
+                                {header.top_links.map((item, index) => { 
+                                  return(
+                                  <div key={`top-link-desktop-${index}`} className="flex-shrink-0">
+                                    <CTAButton button={item.link}  />                         
+                                  </div>)
+                                })}
+                              </div>
+                            </div>
+
+                            {/* Mobile Layout */}
+                            <div className="md:hidden">
+                              <div className="flex items-center justify-between w-full">
+                                <MegaNav items={header.mega_menu} />
+                                
+                                {/* Top Links - Mobile */}
+                                <div className="flex items-center space-x-2">
+                                  {header.top_links.map((item, index) => { 
+                                    return(
+                                    <div key={`top-link-mobile-${index}`} className="flex-shrink-0">
+                                      <CTAButton button={item.link}  />                         
+                                    </div>)
+                                  })}
+                                </div>
+                              </div>
+                            </div>
                         </div>
                       </div>
                   </div>
