@@ -4,6 +4,8 @@ import { FlexGridFields } from "./components/FlexGrid";
 import { CustomButtonFields } from "./components/CustomButton";
 import { ContentCardFields } from "./components/ContentCard";
 import { HeroBannerFields } from "./components/HeroBanner";
+import { NewsSectionFields } from "./components/NewsSection";
+import { NewsBannerFields } from "./components/NewsBanner";
 import { AccordionFields } from "./components/Accordion";
 import { BreadcrumbFields } from "./components/Breadcrumb";
 import { BaseComponent } from "./components/BaseComponent";
@@ -44,6 +46,14 @@ export type BreadcrumbProps = BaseComponent & {
 
 export type HeroBannerProps = BaseComponent & {
   heroBanner: HeroBannerFields;
+}
+
+export type NewsSectionProps = BaseComponent & {
+  newsSection: NewsSectionFields;
+}
+
+export type NewsBannerProps = BaseComponent & {
+  newsBanner: NewsBannerFields;
 }
 
 export type VideoProps = BaseComponent & {

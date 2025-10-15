@@ -174,6 +174,30 @@ export const getCarouselRes = async (carouselUid) => {
     return response;
 };
 
+export const getNewsBannerRes = async (newsBannerUid) => {
+    const response = await Stack.getEntryByUid({
+        contentTypeUid: "news_banner",
+        entryUid: newsBannerUid,
+        referenceFieldPath: [],
+        jsonRtePath: ["content.detail_text"],
+    });
+    
+    liveEdit && addEditableTags(response, "news_banner", true);
+    return response;
+};
+
+export const getNewsSectionRes = async (newsSectionUid) => {
+    const response = await Stack.getEntryByUid({
+        contentTypeUid: "news_section",
+        entryUid: newsSectionUid,
+        referenceFieldPath: [],
+        jsonRtePath: [],
+    });
+    
+    liveEdit && addEditableTags(response, "news_section", true);
+    return response;
+};
+
 export const getContentCardRes = async (cardUid) => {
     const response = await Stack.getEntryByUid({
         contentTypeUid: "content_card_model",

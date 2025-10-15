@@ -16,6 +16,7 @@ CRITICAL: For each Figma URL, execute the figma mcp server tool get_code
  
 Files to analyze:
 - @ContentCard.tsx  (main wrapper)
+- Any sub-components used by ContentCard
  
 New features to add:
 1. verticalwide orientation option
@@ -23,6 +24,35 @@ New features to add:
 3. HideBorder boolean parameter
 4. UseTitleAsLinkText parameter
 5. SwapImage parameter
+
+## CONTENTSTACK INTEGRATION
+Whenever new props/fields are added:
+1. Map each new prop to a Contentstack field:
+   - `HideImage` → `hide_image` (Boolean)
+   - `HideBorder` → `hide_border` (Boolean)
+   - `UseTitleAsLinkText` → `use_title_as_link_text` (Boolean)
+   - `SwapImage` → `swap_image` (Boolean)
+
+2. Start ContentStack MCP server (PowerShell example):
+
+$env:CONTENTSTACK_API_KEY="your_api_key_here"
+$env:CONTENTSTACK_MANAGEMENT_TOKEN="your_management_token_here"
+$env:CONTENTSTACK_DELIVERY_TOKEN="your_delivery_token_here"
+npx -y @contentstack/mcp
+
+3. Confirm Content Type UID
+Verify the content type you want to update exists:
+UID: content_card
+Check this through the MCP server call get_a_single_content_type or get_a_single_global_field
+
+4. Validate that the new fields appear in Contentstack UI and the component renders correctly based on the response of the above MCP server calls.
+
+5. Integrate in enhance_content_card Prompt
+Detect if Content Type exists using above MCP server calls
+Else, generate a scheme to update the global field through API using the route /api/contentstack and pass appropriate parameters and schema.
+Preserve existing fields.
+
+6. Verify the updated global field via MCP commands in Cursor.
 
 PRESERVE all existing functionality while adding these enhancements.
 
@@ -47,7 +77,7 @@ The key aspects of this enhancement:
 ## Implementation Notes
 
 This enhancement required:
-1. **Sitecore Changes**: Added new parameters to rendering definition
+1. **ContentStack Changes**: Added new parameters to rendering definition
 2. **Type Updates**: Extended interfaces for new parameters 
 3. **Logic Integration**: Added new conditional logic alongside existing patterns
 4. **Component Discovery**: AI automatically found and updated CardItem.tsx and ContentCardBtn.tsx

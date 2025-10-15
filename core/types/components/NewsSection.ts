@@ -1,18 +1,7 @@
 import { CMSImageField, CMSLinkField } from "../Fields";
-
 import { CTAFields } from "./SimpleTypes";
 
-export type ContentCardContent = {
-    title: string;
-    category: string;
-    intro_text: string;
-    image: CMSImageField;
-    icon: CMSImageField;
-    $: any;
-}
-
-export type ContentCardRenderingOptions = {
-    card_orientation: string;
+export type NewsSectionRenderingOptions = {
     image_order: string;
     header_tag: string;
     link_type: string;
@@ -24,9 +13,12 @@ export type ContentCardRenderingOptions = {
     $: any;
 }
 
-export type ContentCardFields = {
-    content: ContentCardContent;
-    rendering_options: ContentCardRenderingOptions;
+export type NewsSectionFields = {
+    title: string;              // Default title field
+    category: string;
+    description: string;
+    image: CMSImageField;
     call_to_action: CTAFields;
+    rendering_options: NewsSectionRenderingOptions;
     $: any;
 }

@@ -21,6 +21,8 @@ export default function ContentCard(props: ContentCardProps) {
 
   return (
     <div {...(props.contentCard.call_to_action.$.link ?? {} )}>
+      { console.log('contentCard', contentCard) }
+      { console.log('linkField', linkField) }
       {contentCard.rendering_options.link_type === 'Card' && linkField?.href ? (
         <NextLink href={linkField?.href}>{card}</NextLink>
       ) : (
