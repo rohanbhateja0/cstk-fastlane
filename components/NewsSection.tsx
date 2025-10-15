@@ -4,7 +4,7 @@ import NextLink from 'next/link';
 import Image from 'next/image';
 import { NewsSectionProps } from '@/core/types/Props';
 import { CMSLinkField } from '@/core/types/Fields';
-import { RichText } from './rich-text';
+import RichText from './rich-text';
 import { getNewsSectionRes } from '@/helper';
 
 // Arrow Right Icon Component

@@ -20,5 +20,9 @@ export type NewsSectionFields = {
     image: CMSImageField;
     call_to_action: CTAFields;
     rendering_options: NewsSectionRenderingOptions;
+    news_sections?: Array<{
+        uid: string;
+        _content_type_uid?: string;
+    }>;
     $: any;
 }
