@@ -6,6 +6,8 @@ import RichText from './rich-text';
 import FlexGrid from './flex-grid';
 import ContentCard from './ContentCard';
 import HeroBanner from './HeroBanner';
+import NewsSection from './NewsSection';
+import NewsBanner from './NewsBanner';
 import Accordion from './Accordion';
 import Breadcrumb from './Breadcrumb';
 import Carousel from './Carousel';
@@ -139,6 +141,26 @@ export default function RenderComponents(props: RenderProps) {
           return (
             <CardListing 
               cardListing={component.card_listing} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
+          );
+        }
+
+        if (component.news_section){
+          return (
+            <NewsSection 
+              newsSection={component.news_section} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
+          );
+        }
+
+        if (component.news_banner){
+          return (
+            <NewsBanner 
+              newsBanner={component.news_banner} 
               page={props.page} 
               key={`component-${key}`}
             />

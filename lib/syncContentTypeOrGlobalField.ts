@@ -22,8 +22,16 @@ async function getContentType(uid: string) {
   return res.json();
 }
 
-async function createContentType(uid: string, schema: any, options: any) {
-  const body = { content_type: { title: uid, uid, schema, options } };
+async function createContentType(uid: string, schema: any, options: any, title?: string, description?: string) {
+  const body = { 
+    content_type: { 
+      title: title || uid, 
+      uid, 
+      schema, 
+      options,
+      ...(description && { description })
+    } 
+  };
 
   const res = await fetch(`${BASE_URL}/v3/content_types`, {
     method: "POST",
@@ -43,8 +51,16 @@ async function createContentType(uid: string, schema: any, options: any) {
   return res.json();
 }
 
-async function updateContentType(uid: string, schema: any, options: any) {
-  const body = { content_type: { title: uid, uid, schema, options } };
+async function updateContentType(uid: string, schema: any, options: any, title?: string, description?: string) {
+  const body = { 
+    content_type: { 
+      title: title || uid, 
+      uid, 
+      schema, 
+      options,
+      ...(description && { description })
+    } 
+  };
 
   const res = await fetch(`${BASE_URL}/v3/content_types/${uid}`, {
     method: "PUT",
@@ -108,13 +124,15 @@ export async function syncContentTypeOrGlobalField(
   uid: string,
   schema: any,
   options?: any,
-  globalFieldFallback: boolean = true
+  globalFieldFallback: boolean = true,
+  title?: string,
+  description?: string
 ) {
   const existingCT = await getContentType(uid);
   console.log('existing Content Type', existingCT);
   if (existingCT) {
     console.log(`Updating Content Type: ${uid}`);
-    return updateContentType(uid, schema, options);
+    return updateContentType(uid, schema, options, title, description);
   }
   if (globalFieldFallback) {
     console.log('Updating Global Field');
@@ -122,9 +140,9 @@ export async function syncContentTypeOrGlobalField(
     console.log('existingGF', existingGF);
     if (existingGF) {
       console.log(`Content Type not found. Updating Global Field: ${uid}`);
-      return updateGlobalField(uid, schema, uid);
+      return updateGlobalField(uid, schema, title || uid);
     }
   }
   console.log(`Content Type not found. Creating new Content Type: ${uid}`);
-  return createContentType(uid, schema, options);
+  return createContentType(uid, schema, options, title, description);
 }

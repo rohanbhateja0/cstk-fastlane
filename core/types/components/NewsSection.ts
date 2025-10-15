@@ -1,14 +1,6 @@
 import { CMSImageField, CMSLinkField } from "../Fields";
 import { CTAFields } from "./SimpleTypes";
 
-export type NewsSectionContent = {
-    title: string;
-    description: string;
-    detail_text: string;
-    image: CMSImageField;
-    $: any;
-}
-
 export type NewsSectionRenderingOptions = {
     image_order: string;
     header_tag: string;
@@ -22,8 +14,11 @@ export type NewsSectionRenderingOptions = {
 }
 
 export type NewsSectionFields = {
-    content: NewsSectionContent;
-    rendering_options: NewsSectionRenderingOptions;
+    title: string;              // Default title field
+    category: string;
+    description: string;
+    image: CMSImageField;
     call_to_action: CTAFields;
+    rendering_options: NewsSectionRenderingOptions;
     $: any;
 }

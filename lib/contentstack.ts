@@ -62,11 +62,14 @@ export function initLivePreview() {
 }
 // Function to fetch page data based on the URL
 export async function getPage(url: string) {
+  // Normalize URL to lowercase for case-insensitive matching
+  const normalizedUrl = url.toLowerCase();
+  
   const result = await stack
     .contentType("page") // Specifying the content type as "page"
     .entry() // Accessing the entry
     .query() // Creating a query
-    .where("url", QueryOperation.EQUALS, url) // Filtering entries by URL
+    .where("url", QueryOperation.EQUALS, normalizedUrl) // Filtering entries by URL
     .find<Page>(); // Executing the query and expecting a result of type Page
 
   if (result.entries) {

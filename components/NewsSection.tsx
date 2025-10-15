@@ -1,33 +1,36 @@
-import React from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import NextLink from 'next/link';
 import Image from 'next/image';
 import { NewsSectionProps } from '@/core/types/Props';
 import { CMSLinkField } from '@/core/types/Fields';
 import { RichText } from './rich-text';
+import { getNewsSectionRes } from '@/helper';
 
-export default function NewsSection(props: NewsSectionProps) {
-  const { newsSection } = props;
-  const { content, rendering_options, call_to_action } = newsSection;
-  
+// Arrow Right Icon Component
+const ArrowRightIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+// Individual News Card Component
+const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOptions: any }) => {
+  // Extract data from Contentstack structure - title is now at root level
   const {
     title,
     description,
-    detail_text,
-    image
-  } = content;
+    image,
+    category
+  } = newsItem;
 
   const {
-    image_order,
+    image_order = 'left',
     header_tag = 'h2',
-    link_type = 'Button',
-    hide_image = false,
-    hide_border = false,
-    use_title_as_link_text = false,
-    swap_image = false
-  } = rendering_options;
+    link_type = 'Button'
+  } = renderingOptions;
 
-  const linkField = call_to_action.link as CMSLinkField | undefined;
-  const secondaryLinkField = call_to_action.secondary_link as CMSLinkField | undefined;
+  const linkField = newsItem.call_to_action?.link as CMSLinkField | undefined;
 
   // Determine the header tag dynamically
   const HeaderTag = header_tag as keyof JSX.IntrinsicElements;
@@ -36,90 +39,154 @@ export default function NewsSection(props: NewsSectionProps) {
   const imageOrderClass = image_order === 'right' ? 'order-2' : 'order-1';
   const contentOrderClass = image_order === 'right' ? 'order-1' : 'order-2';
 
-  // Grid layout classes for responsive design
-  const gridClasses = `
-    grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6
-    ${hide_border ? '' : 'border border-gray-200 rounded-lg p-6'}
-  `;
-
-  // Card classes
-  const cardClasses = `
-    bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300
-    ${hide_border ? '' : 'border border-gray-200'}
-  `;
-
-  const renderContent = () => (
-    <div className={cardClasses}>
-      {!hide_image && image?.url && (
-        <div className={`relative h-48 w-full ${imageOrderClass}`}>
-          <Image
-            src={image.url}
-            alt={image.alt || title}
-            fill
-            className="object-cover rounded-t-lg"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          />
+  return (
+    <div className="bg-white border border-zinc-300 rounded-lg overflow-hidden">
+      <div className="flex gap-6 p-6">
+        {/* Image Section */}
+        {image?.url ? (
+          <div className={`relative w-[314px] h-[177px] rounded-md overflow-hidden flex-shrink-0 ${imageOrderClass}`}>
+            <Image
+              src={image.url}
+              alt={image.filename || title || 'News image'}
+              fill
+              className="object-cover"
+              sizes="314px"
+            />
+          </div>
+        ) : (
+          <div className={`relative w-[314px] h-[177px] rounded-md overflow-hidden flex-shrink-0 bg-gray-200 flex items-center justify-center ${imageOrderClass}`}>
+            <div className="text-center text-gray-500 px-4">
+              <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <p className="mt-2 text-sm">Image placeholder</p>
+            </div>
+          </div>
+        )}
+        
+        {/* Content Section */}
+        <div className={`flex flex-col gap-4 flex-1 min-w-0 ${contentOrderClass}`}>
+          {/* Header Section */}
+          <div className="flex flex-col gap-1.5 min-h-[114px]">
+            {/* Category/Earmark */}
+            {category && (
+              <div className="flex items-center">
+                <p className="font-['Satoshi'] font-medium text-sm leading-5 text-zinc-900">
+                  {category}
+                </p>
+              </div>
+            )}
+            
+            {/* Title */}
+            <HeaderTag className="font-['Satoshi'] font-bold text-2xl leading-none text-zinc-950 tracking-[-0.4px]">
+              {title}
+            </HeaderTag>
+            
+            {/* Description */}
+            {description && (
+              <p className="font-['Satoshi'] font-normal text-base leading-6 text-zinc-500">
+                {description}
+              </p>
+            )}
+          </div>
+          
+          {/* Footer Section */}
+          <div className="flex gap-2.5">
+            {linkField?.href && (
+              <a 
+                href={linkField.href}
+                className="bg-white border border-zinc-200 rounded-md px-3 py-2 h-9 flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors"
+              >
+                <div className="flex flex-col font-['Satoshi'] font-medium text-sm leading-5 text-zinc-900 whitespace-nowrap">
+                  <p className="leading-5">{linkField.title || 'Read the Article'}</p>
+                </div>
+                <div className="w-4 h-4 flex-shrink-0">
+                  <ArrowRightIcon />
+                </div>
+              </a>
+            )}
+          </div>
         </div>
-      )}
-      
-      <div className={`p-6 ${contentOrderClass}`}>
-        <HeaderTag className="text-xl font-semibold text-gray-900 mb-2">
-          {title}
-        </HeaderTag>
-        
-        {description && (
-          <p className="text-gray-600 mb-4 line-clamp-2">
-            {description}
-          </p>
-        )}
-        
-        {detail_text && (
-          <div className="text-gray-700 mb-4">
-            <RichText content={detail_text} />
-          </div>
-        )}
-        
-        {linkField?.href && (
-          <div className="mt-4">
-            {link_type === 'Button' ? (
-              <NextLink
-                href={linkField.href}
-                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200"
-              >
-                {use_title_as_link_text ? title : linkField.title || 'Read More'}
-              </NextLink>
-            ) : link_type === 'Link' ? (
-              <NextLink
-                href={linkField.href}
-                className="text-blue-600 hover:text-blue-800 underline"
-              >
-                {use_title_as_link_text ? title : linkField.title || 'Read More'}
-              </NextLink>
-            ) : null}
-          </div>
-        )}
-        
-        {secondaryLinkField?.href && (
-          <div className="mt-2">
-            <NextLink
-              href={secondaryLinkField.href}
-              className="text-gray-600 hover:text-gray-800 text-sm"
-            >
-              {secondaryLinkField.title || 'Learn More'}
-            </NextLink>
-          </div>
-        )}
       </div>
     </div>
   );
+};
+
+export default function NewsSection(props: NewsSectionProps) {
+  const { newsSection } = props;
+  const [newsSectionData, setNewsSectionData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch news section data if it's a reference
+  useEffect(() => {
+    const fetchNewsSectionData = async () => {
+      try {
+        // Get the news_sections array from the props
+        const newsSections = newsSection.news_sections;
+        
+        if (!newsSections || newsSections.length === 0) {
+          setNewsSectionData([]);
+          setLoading(false);
+          return;
+        }
+
+        // Fetch all news_section entries
+        const fetchedData = await Promise.all(
+          newsSections.map(async (section: any) => {
+            // Check if it's a reference object with UID
+            if (section.uid && section._content_type_uid === 'news_section') {
+              const data = await getNewsSectionRes(section.uid);
+              return data[0];
+            }
+            // If it's already the full data
+            return section;
+          })
+        );
+
+        setNewsSectionData(fetchedData);
+      } catch (error) {
+        console.error('Error fetching news section data:', error);
+        setNewsSectionData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewsSectionData();
+  }, [newsSection]);
+
+  if (loading) {
+    return <div className="news-section-loading py-12 text-center">Loading news section...</div>;
+  }
+
+  if (!newsSectionData || newsSectionData.length === 0) {
+    return null;
+  }
+
+  const rendering_options = newsSection.rendering_options || {};
+  const colspan = rendering_options.colspan || '1';
+
+  // Get colspan class
+  const getColspanClass = (colspan: string) => {
+    const colspanNum = parseInt(colspan) || 1;
+    return colspanNum === 1 ? '' : `col-span-${colspanNum}`;
+  };
 
   return (
-    <div className="py-8">
-      <div className="container mx-auto px-4">
-        <div className={gridClasses}>
-          {renderContent()}
+    <section className="component row-splitter basis-full">
+      <div className="lg:px-12 px-4 container mx-auto">
+        <div className="py-12">
+          <div className="flex flex-col gap-4">
+            {newsSectionData.map((newsItem, index) => (
+              <NewsCard 
+                key={index} 
+                newsItem={newsItem} 
+                renderingOptions={rendering_options}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
