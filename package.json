@@ -10,7 +10,8 @@
     "build:docs": "node scripts/build-docs.js",
     "dev:docs": "cd docs && npm run dev",
     "start:docs": "cd docs && npm run start",
-    "build:all": "npm run build && npm run build:docs"
+    "build:all": "npm run build && npm run build:docs",
+    "index:algolia": "node scripts/index-content-to-algolia.js"
   },
   "dependencies": {
     "@contentstack/delivery-sdk": "^4.8.0",
@@ -25,6 +26,7 @@
     "@radix-ui/react-tabs": "^1.1.3",
     "@timbenniks/contentstack-endpoints": "^1.0.12",
     "@types/react-slick": "^0.23.13",
+    "algoliasearch": "^5.40.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "contentstack": "^3.26.1",
@@ -37,6 +39,7 @@
     "postcss": "^8.4.49",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
+    "react-instantsearch": "^7.16.3",
     "react-loading-skeleton": "^3.4.0",
     "react-slick": "^0.31.0",
     "slick-carousel": "^1.8.1",
