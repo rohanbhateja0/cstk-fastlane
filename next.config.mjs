@@ -21,6 +21,22 @@ const nextConfig = {
             pathname: '/**',
           },
         ],
+    },
+    async headers() {
+        return [
+            {
+                // Apply to all routes
+                source: '/:path*',
+                headers: [
+                   
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "frame-ancestors 'self' https://*.contentstack.com https://app.contentstack.com", // Allow Contentstack domains
+                    }
+                    // Content-Security-Policy would go here - but needs careful configuration
+                ],
+            },
+        ];
     }
 };
 

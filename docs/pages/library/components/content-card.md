@@ -119,7 +119,8 @@ The ContentCard component supports four distinct visual variants based on Figma 
 - **SwapImage**: Creative layouts, emphasis on content over imagery
 
 * screenshot:
-    ![screenshot](/images/components/component-content-card-visibility-controls.png "screenshot")
+    <!-- ![screenshot](/images/components/component-content-card-visibility-controls.png "screenshot") -->
+    <!-- Image file missing - needs to be added -->
 
 
 ## Button Behavior and Styling
