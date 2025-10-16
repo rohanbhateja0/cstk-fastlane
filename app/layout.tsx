@@ -60,6 +60,20 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Contentstack-Nextjs-Starter-App",
   applicationName: "Contentstack-Nextjs-Starter-App",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  other: {
+    'X-DNS-Prefetch-Control': 'on',
+  },
 };
 
 export const viewport: Viewport = {

@@ -4,10 +4,17 @@ import { addEditableTags } from "@contentstack/utils";
 const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true";
 
 export const GetPage = async (entryUrl : string) => {
+    // Normalize URL to lowercase for case-insensitive matching
+    const normalizedUrl = entryUrl.toLowerCase();
+    
     const response = await Stack.getEntryByUrl({
         contentTypeUid: "page",
-        entryUrl,
-        referenceFieldPath: [],
+        entryUrl: normalizedUrl,
+        referenceFieldPath: [
+            "fastlane_components.news_banner.news_banner",
+            "fastlane_components.carousel.carousels",
+            "fastlane_components.news_section.news_sections"
+        ],
         jsonRtePath: [],
     });
     liveEdit && addEditableTags(response[0], "page", true);

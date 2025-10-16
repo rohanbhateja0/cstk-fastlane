@@ -34,6 +34,11 @@ export default {
   "title-sxa": "Title",
   "articledate": "ArticleDate",
   "pagetitlebanner": "Page Title Banner",
+  "---search": {
+    "type": "separator",
+    "title": "Search Components"
+  },
+  "algolia-search": "Algolia Search",
   "---page-structure": {
     "type": "separator",
     "title": "PageStructure Components"

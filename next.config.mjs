@@ -12,7 +12,7 @@ const nextConfig = {
         CONTENTSTACK_LIVE_EDIT_TAGS: process.env.CONTENTSTACK_LIVE_EDIT_TAGS,
         CONTENTSTACK_API_HOST: process.env.CONTENTSTACK_API_HOST,
     },
-     images: {
+    images: {
         remotePatterns: [
           {
             protocol: 'https',
@@ -21,7 +21,23 @@ const nextConfig = {
             pathname: '/**',
           },
         ],
-      }
+    },
+    async headers() {
+        return [
+            {
+                // Apply to all routes
+                source: '/:path*',
+                headers: [
+                   
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "frame-ancestors 'self' https://*.contentstack.com https://app.contentstack.com", // Allow Contentstack domains
+                    }
+                    // Content-Security-Policy would go here - but needs careful configuration
+                ],
+            },
+        ];
+    }
 };
 
 export default nextConfig;
