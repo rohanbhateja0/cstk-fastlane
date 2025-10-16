@@ -206,7 +206,7 @@ export const getContentCardRes = async (cardUid) => {
         jsonRtePath: ["content.intro_text"],
     });
     
-    liveEdit && addEditableTags(response, "content_card_model", true);
+    liveEdit && addEditableTags(response[0], "content_card_model", true);
     return response;
 };
 
