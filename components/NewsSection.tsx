@@ -39,17 +39,32 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
   const imageOrderClass = image_order === 'right' ? 'order-2' : 'order-1';
   const contentOrderClass = image_order === 'right' ? 'order-1' : 'order-2';
 
+  // Safe getter for $ properties to avoid spreading arrays and objects with numeric keys
+  const getEditableProps = (props: any) => {
+    if (!props) return {};
+    if (Array.isArray(props)) return {};
+    if (typeof props === 'object') {
+      // Check if object has numeric keys (like {0: {...}})
+      const keys = Object.keys(props);
+      if (keys.length > 0 && keys.every(key => !isNaN(Number(key)))) {
+        return {}; // Skip objects with only numeric keys
+      }
+      return props;
+    }
+    return {};
+  };
+
   return (
     <div 
       className="bg-white border border-zinc-300 rounded-lg overflow-hidden"
-      {...(newsItem.$ ?? {})}
+      {...getEditableProps(newsItem.$)}
     >
       <div className="flex gap-6 p-6">
         {/* Image Section */}
         {image?.url ? (
           <div 
             className={`relative w-[314px] h-[177px] rounded-md overflow-hidden flex-shrink-0 ${imageOrderClass}`}
-            {...(newsItem.$?.image ?? {})}
+            {...getEditableProps(newsItem.$?.image)}
           >
             <Image
               src={image.url}
@@ -79,7 +94,7 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
               <div className="flex items-center">
                 <p 
                   className="font-['Satoshi'] font-medium text-sm leading-5 text-zinc-900"
-                  {...(newsItem.$?.category ?? {})}
+                  {...getEditableProps(newsItem.$?.category)}
                 >
                   {category}
                 </p>
@@ -89,7 +104,7 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
             {/* Title */}
             <HeaderTag 
               className="font-['Satoshi'] font-bold text-2xl leading-none text-zinc-950 tracking-[-0.4px]"
-              {...(newsItem.$?.title ?? {})}
+              {...getEditableProps(newsItem.$?.title)}
             >
               {title}
             </HeaderTag>
@@ -98,7 +113,7 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
             {description && (
               <p 
                 className="font-['Satoshi'] font-normal text-base leading-6 text-zinc-500"
-                {...(newsItem.$?.description ?? {})}
+                {...getEditableProps(newsItem.$?.description)}
               >
                 {description}
               </p>
@@ -111,7 +126,7 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
               <a 
                 href={linkField.href}
                 className="bg-white border border-zinc-200 rounded-md px-3 py-2 h-9 flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors"
-                {...(newsItem.call_to_action?.$?.link ?? {})}
+                {...getEditableProps(newsItem.call_to_action?.$?.link)}
               >
                 <div className="flex flex-col font-['Satoshi'] font-medium text-sm leading-5 text-zinc-900 whitespace-nowrap">
                   <p className="leading-5">{linkField.title || 'Read the Article'}</p>
@@ -152,7 +167,9 @@ export default function NewsSection(props: NewsSectionProps) {
             // Check if it's a reference object with UID
             if (section.uid && section._content_type_uid === 'news_section') {
               const data = await getNewsSectionRes(section.uid);
-              return data[0];
+              // ContentStack returns an array, extract the first element
+              const newsItem = Array.isArray(data) ? data[0] : data;
+              return newsItem;
             }
             // If it's already the full data
             return section;

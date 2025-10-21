@@ -1,6 +1,9 @@
 export default {
   "index": "AI Prompts Overview",
   
+  // Common Reusable Prompts
+  "common": "Common Prompts",
+  
   // Prompt Templates & Examples
   "templates": "Prompt Templates",
   "examples": "Prompt Examples",
