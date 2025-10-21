@@ -11,7 +11,6 @@ This comprehensive guide covers the complete workflow for creating a newsletter 
 5. [Phase 4: Create Form Page](#phase-4-create-form-page)
 6. [Phase 5: Update News Banner Link](#phase-5-update-news-banner-link)
 7. [Phase 6: Verify & Test](#phase-6-verify--test)
-8. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -196,8 +195,6 @@ rm newsletter-subscription-schema.json
 ## Phase 3: Create API Endpoint
 
 ### Step 3.1: Create API Route File
-
-**File:** `app/api/newsletter-subscribe/route.ts`
 
 **Purpose:** Handle form submissions and create entries in Contentstack
 
@@ -504,8 +501,3 @@ After completing this guide, consider:
    - A/B test form variations
 
 ---
-
-**Implementation Complete! 🎉**
-
-Users can now subscribe to your newsletter through a beautiful, functional form that stores data directly in Contentstack!
-

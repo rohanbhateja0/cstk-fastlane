@@ -13,7 +13,8 @@ export const GetPage = async (entryUrl : string) => {
         referenceFieldPath: [
             "fastlane_components.news_banner.news_banner",
             "fastlane_components.carousel.carousels",
-            "fastlane_components.news_section.news_sections"
+            "fastlane_components.news_section.news_sections",
+            "fastlane_components.contactus_section.contactus_sections"
         ],
         jsonRtePath: [],
     });

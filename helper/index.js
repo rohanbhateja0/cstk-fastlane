@@ -182,7 +182,11 @@ export const getNewsBannerRes = async (newsBannerUid) => {
         jsonRtePath: ["content.detail_text"],
     });
     
-    liveEdit && addEditableTags(response, "news_banner", true);
+    // response is array-like: {0: {entry_data}, $: {metadata}}
+    // Add editable tags to the actual entry object at index 0
+    if (liveEdit && response && response[0]) {
+        addEditableTags(response[0], "news_banner", true);
+    }
     return response;
 };
 
@@ -194,7 +198,27 @@ export const getNewsSectionRes = async (newsSectionUid) => {
         jsonRtePath: [],
     });
     
-    liveEdit && addEditableTags(response, "news_section", true);
+    // response is array-like: {0: {entry_data}, $: {metadata}}
+    // Add editable tags to the actual entry object at index 0
+    if (liveEdit && response && response[0]) {
+        addEditableTags(response[0], "news_section", true);
+    }
+    return response;
+};
+
+export const getContactUsSectionRes = async (contactUsSectionUid) => {
+    const response = await Stack.getEntryByUid({
+        contentTypeUid: "contactus_section",
+        entryUid: contactUsSectionUid,
+        referenceFieldPath: [],
+        jsonRtePath: [],
+    });
+    
+    // response is array-like: {0: {entry_data}, $: {metadata}}
+    // Add editable tags to the actual entry object at index 0
+    if (liveEdit && response && response[0]) {
+        addEditableTags(response[0], "contactus_section", true);
+    }
     return response;
 };
 
