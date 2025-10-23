@@ -1,4 +1,4 @@
-import NextLink from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { JSX } from 'react';
 import CardItem from '@/core/molecules/ContentCard/CardItem';
 import { ContentCardProps } from '@/core/types/Props';
@@ -24,7 +24,7 @@ export default function ContentCard(props: ContentCardProps) {
       { console.log('contentCard', contentCard) }
       { console.log('linkField', linkField) }
       {contentCard.rendering_options.link_type === 'Card' && linkField?.href ? (
-        <NextLink href={linkField?.href}>{card}</NextLink>
+        <CMSLink href={linkField?.href}>{card}</CMSLink>
       ) : (
         card
       )}

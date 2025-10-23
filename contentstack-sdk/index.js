@@ -52,10 +52,11 @@ export default {
    * @param {* Json RTE path} jsonRtePath
    *
    */
-  getEntry({ contentTypeUid, referenceFieldPath, jsonRtePath }) {
+  getEntry({ contentTypeUid, referenceFieldPath, jsonRtePath, locale }) {
     return new Promise((resolve, reject) => {
       const query = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) query.includeReference(referenceFieldPath);
+      if (locale) query.locale(locale);
       query
         .toJSON()
         .find()
@@ -86,11 +87,12 @@ export default {
    * @returns
    */
   getEntryByUrl({
-    contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath,
+    contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath, locale,
   }) {
     return new Promise((resolve, reject) => {
       const entryQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
+      if (locale) entryQuery.language(locale);
       entryQuery.toJSON();
       
       const data = entryQuery.where('url', `${entryUrl}`).find();
@@ -102,6 +104,7 @@ export default {
             paths: jsonRtePath,
             renderOption,
           });
+          
           resolve(result[0]);
         },
         (error) => {
@@ -122,11 +125,12 @@ export default {
    * @returns
    */
   getEntryByUid({
-    contentTypeUid, entryUid, referenceFieldPath, jsonRtePath,
+    contentTypeUid, entryUid, referenceFieldPath, jsonRtePath, locale,
   }) {
     return new Promise((resolve, reject) => {
       const entryQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
+      if (locale) entryQuery.locale(locale);
       entryQuery.toJSON();
       
       const data = entryQuery.where('uid', `${entryUid}`).find();

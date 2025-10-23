@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { FooterLinkRowProps } from '@/core/types/components/Footer';
 
 const FooterLinkRow = ({ data, className }: FooterLinkRowProps) => {
@@ -8,13 +8,12 @@ const FooterLinkRow = ({ data, className }: FooterLinkRowProps) => {
       {data.length > 0 ? (
         data.map((link, index) => (
           <div key={index} className="flex items-center">
-            <Link
+            <CMSLink
               href={link.href}
               className={`text-blue-600 hover:text-green-700 transition-colors ${className}`}
-              prefetch={false}
             >
               {link.title}
-            </Link>
+            </CMSLink>
             {index < data.length - 1 && <span className="ml-2 text-gray-400">•</span>}
           </div>
         ))

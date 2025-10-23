@@ -8,7 +8,7 @@ import { CMSImage } from '@/core/atoms/Image';
 import ContentCardBtn from '@/core/molecules/ContentCard/ContentCardBtn';
 import parse from 'html-react-parser';
 import Heading from '@/core/atoms/Heading';
-import NextLink from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { CMSLinkField } from '@/core/types/Fields';
 import { getContentCardRes } from '@/helper';
 import { generateSlug } from '@/core/lib/utils';
@@ -281,13 +281,13 @@ const CardListing = (props: CardListingProps): JSX.Element => {
     return (
       <div key={`card-${index}`} {...(card.$ ?? {})}>
         {shouldBeClickable ? (
-          <NextLink href={linkField!.href} className="block">
+          <CMSLink href={linkField!.href} className="block">
             {cardContent}
-          </NextLink>
+          </CMSLink>
         ) : isContentCardModel ? (
-          <NextLink href={blogDetailUrl} className="block hover:shadow-lg transition-shadow duration-300">
+          <CMSLink href={blogDetailUrl} className="block hover:shadow-lg transition-shadow duration-300">
             {cardContent}
-          </NextLink>
+          </CMSLink>
         ) : (
           cardContent
         )}

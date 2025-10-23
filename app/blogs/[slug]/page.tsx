@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { ArrowLeft } from 'lucide-react';
 import { generateSlug } from '@/core/lib/utils';
 import RichText from '@/components/rich-text';
@@ -141,13 +141,13 @@ export default function BlogDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link 
+          <CMSLink 
             href="/blogs" 
             className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blogs
-          </Link>
+          </CMSLink>
           <div className="text-center py-12">
             <div className="text-red-500 text-xl font-semibold mb-2">
               {error || 'Blog post not found'}
@@ -155,12 +155,12 @@ export default function BlogDetailPage() {
             <p className="text-gray-600 mb-4">
               The blog post you're looking for doesn't exist or has been removed.
             </p>
-            <Link 
+            <CMSLink 
               href="/blogs"
               className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               View All Blogs
-            </Link>
+            </CMSLink>
           </div>
         </div>
       </div>
@@ -171,13 +171,13 @@ export default function BlogDetailPage() {
     <div className="min-h-screen bg-white">
       {/* Back Button */}
       <div className="max-w-7xl mx-auto px-6 py-6">
-        <Link 
+        <CMSLink 
           href="/blogs" 
           className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Blogs
-        </Link>
+        </CMSLink>
       </div>
 
       {/* Hero Section with Background Image */}

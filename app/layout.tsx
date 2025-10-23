@@ -6,6 +6,8 @@ import Footer from "@/components/footer";
 import "./globals.css"; // Importing global CSS styles
 // import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
+import { defaultLocale } from '@/lib/i18n';
+import RTLProvider from '@/components/RTLProvider';
 
 const satoshi = localFont({
   src: [
@@ -88,23 +90,27 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Get locale from the current path (this will be handled by middleware)
+  const locale = defaultLocale; // Default fallback - this will be overridden by middleware
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         
         
       </head>
       <body className={`${satoshi.variable} ${zodiak.variable}`}>
-        <div className="fastlanewebsite">
-          <Header />
-          <main>
-            <>
-              {children}
-            </>
-          </main>
-        </div>
-        <Footer />
+        <RTLProvider>
+          <div className="fastlanewebsite">
+            <Header />
+            <main>
+              <>
+                {children}
+              </>
+            </main>
+          </div>
+          <Footer />
+        </RTLProvider>
       </body>
     </html>
   );

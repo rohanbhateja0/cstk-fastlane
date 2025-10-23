@@ -5,7 +5,6 @@ import Heading from '@/core/atoms/Heading';
 import { cn } from '@/core/lib/utils';
 import { HeroBannerProps as HeroBannerPropsType } from '@/core/types/Props';
 import { CMSImageField } from '@/core/types/Fields';
-import Link from 'next/link';
 
 interface HeroBannerProps {
   heroBanner: HeroBannerPropsType['heroBanner'];

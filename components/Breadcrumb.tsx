@@ -1,6 +1,6 @@
 import { JSX } from 'react';
 import React from 'react';
-import Link from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -55,9 +55,9 @@ const BreadCrumb = (props: BreadcrumbProps): JSX.Element => {
                   </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink asChild {...crumb.$}>
-                    <Link href={crumb.link?.href?.toLowerCase() || '#'}>
+                    <CMSLink href={crumb.link?.href?.toLowerCase() || '#'}>
                       {crumb.title}
-                    </Link>
+                    </CMSLink>
                   </BreadcrumbLink>
                 )}
               </BreadcrumbItem>

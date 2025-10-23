@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { UserListFields, User } from '@/core/types/components/UserList';
 import { BaseComponent } from '@/core/types/components/BaseComponent';
 import { generateSlug } from '@/core/lib/utils';
@@ -59,7 +59,7 @@ export default function UserList({ userList, page }: UserListProps) {
   };
 
   const renderUserCard = (user: User) => (
-    <Link 
+    <CMSLink 
       key={user.id} 
       href={`/providers/${generateSlug(user.name)}`}
       className="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer"
@@ -120,11 +120,11 @@ export default function UserList({ userList, page }: UserListProps) {
           View Details →
         </p>
       </div>
-    </Link>
+    </CMSLink>
   );
 
   const renderUserListItem = (user: User) => (
-    <Link 
+    <CMSLink 
       key={user.id} 
       href={`/providers/${generateSlug(user.name)}`}
       className="block bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer"
@@ -151,7 +151,7 @@ export default function UserList({ userList, page }: UserListProps) {
           </div>
         </div>
       </div>
-    </Link>
+    </CMSLink>
   );
 
   if (loading) {

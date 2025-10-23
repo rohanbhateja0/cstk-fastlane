@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { Highlight } from 'react-instantsearch';
 import { generateSlug } from '@/core/lib/utils';
 import ImageComponent from '@/components/image';
@@ -80,7 +80,7 @@ export default function SearchResultCard({ hit, viewMode = 'list' }: SearchResul
 
           {/* Title */}
           <h3 className="text-lg font-bold text-zinc-950 leading-tight tracking-tight">
-            <Link 
+            <CMSLink 
               href={blogDetailUrl}
               className="hover:text-sky-900 transition-colors"
             >
@@ -95,7 +95,7 @@ export default function SearchResultCard({ hit, viewMode = 'list' }: SearchResul
               ) : (
                 hit.title || 'Untitled'
               )}
-            </Link>
+            </CMSLink>
           </h3>
 
           {/* Description */}
@@ -112,7 +112,7 @@ export default function SearchResultCard({ hit, viewMode = 'list' }: SearchResul
 
           {/* Action Button */}
           <div className="mt-auto pt-2">
-            <Link 
+            <CMSLink 
               href={blogDetailUrl}
               className="inline-flex items-center gap-2 bg-white border border-zinc-200 text-zinc-900 px-3 py-2 rounded-md text-sm font-medium hover:bg-zinc-50 transition-colors"
             >
@@ -120,7 +120,7 @@ export default function SearchResultCard({ hit, viewMode = 'list' }: SearchResul
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </Link>
+            </CMSLink>
           </div>
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function SearchResultCard({ hit, viewMode = 'list' }: SearchResul
 
           {/* Title */}
           <h3 className="text-2xl font-bold text-zinc-950 leading-tight tracking-tight">
-            <Link 
+            <CMSLink 
               href={blogDetailUrl}
               className="hover:text-sky-900 transition-colors"
             >
@@ -178,7 +178,7 @@ export default function SearchResultCard({ hit, viewMode = 'list' }: SearchResul
               ) : (
                 hit.title || 'Untitled'
               )}
-            </Link>
+            </CMSLink>
           </h3>
 
           {/* Description */}
@@ -195,7 +195,7 @@ export default function SearchResultCard({ hit, viewMode = 'list' }: SearchResul
 
           {/* Action Button */}
           <div className="mt-auto">
-            <Link 
+            <CMSLink 
               href={blogDetailUrl}
               className="inline-flex items-center gap-2 bg-white border border-zinc-200 text-zinc-900 px-3 py-2 rounded-md text-sm font-medium hover:bg-zinc-50 transition-colors"
             >
@@ -203,7 +203,7 @@ export default function SearchResultCard({ hit, viewMode = 'list' }: SearchResul
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </Link>
+            </CMSLink>
           </div>
         </div>
       </div>

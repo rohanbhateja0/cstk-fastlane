@@ -3,9 +3,9 @@ import { GetHeader } from "@/core/ContentQueries/GetHeader";
 import { HeaderFields } from "@/core/types/components/Header";
 import { CMSLink } from "@/core/atoms/Link";
 import { CMSImage } from "@/core/atoms/Image";
-import CTAButton from "./cta-button";
-import MegaNav from "./MegaNav";
-import Link from "next/link";
+import ServerCTAButton from "./server-cta-button";
+import ServerMegaNav from "./ServerMegaNav";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default async function Header() {
   
@@ -27,9 +27,9 @@ export default async function Header() {
                               
                               <div className="component image basis-full">
                                 <div className="component-content">
-                                  <Link href="/">
+                                  <CMSLink href="/">
                                   <CMSImage image={header.logo} alt="corporate_brand_logo" width="323" height="76" />
-                                  </Link>
+                                  </CMSLink>
                                 </div>
                               </div>
                               
@@ -51,32 +51,36 @@ export default async function Header() {
                         <div className="w-full basis-full mega-nav-container relative">
                             {/* Desktop Layout */}
                             <div className="hidden md:flex items-center justify-between w-full">
-                              <MegaNav items={header.mega_menu} />
+                              <ServerMegaNav items={header.mega_menu} />
                               
                               {/* Top Links - Desktop */}
                               <div className="flex items-center space-x-4">
                                 {header.top_links.map((item, index) => { 
                                   return(
                                   <div key={`top-link-desktop-${index}`} className="flex-shrink-0">
-                                    <CTAButton button={item.link}  />                         
+                                    <ServerCTAButton button={item.link}  />                         
                                   </div>)
                                 })}
+                                {/* Language Switcher */}
+                                <LanguageSwitcher className="flex-shrink-0" />
                               </div>
                             </div>
 
                             {/* Mobile Layout */}
                             <div className="md:hidden">
                               <div className="flex items-center justify-between w-full">
-                                <MegaNav items={header.mega_menu} />
+                                <ServerMegaNav items={header.mega_menu} />
                                 
                                 {/* Top Links - Mobile */}
                                 <div className="flex items-center space-x-2">
                                   {header.top_links.map((item, index) => { 
                                     return(
                                     <div key={`top-link-mobile-${index}`} className="flex-shrink-0">
-                                      <CTAButton button={item.link}  />                         
+                                      <ServerCTAButton button={item.link}  />                         
                                     </div>)
                                   })}
+                                  {/* Language Switcher - Mobile */}
+                                  <LanguageSwitcher className="flex-shrink-0" />
                                 </div>
                               </div>
                             </div>
