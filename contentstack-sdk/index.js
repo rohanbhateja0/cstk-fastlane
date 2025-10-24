@@ -56,7 +56,7 @@ export default {
     return new Promise((resolve, reject) => {
       const query = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) query.includeReference(referenceFieldPath);
-      if (locale) query.locale(locale);
+      if (locale) query.language(locale);
       query
         .toJSON()
         .find()
@@ -130,7 +130,7 @@ export default {
     return new Promise((resolve, reject) => {
       const entryQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
-      if (locale) entryQuery.locale(locale);
+      if (locale) entryQuery.language(locale);
       entryQuery.toJSON();
       
       const data = entryQuery.where('uid', `${entryUid}`).find();

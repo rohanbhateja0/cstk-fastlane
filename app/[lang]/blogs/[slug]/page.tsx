@@ -81,12 +81,15 @@ export default function BlogDetailPage() {
   const fetchBlogPost = async () => {
     try {
       setLoading(true);
+      console.log('Fetching blog post with:', { slug, locale });
       
       const blogPost = await GetContentCardBySlug(slug, locale);
       
       if (blogPost) {
+        console.log('Blog post found:', blogPost.uid);
         setBlogPost(blogPost);
       } else {
+        console.log('Blog post not found for slug:', slug);
         setError('Blog post not found');
       }
     } catch (err) {
@@ -98,10 +101,10 @@ export default function BlogDetailPage() {
   };
 
   useEffect(() => {
-    if (slug) {
+    if (slug && locale) {
       fetchBlogPost();
     }
-  }, [slug]);
+  }, [slug, locale]);
 
   // Set up live preview - only once per component mount
   useEffect(() => {
@@ -144,7 +147,7 @@ export default function BlogDetailPage() {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <CMSLink 
-            href="/blogs" 
+            href={`/${locale}/blogs`} 
             className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -158,7 +161,7 @@ export default function BlogDetailPage() {
               The blog post you're looking for doesn't exist or has been removed.
             </p>
             <CMSLink 
-              href="/blogs"
+              href={`/${locale}/blogs`}
               className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               View All Blogs
@@ -174,7 +177,7 @@ export default function BlogDetailPage() {
       {/* Back Button */}
       <div className="max-w-7xl mx-auto px-6 py-6">
         <CMSLink 
-          href="/blogs" 
+          href={`/${locale}/blogs`} 
           className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />

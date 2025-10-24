@@ -88,11 +88,11 @@ export default async function LangLayout({
   const direction = getTextDirection(locale);
 
   return (
-    <html lang={locale} dir={direction}>
+    <html lang={locale} dir={direction} className={isRTL(locale) ? 'rtl' : 'ltr'}>
       <head>
         
       </head>
-      <body className={`${satoshi.variable} ${zodiak.variable}`}>
+      <body className={`${satoshi.variable} ${zodiak.variable} ${isRTL(locale) ? 'rtl' : 'ltr'}`}>
         <RTLProvider locale={locale}>
           <div className="fastlanewebsite">
             <Header locale={locale} />

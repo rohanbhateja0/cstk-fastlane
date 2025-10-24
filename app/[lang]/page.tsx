@@ -10,15 +10,14 @@ import { useLocale } from '@/hooks/useLocale';
 import { locales, localeNames, localeFlags } from '@/lib/i18n';
 
 export default function Home() {
-  const { locale } = useLocale();
+  const { locale, cleanPath } = useLocale();
   const [page, setPage] = useState<Page | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const entryUrl = "/";
-      const pageData = await GetPage(entryUrl, locale) as Page;
+      const pageData = await GetPage(cleanPath, locale) as Page;
       if (pageData) {
         setPage(pageData);
       } else {
@@ -31,7 +30,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }, [locale]);
+  }, [cleanPath, locale]);
 
   useEffect(() => {
     if (locale) {

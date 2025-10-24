@@ -12,6 +12,7 @@ import { CMSLink } from '@/core/atoms/Link';
 import { CMSLinkField } from '@/core/types/Fields';
 import { getContentCardRes } from '@/helper';
 import { generateSlug } from '@/core/lib/utils';
+import { useLocale } from '@/hooks/useLocale';
 
 export interface CardListingProps {
   cardListing: {
@@ -62,6 +63,7 @@ export interface CardListingProps {
 
 const CardListing = (props: CardListingProps): JSX.Element => {
   const { cardListing } = props;
+  const { locale } = useLocale();
   const [populatedCards, setPopulatedCards] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -271,8 +273,8 @@ const CardListing = (props: CardListingProps): JSX.Element => {
 
     const linkField = call_to_action.link as CMSLinkField | undefined;
     
-    // For Content Card Model entries, always link to blog detail page
-    const blogDetailUrl = `/blogs/${generateSlug(card.title)}`;
+    // For Content Card Model entries, always link to blog detail page with locale
+    const blogDetailUrl = `/${locale}/blogs/${generateSlug(card.title)}`;
     
     // Determine if this should be a clickable card
     const shouldBeClickable = LinkType === 'Card' && linkField?.href;
