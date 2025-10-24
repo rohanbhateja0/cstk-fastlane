@@ -54,6 +54,22 @@ export default {
    */
   getEntry({ contentTypeUid, referenceFieldPath, jsonRtePath, locale }) {
     return new Promise((resolve, reject) => {
+      // Check if required environment variables are present
+      if (!process.env.CONTENTSTACK_API_KEY && !process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY) {
+        reject(new Error('ContentStack API key is not configured. Please set CONTENTSTACK_API_KEY or NEXT_PUBLIC_CONTENTSTACK_API_KEY environment variable.'));
+        return;
+      }
+      
+      if (!process.env.CONTENTSTACK_DELIVERY_TOKEN) {
+        reject(new Error('ContentStack delivery token is not configured. Please set CONTENTSTACK_DELIVERY_TOKEN environment variable.'));
+        return;
+      }
+      
+      if (!process.env.CONTENTSTACK_ENVIRONMENT) {
+        reject(new Error('ContentStack environment is not configured. Please set CONTENTSTACK_ENVIRONMENT environment variable.'));
+        return;
+      }
+
       const query = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) query.includeReference(referenceFieldPath);
       if (locale) query.language(locale);
@@ -71,6 +87,7 @@ export default {
             resolve(result);
           },
           (error) => {
+            console.error('ContentStack API Error:', error);
             reject(error);
           },
         );
