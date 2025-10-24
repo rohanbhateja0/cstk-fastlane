@@ -1,15 +1,15 @@
 import Link from 'next/link';
-import { headers } from 'next/headers';
 import { Locale, locales, defaultLocale, isValidLocale } from '@/lib/i18n';
 
 interface ServerLinkProps {
   href: string;
   children: React.ReactNode;
   className?: string;
+  locale?: Locale;
   [key: string]: any;
 }
 
-export const ServerLink = async ({ href, children, className, ...props }: ServerLinkProps) => {
+export const ServerLink = async ({ href, children, className, locale: propLocale, ...props }: ServerLinkProps) => {
   // Ensure we have a valid href
   if (!href || typeof href !== 'string') {
     console.warn('ServerLink: Invalid or missing href prop:', href);
@@ -37,32 +37,12 @@ export const ServerLink = async ({ href, children, className, ...props }: Server
       return href;
     }
     
-    // If it's the default locale, don't add prefix
-    if (currentLocale === defaultLocale) {
-      return href;
-    }
-    
-    // For other locales, add the locale prefix
+    // Always add locale prefix: /[lang]/path
     return `/${currentLocale}${href}`;
   };
 
-  // Get locale from headers
-  const getLocaleFromHeaders = async (): Promise<Locale> => {
-    try {
-      const headersList = await headers();
-      const locale = headersList.get('x-locale');
-      
-      if (locale && isValidLocale(locale)) {
-        return locale;
-      }
-      
-      return defaultLocale;
-    } catch (error) {
-      return defaultLocale;
-    }
-  };
-
-  const locale = await getLocaleFromHeaders();
+  // Use provided locale or fallback to default
+  const locale = propLocale || defaultLocale;
   const localizedHref = getLocalizedHref(href, locale);
 
   return (

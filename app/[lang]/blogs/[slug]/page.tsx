@@ -10,6 +10,7 @@ import ImageComponent from '@/components/image';
 // import LivePreview from '@/components/LivePreview';
 import { onEntryChange } from '@/contentstack-sdk';
 import { GetContentCardBySlug } from '@/core/ContentQueries/GetContentCard';
+import { useLocale } from '@/hooks/useLocale';
 
 // Content Card Model type based on the MCP data
 type ContentCardModel = {
@@ -67,6 +68,7 @@ type ContentCardModel = {
 export default function BlogDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const { locale } = useLocale();
   
   const [blogPost, setBlogPost] = useState<ContentCardModel | null>(null);
   const [loading, setLoading] = useState(true);
@@ -80,7 +82,7 @@ export default function BlogDetailPage() {
     try {
       setLoading(true);
       
-      const blogPost = await GetContentCardBySlug(slug);
+      const blogPost = await GetContentCardBySlug(slug, locale);
       
       if (blogPost) {
         setBlogPost(blogPost);

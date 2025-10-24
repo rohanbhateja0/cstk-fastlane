@@ -43,12 +43,12 @@ export const CMSLink = (props: LinkProps) => {
       return href;
     }
     
-    // If it's the default locale, don't add prefix
-    if (currentLocale === defaultLocale) {
-      return href;
+    // Handle root path specially
+    if (href === '/') {
+      return `/${currentLocale}/`;
     }
     
-    // For other locales, add the locale prefix
+    // Always add locale prefix: /[lang]/path
     return `/${currentLocale}${href}`;
   };
 

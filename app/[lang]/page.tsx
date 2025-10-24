@@ -5,29 +5,14 @@ import { notFound } from 'next/navigation';
 import { GetPage } from "@/core/ContentQueries/GetPage"
 import FlexGrid from "@/components/flex-grid";
 import LivePreview from "@/components/LivePreview";
-import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect, useCallback } from 'react';
-import { getLocaleFromPath, Locale, removeLocaleFromPath, isValidLocale, locales, localeNames, localeFlags, defaultLocale } from '@/lib/i18n';
+import { useLocale } from '@/hooks/useLocale';
+import { locales, localeNames, localeFlags } from '@/lib/i18n';
 
 export default function Home() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { locale } = useLocale();
   const [page, setPage] = useState<Page | null>(null);
-  const [locale, setLocale] = useState<Locale>(defaultLocale);
   const [loading, setLoading] = useState(true);
-
-  // Get locale from query parameters (set by middleware) or from URL
-  useEffect(() => {
-    const queryLocale = searchParams.get('locale');
-    if (queryLocale && isValidLocale(queryLocale)) {
-      setLocale(queryLocale as Locale);
-    } else {
-      const pathLocale = getLocaleFromPath(pathname);
-      if (pathLocale) {
-        setLocale(pathLocale);
-      }
-    }
-  }, [searchParams, pathname]);
 
   const fetchData = useCallback(async () => {
     try {

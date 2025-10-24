@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { locales, localeNames, localeFlags, isValidLocale, getLocaleFromPath, removeLocaleFromPath, defaultLocale, isRTL } from '@/lib/i18n';
-import { Locale } from '@/lib/i18n';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { locales, localeNames, localeFlags, isRTL } from '@/lib/i18n';
+import { Locale, defaultLocale } from '@/lib/i18n';
+import { useLocale } from '@/hooks/useLocale';
 
 interface LanguageSwitcherProps {
   className?: string;
@@ -11,39 +12,15 @@ interface LanguageSwitcherProps {
 
 export default function LanguageSwitcher({ className = '' }: LanguageSwitcherProps) {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { locale: currentLocale, cleanPath } = useLocale();
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLocale, setCurrentLocale] = useState<Locale>(defaultLocale);
   const isCurrentRTL = isRTL(currentLocale);
-  
-  // Get current locale from query params (set by middleware) or from URL path
-  useEffect(() => {
-    const queryLocale = searchParams.get('locale');
-    if (queryLocale && isValidLocale(queryLocale)) {
-      setCurrentLocale(queryLocale as Locale);
-    } else {
-      const pathLocale = getLocaleFromPath(pathname);
-      if (pathLocale) {
-        setCurrentLocale(pathLocale);
-      }
-    }
-  }, [searchParams, pathname]);
-
-  const cleanPath = removeLocaleFromPath(pathname);
 
   const handleLanguageChange = (newLocale: Locale) => {
     if (newLocale === currentLocale) return;
     
-    let newPath: string;
-    
-    if (newLocale === defaultLocale) {
-      // For English, don't show locale in URL
-      newPath = cleanPath;
-    } else {
-      // For other languages, show locale in URL
-      newPath = `/${newLocale}${cleanPath}`;
-    }
+    // Always include locale in URL: /[lang]/path
+    const newPath = `/${newLocale}${cleanPath}`;
     
     router.push(newPath);
     setIsOpen(false);

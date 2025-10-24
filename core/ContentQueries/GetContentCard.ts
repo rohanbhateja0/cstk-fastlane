@@ -14,13 +14,14 @@ export const GetContentCard = async (entryUid: string) => {
     return response;
 };
 
-export const GetContentCardBySlug = async (slug: string) => {
+export const GetContentCardBySlug = async (slug: string, locale?: string) => {
     try {
         // Get all content cards and find by slug
         const response = await Stack.getEntry({
             contentTypeUid: "content_card_model",
             referenceFieldPath: [],
             jsonRtePath: ["content.intro_text"],
+            locale: locale || "en-us",
         });
         
         // Find entry by slug first

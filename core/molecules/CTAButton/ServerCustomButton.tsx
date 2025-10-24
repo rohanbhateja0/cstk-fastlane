@@ -4,20 +4,26 @@ import { CustomButtonFields } from '@/core/types/components/CustomButton';
 import { ServerLink } from '@/core/atoms/ServerLink';
 import { CMSImage } from '@/core/atoms/Image';
 import { cn } from '@/core/lib/utils';
+import { Locale } from '@/lib/i18n';
 
 const allowedVariants = ['link', 'primary', 'outline', 'secondary'] as const;
 
 type ButtonVariant = (typeof allowedVariants)[number];
 
-const ServerCustomButton = (props: CustomButtonFields) => {
+interface ServerCustomButtonProps extends CustomButtonFields {
+  locale: Locale;
+}
+
+const ServerCustomButton = (props: ServerCustomButtonProps) => {
+  const { locale, ...buttonProps } = props;
   
-  const btnVariant = allowedVariants.includes(props.button_style as ButtonVariant)
-    ? (props.button_style as ButtonVariant)
+  const btnVariant = allowedVariants.includes(buttonProps.button_style as ButtonVariant)
+    ? (buttonProps.button_style as ButtonVariant)
     : 'default';
-  const btnDirection = props.button_direction;
+  const btnDirection = buttonProps.button_direction;
 
   return (
-    <ServerLink href={props.button_link.href || '#'}>
+    <ServerLink href={buttonProps.button_link.href || '#'} locale={locale}>
       <Button asChild size="lg" variant={btnVariant} className={cn('my-2 max-w-80 w-full')}>
         <div
           className={cn('flex items-center', {
@@ -26,7 +32,7 @@ const ServerCustomButton = (props: CustomButtonFields) => {
             'gap-4': btnDirection !== 'position-right' && btnDirection !== 'position-center',
           })}
         >
-          {props?.button_image && (
+          {buttonProps?.button_image && (
             <div
               className={cn(
                 'flex items-center justify-center flex-shrink-0 rounded-md overflow-hidden',
@@ -37,14 +43,14 @@ const ServerCustomButton = (props: CustomButtonFields) => {
               )}
             >
               <CMSImage 
-                image={props.button_image}
+                image={buttonProps.button_image}
                 alt={`Button-Image`}
                 className="w-full h-full aspect-square object-cover"
               />
             </div>
           )}
           <span>
-            {props.button_link.title.trim()}
+            {buttonProps.button_link.title.trim()}
           </span>
         </div>
       </Button>

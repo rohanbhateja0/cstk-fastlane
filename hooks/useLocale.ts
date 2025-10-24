@@ -1,29 +1,27 @@
 "use client";
 
-import { usePathname, useSearchParams } from 'next/navigation';
-import { getLocaleFromPath, removeLocaleFromPath, Locale, isValidLocale, isRTL, getTextDirection } from '@/lib/i18n';
+import { usePathname } from 'next/navigation';
+import { Locale, isRTL, getTextDirection, defaultLocale, isValidLocale } from '@/lib/i18n';
 import { useState, useEffect } from 'react';
 
 export function useLocale() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [locale, setLocale] = useState<Locale>('en-us');
+  const [locale, setLocale] = useState<Locale>(defaultLocale);
   
   useEffect(() => {
-    // First try to get locale from query parameters (set by middleware)
-    const queryLocale = searchParams.get('locale');
-    if (queryLocale && isValidLocale(queryLocale)) {
-      setLocale(queryLocale as Locale);
+    // Extract locale from pathname: /[lang]/...
+    const segments = pathname.split('/').filter(Boolean);
+    const langSegment = segments[0];
+    
+    if (langSegment && isValidLocale(langSegment)) {
+      setLocale(langSegment as Locale);
     } else {
-      // Fallback: get locale from URL path
-      const pathLocale = getLocaleFromPath(pathname);
-      if (pathLocale) {
-        setLocale(pathLocale);
-      }
+      setLocale(defaultLocale);
     }
-  }, [searchParams, pathname]);
+  }, [pathname]);
 
-  const cleanPath = removeLocaleFromPath(pathname);
+  // Clean path removes the locale segment
+  const cleanPath = '/' + pathname.split('/').slice(2).join('/');
 
   return {
     locale,

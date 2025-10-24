@@ -6,33 +6,15 @@ import { onEntryChange } from "@/contentstack-sdk";
 import { GetBlogLandingPage } from "@/core/ContentQueries/GetBlogLandingPage";
 import { getPageRes, metaData } from "@/helper";
 import { Page as PageProp } from "@/typescript/pages";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useState, useEffect, useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
-import { getLocaleFromPath, Locale, removeLocaleFromPath, defaultLocale } from "@/lib/i18n";
+import { useLocale } from '@/hooks/useLocale';
+import { Locale } from "@/lib/i18n";
 
 export default function Page() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  
-  // Get locale from query parameters (set by middleware) or from URL
-  const [locale, setLocale] = useState<string>(defaultLocale);
-  
-  useEffect(() => {
-    // First try to get locale from query parameters (set by middleware)
-    const queryLocale = searchParams.get('locale');
-    if (queryLocale) {
-      setLocale(queryLocale);
-    } else {
-      // Fallback: get locale from the original URL
-      const originalUrl = window.location.pathname;
-      const urlLocale = getLocaleFromPath(originalUrl) || defaultLocale;
-      setLocale(urlLocale);
-    }
-  }, [searchParams]);
-
-  // Get clean path - remove locale if it's still in the pathname
-  const cleanPath = removeLocaleFromPath(pathname);
+  const { locale, cleanPath } = useLocale();
 
   const [getEntry, setEntry] = useState<PageProp>();
 
