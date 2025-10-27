@@ -61,7 +61,7 @@ export default function UserList({ userList, page }: UserListProps) {
   const renderUserCard = (user: User) => (
     <CMSLink 
       key={user.id} 
-      href={`/providers/${generateSlug(user.name)}`}
+      href={`providers/${generateSlug(user.name)}`}
       className="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer"
     >
       <div className="flex items-center mb-4">
@@ -126,7 +126,7 @@ export default function UserList({ userList, page }: UserListProps) {
   const renderUserListItem = (user: User) => (
     <CMSLink 
       key={user.id} 
-      href={`/providers/${generateSlug(user.name)}`}
+      href={`providers/${generateSlug(user.name)}`}
       className="block bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer"
     >
       <div className="flex items-center justify-between">

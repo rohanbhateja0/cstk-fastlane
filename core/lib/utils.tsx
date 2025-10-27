@@ -47,6 +47,9 @@ export function getLocalizedHref(href: string, locale: Locale): string {
     return `/${locale}/`;
   }
   
+  // Ensure path starts with / for proper locale prefixing
+  const normalizedPath = href.startsWith('/') ? href : `/${href}`;
+  
   // Always add locale prefix: /[lang]/path
-  return `/${locale}${href}`;
+  return `/${locale}${normalizedPath}`;
 }

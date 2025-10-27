@@ -6,9 +6,11 @@ import { User } from '@/core/types/components/UserList';
 import { CMSLink } from '@/core/atoms/Link';
 import { ArrowLeft, Mail, Phone, Globe, MapPin, Building } from 'lucide-react';
 import { generateSlug } from '@/core/lib/utils';
+import { useLocale } from '@/hooks/useLocale';
 
 export default function ProviderDetailPage() {
   const params = useParams();
+  const { locale } = useLocale();
   const slug = params.slug as string;
   
   const [user, setUser] = useState<User | null>(null);
@@ -80,7 +82,7 @@ export default function ProviderDetailPage() {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <CMSLink 
-            href="/providers" 
+            href={`/${locale}/providers`} 
             className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -94,7 +96,7 @@ export default function ProviderDetailPage() {
               The provider you're looking for doesn't exist or has been removed.
             </p>
             <CMSLink 
-              href="/providers"
+              href={`/${locale}/providers`} 
               className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               View All Providers
@@ -110,7 +112,7 @@ export default function ProviderDetailPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <CMSLink 
-          href="/providers" 
+          href={`/${locale}/providers`} 
           className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
