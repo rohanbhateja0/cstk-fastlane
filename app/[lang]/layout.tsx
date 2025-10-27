@@ -102,7 +102,7 @@ export default async function LangLayout({
               </>
             </main>
           </div>
-          <Footer />
+          <Footer locale={locale} />
         </RTLProvider>
       </body>
     </html>

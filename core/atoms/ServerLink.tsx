@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Locale, locales, defaultLocale, isValidLocale } from '@/lib/i18n';
+import { getLocalizedHref } from '@/core/lib/utils';
 
 interface ServerLinkProps {
   href: string;
@@ -19,27 +20,6 @@ export const ServerLink = async ({ href, children, className, locale: propLocale
       </Link>
     );
   }
-
-  // Function to add locale prefix to href
-  const getLocalizedHref = (href: string, currentLocale: Locale): string => {
-    // Handle undefined or null href
-    if (!href || typeof href !== 'string') {
-      return '#';
-    }
-    
-    // If it's already a full URL, return as is
-    if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
-      return href;
-    }
-    
-    // If it's an anchor link, return as is
-    if (href.startsWith('#')) {
-      return href;
-    }
-    
-    // Always add locale prefix: /[lang]/path
-    return `/${currentLocale}${href}`;
-  };
 
   // Use provided locale or fallback to default
   const locale = propLocale || defaultLocale;

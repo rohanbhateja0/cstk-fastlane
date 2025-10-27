@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { CMSLinkField } from '../types/Fields';
 import { useLocale } from '@/hooks/useLocale';
 import { Locale, defaultLocale } from '@/lib/i18n';
+import { getLocalizedHref } from '@/core/lib/utils';
 
 interface LinkProps {
   link?: CMSLinkField;
@@ -30,27 +31,6 @@ export const CMSLink = (props: LinkProps) => {
       </Link>
     );
   }
-
-  // Function to add locale prefix to href
-  const getLocalizedHref = (href: string, currentLocale: Locale): string => {
-    // If it's already a full URL, return as is
-    if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
-      return href;
-    }
-    
-    // If it's an anchor link, return as is
-    if (href.startsWith('#')) {
-      return href;
-    }
-    
-    // Handle root path specially
-    if (href === '/') {
-      return `/${currentLocale}/`;
-    }
-    
-    // Always add locale prefix: /[lang]/path
-    return `/${currentLocale}${href}`;
-  };
 
   const localizedHref = getLocalizedHref(effectiveHref, locale);
 
