@@ -34,12 +34,14 @@ export const searchConfig = {
   attributesToSnippet: [
     'content:20'
   ],
-  // Facets for filtering
-  facets: ['_content_type', '_content_type_uid'],
+  // Request facet statistics for these attributes
+  facets: ['_content_type'],
   // Sort configuration
   sortFacetValuesBy: 'count',
   // Ensure facets are returned
-  maxValuesPerFacet: 100
+  maxValuesPerFacet: 100,
+  // Enable faceting (required for RefinementList to work)
+  getRankingInfo: true
 };
 
 // Sort indices configuration

@@ -1,5 +1,7 @@
 # Search Page Setup Requirements
 
+> **For developers implementing search pages**: This file contains detailed code examples, TypeScript interfaces, and implementation patterns. Use this file when coding search functionality including filters, search boxes, and result displays.
+
 ## Overview
 
 This template provides comprehensive requirements for creating search pages that integrate with Contentstack and Algolia, following the same standards as core component development but specifically tailored for search functionality.
@@ -188,11 +190,25 @@ interface SearchFiltersProps {
 }
 
 // Features:
-// - Content type filtering
+// - Content type filtering using RefinementList
 // - Category filtering
 // - Date range filtering
 // - Tag filtering
-// - Clear all filters
+// - Clear all filters using ClearRefinements
+// - Selected filters displayed with CurrentRefinements component
+// - Checkbox-based selection for content types
+// - Active filter badges with cross buttons for removal
+// - Format labels by removing underscores and capitalizing
+// - Display formatted content type names (e.g., "Content Card Model" instead of "content_card_model")
+// - Responsive sidebar layout with sticky positioning
+
+// Filter Implementation:
+// 1. Configure Algolia index with attributesForFaceting
+// 2. Use RefinementList component for filter options
+// 3. Use CurrentRefinements to show active filters
+// 4. Use ClearRefinements to clear all filters
+// 5. Apply transformItems to format labels (remove underscores, capitalize)
+// 6. Display selected filters above search results as badges
 ```
 
 #### Pagination Component

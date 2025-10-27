@@ -27,6 +27,16 @@ The search page architecture integrates three key systems:
 - **Multi-locale Support**: Search across different language versions
 - **Responsive Design**: Works across all device sizes
 
+### Code Examples and Implementation
+For detailed code examples, implementation guides, and AI prompts for building search pages with filters, see:
+- **[Search Page Requirements & Code Examples](./for-developers/component-development/ai-prompts/templates/algolia-core-search-page-requirements.md)** - Complete code examples, TypeScript interfaces, and implementation patterns for search pages including filter components.
+
+**Use the requirements file for coding instructions:**
+- Import and component setup
+- Filter implementation with RefinementList, CurrentRefinements, and ClearRefinements
+- Label formatting and transformation
+- Complete working code examples
+
 ## Architecture Overview
 
 ### System Integration Flow
@@ -140,6 +150,12 @@ Search Interface → Algolia API → Search Results → UI Rendering
 - **Hover States**: Subtle shadow, scale transform
 - **Loading States**: Skeleton placeholders
 
+#### Filter Components Design
+- **Filter Sidebar**: Sticky sidebar with filter options
+- **Checkbox Filters**: Content type filters with checkboxes
+- **Selected Filters**: Badge-style display with cross buttons
+- **Filter Layout**: Clear hierarchy and visual organization
+
 ## Algolia Search Architecture
 
 ### 1. Search Index Structure
@@ -156,7 +172,37 @@ Search Interface → Algolia API → Search Results → UI Rendering
 - **Retrievable Attributes**: All fields needed for display
 - **Highlighted Attributes**: Title and content for search highlighting
 
-### 2. Search Performance Architecture
+### 2. Adding Filter Components
+
+#### Overview
+The search page includes filter functionality using Algolia's built-in components:
+- **RefinementList**: Checkbox-based filters for content type selection
+- **CurrentRefinements**: Displays active filters as removable badges
+- **ClearRefinements**: Button to clear all active filters
+
+#### Filter Components Architecture
+- **Filter Sidebar**: Sticky sidebar containing filter options
+  - Content type filter with checkboxes and counts
+  - Clear all filters button
+  - Proper spacing and hover states
+  
+- **Selected Filters Display**: Active filters shown above search results
+  - Badge-style format with background color
+  - Cross button to remove individual filters
+  - Formatted labels (underscores removed, words capitalized)
+  
+- **Filter Formatting**: Labels are automatically formatted
+  - Content type names: "content_card_model" → "Content Card Model"
+  - Attribute names: "_content_type" → "Content Type"
+  - User-friendly display without technical underscores
+
+#### Filter Configuration Requirements
+- **Algolia Index Setup**: Configure `attributesForFaceting` in Algolia dashboard
+- **Facet Configuration**: Add facets to search config (e.g., `['_content_type']`)
+- **Layout Integration**: Filters displayed in sidebar, selected filters above results
+- **Responsive Design**: Filter sidebar stacks on mobile, side-by-side on desktop
+
+### 3. Search Performance Architecture
 
 #### Query Optimization
 - **Query Caching**: Cache frequent search queries
@@ -181,14 +227,17 @@ SearchPage
 │   ├── SearchTitle
 │   ├── SearchBox
 │   └── SearchButton
-├── SearchFilters
-│   ├── ContentTypeFilter
-│   ├── CategoryFilter
-│   └── DateRangeFilter
-├── SearchResults
-│   ├── ResultsHeader
-│   ├── ViewToggle
-│   └── ResultCards
+├── SearchContentArea
+│   ├── FilterSidebar
+│   │   ├── FilterHeader
+│   │   ├── ClearRefinements
+│   │   └── RefinementList (Content Type)
+│   └── ResultsArea
+│       ├── SelectedFilters (Active Filters with Cross Buttons)
+│       ├── ResultsHeader
+│       ├── ViewToggle
+│       ├── SearchResults
+│       └── SearchPagination
 └── SearchPagination
     ├── PreviousButton
     ├── PageNumbers
@@ -214,6 +263,9 @@ SearchResultCard
 - **Query State**: Current search query and suggestions
 - **Results State**: Search results and pagination
 - **Filter State**: Active filters and facets
+  - Content type filters
+  - Selected filter refinements
+  - Clear all filters capability
 - **UI State**: View mode, loading states, errors
 - **Analytics State**: Search tracking and performance metrics
 
@@ -347,13 +399,24 @@ SearchResultCard
 - **Search Performance**: Monitor search query performance and optimization
 - **Index Synchronization**: Ensure content sync is working properly
 
-#### 3. Figma Design Integration Issues
+#### Filter Implementation Issues
+- **No Facets Showing**: Ensure index is configured with `attributesForFaceting`
+  - Run index configuration script to set up faceting
+  - Check that facets are requested in search configuration
+- **Filter Not Working**: Verify attribute name matches index field
+  - Check attribute name spelling and underscores
+  - Ensure field exists in your search index
+- **Unformatted Labels**: Apply `transformItems` to format display labels
+  - Remove underscores from labels
+  - Capitalize words for readability
+
+#### 4. Figma Design Integration Issues
 - **Design Token Extraction**: Verify design tokens are properly extracted
 - **Component Specs**: Check component specifications and measurements
 - **Asset Export**: Ensure assets are properly exported and accessible
 - **Design System Consistency**: Maintain consistency with design system
 
-#### 4. Performance and Scaling Issues
+#### 5. Performance and Scaling Issues
 - **Search Response Time**: Monitor and optimize search query performance
 - **Content Sync Performance**: Optimize content synchronization processes
 - **Memory Usage**: Monitor memory usage and implement cleanup strategies

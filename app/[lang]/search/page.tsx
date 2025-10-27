@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { InstantSearch, SearchBox, Hits, Stats, Configure, useHits, Pagination, HitsPerPage, useSearchBox, useInstantSearch } from 'react-instantsearch';
+import { InstantSearch, SearchBox, Hits, Stats, Configure, useHits, Pagination, HitsPerPage, useSearchBox, useInstantSearch, RefinementList, CurrentRefinements, ClearRefinements } from 'react-instantsearch';
 import { searchClient, INDEX_NAME, searchConfig } from '@/lib/algolia';
 import SearchResultCard from '@/components/SearchResultCard';
 
@@ -337,6 +337,99 @@ function SearchPagination() {
   );
 }
 
+// Selected Filters Component - shows above search results
+function SelectedFilters() {
+  return (
+    <div className="mb-6">
+      <CurrentRefinements
+        classNames={{
+          root: 'space-y-2',
+          list: 'flex flex-wrap gap-2',
+          item: 'inline-flex items-center gap-2 bg-sky-100 rounded-full px-4 py-2 text-sm border border-sky-200',
+          label: 'text-sky-900',
+          categoryLabel: 'text-sky-950 font-semibold mr-1',
+          delete: 'ml-1.5 p-1 rounded-full hover:bg-sky-200 transition-colors cursor-pointer text-zinc-500 hover:text-sky-900 flex-shrink-0'
+        }}
+        transformItems={(items) =>
+          items.map((item) => ({
+            ...item,
+            // Format the attribute name to remove underscores
+            attribute: item.attribute
+              ? item.attribute
+                  .replace(/^_/, '') // Remove leading underscore
+                  .replace(/_/g, ' ')
+                  .replace(/\b\w/g, (letter) => letter.toUpperCase())
+              : item.attribute,
+            refinements: item.refinements.map((refinement) => ({
+              ...refinement,
+              // Replace underscores with spaces and capitalize words
+              label: refinement.label
+                .replace(/_/g, ' ')
+                .replace(/\b\w/g, (letter) => letter.toUpperCase())
+            }))
+          }))
+        }
+      />
+    </div>
+  );
+}
+
+// Filter Sidebar Component
+function FiltersSidebar() {
+  return (
+    <div className="w-full lg:w-64 flex-shrink-0">
+      <div className="bg-white border border-zinc-200 rounded-lg p-6 lg:sticky lg:top-6">
+        {/* Filters Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-zinc-900">Filters</h3>
+          <ClearRefinements
+            classNames={{
+              root: 'text-sm',
+              button: 'text-sky-900 hover:text-sky-700 transition-colors',
+              disabledButton: 'text-zinc-400 cursor-not-allowed'
+            }}
+            translations={{
+              resetButtonText: 'Clear all'
+            }}
+          />
+        </div>
+
+        {/* Content Type Filter - shows all content types from search results as checkboxes
+            When checkboxes are selected, the search results are automatically filtered
+            to show only content matching the selected types */}
+        <div className="mb-6">
+          <h4 className="text-sm font-semibold text-zinc-900 mb-3">Content Type</h4>
+          <RefinementList
+            attribute="_content_type"
+            classNames={{
+              root: 'space-y-3',
+              list: 'space-y-2',
+              item: 'flex items-center justify-between py-1 px-2 rounded hover:bg-zinc-50 transition-colors',
+              label: 'flex items-center cursor-pointer flex-1 min-w-0',
+              checkbox: 'mr-3 h-4 w-4 flex-shrink-0 rounded border-zinc-300 text-sky-600 focus:ring-sky-500',
+              labelText: 'text-sm text-zinc-700 truncate',
+              count: 'ml-4 text-xs text-zinc-500 flex-shrink-0 font-bold'
+            }}
+            transformItems={(items) =>
+              items.map((item) => ({
+                ...item,
+                // Replace underscores with spaces and capitalize words
+                label: item.label
+                  .replace(/_/g, ' ')
+                  .replace(/\b\w/g, (letter) => letter.toUpperCase())
+              }))
+            }
+          />
+        </div>
+
+        <div className="pt-6 border-t border-zinc-200 text-xs text-zinc-500">
+          Refine your search results using the filters above
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function SearchPage() {
   const [viewMode, setViewMode] = React.useState<'list' | 'grid'>('list');
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -353,7 +446,7 @@ export default function SearchPage() {
           <SearchQueryDisplay query={searchQuery} />
           
           {/* Search Box */}
-          <div className="flex gap-2 max-w-4xl">
+          <div className="flex gap-2 w-full">
             <div className="flex-1">
               <AutocompleteSearchBox onQueryChange={setSearchQuery} />
             </div>
@@ -364,10 +457,16 @@ export default function SearchPage() {
         </div>
 
         {/* Main Content Area */}
-                <div className="max-w-7xl mx-auto px-6 pb-12">
-                  <div className="flex gap-6">
-                    {/* Main Results Area */}
-                    <div className="flex-1 max-w-4xl">
+        <div className="max-w-7xl mx-auto px-6 pb-12">
+          <div className="flex gap-6 flex-col lg:flex-row">
+            {/* Filter Sidebar */}
+            <FiltersSidebar />
+            
+            {/* Main Results Area */}
+            <div className="flex-1 min-w-0">
+              {/* Selected Filters */}
+              <SelectedFilters />
+              
               {/* Results Header */}
               <ResultsHeader viewMode={viewMode} setViewMode={setViewMode} />
 
