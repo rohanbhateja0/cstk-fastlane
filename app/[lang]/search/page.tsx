@@ -344,7 +344,9 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-white">
       <InstantSearch searchClient={searchClient} indexName={INDEX_NAME}>
-        <Configure {...searchConfig} />
+        <Configure 
+          {...searchConfig}
+        />
         
         {/* Search Header */}
         <div className="max-w-7xl mx-auto px-6 py-12">

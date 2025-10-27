@@ -33,16 +33,38 @@ interface SearchResultCardProps {
       };
     };
     uid?: string;
+    url?: string;
     created_at?: string;
     updated_at?: string;
+    _content_type?: string;
     _content_type_uid?: string;
   };
   viewMode?: 'list' | 'grid';
 }
 
 export default function SearchResultCard({ hit, viewMode = 'list' }: SearchResultCardProps) {
-  // Generate slug safely
-  const blogDetailUrl = hit.title ? `/blogs/${generateSlug(hit.title)}` : '#';
+  // Generate slug safely - CMSLink will add locale prefix automatically
+  // Use the URL if available, otherwise generate from title
+  let blogDetailUrl = '';
+  
+  if (hit.url) {
+    // Remove leading slash if present
+    blogDetailUrl = hit.url.startsWith('/') ? hit.url.substring(1) : hit.url;
+  } else if (hit.title) {
+    const slug = generateSlug(hit.title);
+    
+    // Determine content type based on _content_type field
+    const contentType = hit._content_type || hit._content_type_uid;
+    
+    if (contentType === 'content_card_model') {
+      blogDetailUrl = `blogs/${slug}`;
+    } else if (contentType === 'news_section') {
+      blogDetailUrl = `news/${slug}`;
+    } else {
+      // For other content types (like pages), use the slug directly
+      blogDetailUrl = slug;
+    }
+  }
   
   // Grid view layout
   if (viewMode === 'grid') {

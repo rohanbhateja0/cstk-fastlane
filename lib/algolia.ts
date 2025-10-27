@@ -22,9 +22,11 @@ export const searchConfig = {
     'title',
     'content',
     'uid',
+    'url',
     'created_at',
     'updated_at',
-    '_content_type'
+    '_content_type',
+    '_content_type_uid'
   ],
   attributesToHighlight: [
     'title'
@@ -33,7 +35,7 @@ export const searchConfig = {
     'content:20'
   ],
   // Facets for filtering
-  facets: ['_content_type'],
+  facets: ['_content_type', '_content_type_uid'],
   // Sort configuration
   sortFacetValuesBy: 'count',
   // Ensure facets are returned
