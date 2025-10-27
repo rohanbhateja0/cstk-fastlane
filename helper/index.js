@@ -206,12 +206,13 @@ export const getNewsSectionRes = async (newsSectionUid) => {
     return response;
 };
 
-export const getContactUsSectionRes = async (contactUsSectionUid) => {
+export const getContactUsSectionRes = async (contactUsSectionUid, variantParam) => {
     const response = await Stack.getEntryByUid({
         contentTypeUid: "contactus_section",
         entryUid: contactUsSectionUid,
         referenceFieldPath: [],
         jsonRtePath: [],
+        variantParam: variantParam, // Pass variant parameter
     });
     
     // response is array-like: {0: {entry_data}, $: {metadata}}

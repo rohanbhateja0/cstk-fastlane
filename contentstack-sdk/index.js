@@ -1,5 +1,6 @@
 import * as contentstack from 'contentstack';
 import * as Utils from '@contentstack/utils';
+import Personalize from '@contentstack/personalize-edge-sdk';
 
 import ContentstackLivePreview from '@contentstack/live-preview-utils';
 
@@ -83,15 +84,32 @@ export default {
    * @param {* url for entry to be fetched} entryUrl
    * @param {* reference field name} referenceFieldPath
    * @param {* Json RTE path} jsonRtePath
+   * @param {* variant parameter} variantParam
    * @returns
    */
   getEntryByUrl({
-    contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath,
+    contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath, variantParam,
   }) {
     return new Promise((resolve, reject) => {
       const entryQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
       entryQuery.toJSON();
+      
+      // Add variant support using Personalize SDK method
+      if (variantParam) {
+        try {
+          const variantAliases = Personalize.variantParamToVariantAliases(variantParam);
+          
+          if (variantAliases && variantAliases.length > 0) {
+            const variantAlias = variantAliases.join(',');
+            entryQuery.variants(variantAlias);
+          } 
+        } catch (error) {
+          console.error('❌ Error applying variants:', error);
+        }
+      } else {
+        console.log('ℹ️ SDK - No variantParam provided, fetching base content');
+      }
       
       const data = entryQuery.where('url', `${entryUrl}`).find();
       data.then(
@@ -119,15 +137,32 @@ export default {
    * @param {* UID for entry to be fetched} entryUid
    * @param {* reference field name} referenceFieldPath
    * @param {* Json RTE path} jsonRtePath
+   * @param {* variant parameter} variantParam
    * @returns
    */
   getEntryByUid({
-    contentTypeUid, entryUid, referenceFieldPath, jsonRtePath,
+    contentTypeUid, entryUid, referenceFieldPath, jsonRtePath, variantParam,
   }) {
     return new Promise((resolve, reject) => {
       const entryQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
       entryQuery.toJSON();
+      
+      // Add variant support using Personalize SDK method
+      if (variantParam) {
+        try {
+          const variantAliases = Personalize.variantParamToVariantAliases(variantParam);
+          
+          if (variantAliases && variantAliases.length > 0) {
+            const variantAlias = variantAliases.join(',');
+            entryQuery.variants(variantAlias);
+          } 
+        } catch (error) {
+          console.error('❌ Error applying variants (UID):', error);
+        }
+      } else {
+        console.log('ℹ️ SDK (UID) - No variantParam provided, fetching base content');
+      }
       
       const data = entryQuery.where('uid', `${entryUid}`).find();
       data.then(

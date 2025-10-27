@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import "./globals.css"; // Importing global CSS styles
 // import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
+import { PersonalizeProvider } from '@/components/context/PersonalizeContext';
 
 const satoshi = localFont({
   src: [
@@ -51,11 +52,7 @@ const zodiak = localFont({
   display: 'swap',
 });
 
-
 const inter = Inter({ subsets: ["latin"] });
-
-
-
 
 export const metadata: Metadata = {
   title: "Contentstack-Nextjs-Starter-App",
@@ -96,15 +93,17 @@ export default async function RootLayout({
         
       </head>
       <body className={`${satoshi.variable} ${zodiak.variable}`}>
-        <div className="fastlanewebsite">
-          <Header />
-          <main>
-            <>
-              {children}
-            </>
-          </main>
-        </div>
-        <Footer />
+        <PersonalizeProvider>
+          <div className="fastlanewebsite">
+            <Header />
+            <main>
+              <>
+                {children}
+              </>
+            </main>
+          </div>
+          <Footer />
+        </PersonalizeProvider>
       </body>
     </html>
   );

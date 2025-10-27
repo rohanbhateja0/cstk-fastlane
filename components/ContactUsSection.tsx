@@ -2,9 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import NextLink from 'next/link';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { ContactUsSectionProps } from '@/core/types/Props';
 import { CMSLinkField } from '@/core/types/Fields';
 import { getContactUsSectionRes } from '@/helper';
+import Personalize from '@contentstack/personalize-edge-sdk';
 
 // Icon Components matching Figma design
 const BellRingIcon = () => (
@@ -139,6 +141,17 @@ const ContactUsCard = ({ contactUsItem, renderingOptions }: { contactUsItem: any
 
 export default function ContactUsSection(props: ContactUsSectionProps) {
   const { contactUsSection, page } = props;
+  const searchParams = useSearchParams();
+  
+  // Get variant parameter from cookie (set by middleware)
+  // Client components can't read server-side URL rewrites, so we use cookies
+  let variantParam = undefined;
+  if (typeof document !== 'undefined') {
+      const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+      // Decode URL-encoded value (e.g., "0_0%2C1_null" -> "0_0,1_null")
+      variantParam = cookieValue ? decodeURIComponent(cookieValue) : undefined;
+  }
+  
   const [contactUsSectionData, setContactUsSectionData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -155,14 +168,22 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
           return;
         }
 
+        console.log('📋 Fetching ContactUs sections with variant:', variantParam);
+
         // Fetch all contactus_section entries
         const fetchedData = await Promise.all(
           contactUsSections.map(async (section: any) => {
             // Check if it's a reference object with UID
             if (section.uid && section._content_type_uid === 'contactus_section') {
-              const data = await getContactUsSectionRes(section.uid);
+              // Pass variant parameter to helper function
+              const data = await getContactUsSectionRes(section.uid, variantParam);
               // ContentStack returns an array, extract the first element
               const contactUsItem = Array.isArray(data) ? data[0] : data;
+              
+              if (variantParam && contactUsItem) {
+                console.log('✅ Fetched ContactUs variant:', contactUsItem.title);
+              }
+              
               return contactUsItem;
             }
             // If it's already the full data
@@ -180,7 +201,7 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
     };
 
     fetchContactUsSectionData();
-  }, [contactUsSection]);
+  }, [contactUsSection, variantParam]);
 
   if (loading) {
     return <div className="contactus-section-loading py-12 text-center">Loading contact options...</div>;

@@ -3,7 +3,7 @@ import { addEditableTags } from "@contentstack/utils";
 
 const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true";
 
-export const GetPage = async (entryUrl : string) => {
+export const GetPage = async (entryUrl : string, variantParam?: string) => {
     // Normalize URL to lowercase for case-insensitive matching
     const normalizedUrl = entryUrl.toLowerCase();
     
@@ -17,6 +17,7 @@ export const GetPage = async (entryUrl : string) => {
             "fastlane_components.contactus_section.contactus_sections"
         ],
         jsonRtePath: [],
+        variantParam: variantParam, // Pass variant parameter from URL
     });
     liveEdit && addEditableTags(response[0], "page", true);
     return response[0];
