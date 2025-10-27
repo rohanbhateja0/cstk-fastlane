@@ -2,25 +2,25 @@
 
 ### Core Development Standards
 - **Do NOT** reuse or reference any existing implementation of this component
-- Use the `cn` helper from `@utils.tsx` for className merging
+- Use the `cn` helper from `@core/lib/utils.tsx` for className merging
 - All styling must use Tailwind classes, referencing variables from the project's Tailwind config
-- Reference and compose as many ShadCN UI primitives as possible (e.g., Button, Card, Input, etc.) to maximize re-use, accessibility, and themability: `@/ui`
+- Reference and compose as many ShadCN UI primitives as possible (e.g., Button, Card, Input, etc.) to maximize re-use, accessibility, and themability: `@/core/ui`
 
-### Sitecore Content SDK Integration
-- All Sitecore fields must be editable using **Sitecore Content SDK primitives** (Text, RichText, etc.) from `@sitecore-content-sdk/nextjs`
-- Use `SitecoreImage` from `@Images.tsx` and `SitecoreLink` from `@Link.tsx` for images and links - SitecoreImage and SitecoreLink already have page mode detection built in.
-- Use `useSitecore()` hook for page context access (replaces JSS `useSitecoreContext`)
-- Handle **enhanced page mode detection**: `isEditing`,  `isPreview`, `isNormal`
-- Implement proper field rendering with Content SDK components
-- Include proper TypeScript interfaces for all Content SDK field types
+### Contentstack CMS Integration
+- All Contentstack fields must be editable using **Contentstack Live Preview** from `@contentstack/live-preview-utils`
+- Use `CMSImage` from `@/core/atoms/Image` and `CMSLink` from `@/core/atoms/Link` for images and links
+- Use `addEditableTags` from `@contentstack/utils` for Live Preview editing experience
+- Import locale from `@/lib/i18n` for multilingual support
+- Include proper TypeScript interfaces for all Contentstack field types
+- Pass locale parameter to content queries for localized content
 
-### Sitecore XM Cloud Styling
-In Sitecore XM Cloud, styling options are provided as styles (space-separated class names) and advanced options as params. The entire list of styles available to all components in the solution are defined in `@/Styles`. Styles are output via the `styles` prop as classes.
+### Contentstack Live Preview
+Live Preview integration enables content editing directly in the browser. The `onEntryChange` listener from `@contentstack-sdk` handles real-time updates.
 
-**Important**: The keys (that you will find in the yml) provide context, but are only used in the Page Builder UI, not in code. For example:
-- In the Components Top Spacing style option, "Top Large Space" is only shown in the Authoring UI of the Page Builder app (editing UI) as a dropdown option - in the code, the styles will actually show up in props styles as indicated by the Value hint in the yml. For Top Large Space - this is `"top-large-space"`
-- For Components Bottom Spacing, Bottom Medium Space option, this is `"bottom-large-space"`
-- For Background color, Primary background option, this is `"bg-primary text-primary-foreground"`
+**Important**: Editable tags are added using `addEditableTags()` from Contentstack utils:
+- Fields are automatically editable when in Live Preview mode
+- Components use the `$.` (dollar) property for metadata and editable attributes
+- Example: `{...(field.$?.title ?? {})}` adds edit attributes to an element
 
 ### Business Logic & Documentation
 - Reference the `@{ComponentName}.MD` file for all business logic, field definitions, and variant/option details
@@ -29,72 +29,79 @@ In Sitecore XM Cloud, styling options are provided as styles (space-separated cl
 ### Design & Accessibility
 - You should prefer themability - and always use the semantic colors and semantic fonts as defined in the `tailwind.config.ts` - never the raw tailwind colors
 - The component must be fully responsive and accessible
-- Place the file in `src/components/{ComponentName}.tsx`
+- Place the file in `components/{ComponentName}.tsx`
+- Include locale support where needed (use CMSLink for automatic locale prefixing)
 
 ## Critical Implementation Patterns
 
-### Content SDK Page Mode Detection
+### Contentstack Field Access
 ```typescript
-// CRITICAL: Use Content SDK's enhanced mode detection
-import { useSitecore } from '@sitecore-content-sdk/nextjs';
+// Access Contentstack fields directly from entry data
+const { title, description, image, link } = entryData;
 
-const { page } = useSitecore();
+// Add editable tags for Live Preview
+<CMSImage image={image} alt={title} />
 
-if (page.mode.isEditing) {
-  // Content editing mode - show editable experience
-}
+// For links, use CMSLink which automatically handles locale
+<CMSLink link={link}>{link.title}</CMSLink>
+```
 
-if (page.mode.isPreview) {
-  // Preview mode for content review
-}
+### Live Preview Integration
+```typescript
+// Import onEntryChange for live updates
+import { onEntryChange } from '@/contentstack-sdk';
+import { addEditableTags } from '@contentstack/utils';
 
-if (page.mode.isNormal) {
-  // Normal website view
+const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true";
+
+// Add editable tags to entry data
+liveEdit && addEditableTags(entry, "content_type_uid", true);
+```
+
+### Multilingual & RTL Support
+```typescript
+// Import locale utilities
+import { Locale } from '@/lib/i18n';
+import { useLocale } from '@/hooks/useLocale';
+import { isRTL } from '@/lib/i18n';
+
+// Client components
+const { locale, isRTL } = useLocale();
+
+// Server components
+export default function Component({ locale }: { locale: Locale }) {
+  const direction = isRTL(locale) ? 'rtl' : 'ltr';
+  // Use locale for content queries
+  const data = await GetContent(locale);
+  
+  // Apply RTL-aware classes
+  const containerClass = cn(
+    'flex gap-2',
+    isRTL(locale) ? 'flex-row-reverse' : 'flex-row'
+  );
 }
 ```
 
-### Content SDK Field Rendering
-```typescript
-// CRITICAL: Use Content SDK field components, not JSS
-import { Text, RichText, DateField, useSitecore } from '@sitecore-content-sdk/nextjs';
-
-// Text fields
-<Text field={fields.Title} tag="h2" className="semantic-text-classes" />
-
-// Rich text fields
-<RichText field={fields.Description} />
-
-// Date fields with custom formatting  
-<DateField 
-  field={fields.PublishedDate}
-  render={(date) => formatSitecoreDate(date?.toISOString() ?? '')}
-/>
-
-// Handle page context for fallbacks
-const { page } = useSitecore();
-if (!fields?.Title?.value && !page.layout.sitecore?.route?.fields?.Title) {
-  return <div>[Component Title]</div>; // Meaningful fallback
-}
-```
+**CRITICAL RTL Rules:**
+- Use `isRTL()` function to check current locale direction
+- Apply `flex-row-reverse` for RTL layouts that need mirroring
+- Use CSS logical properties (`margin-inline-start` vs `margin-left`)
+- Test with Arabic locale to verify RTL rendering
+- Reference @multilingual-architecture.md for detailed patterns
 
 ### Checkbox Field Handling
 ```typescript
-// CRITICAL: Sitecore checkbox fields are passed as strings, not booleans
-// Checked checkboxes have value "1", unchecked have value "0", null, or undefined
-
-// Component parameters (from component params)
-interface ComponentParams {
-  HideImage?: string;    // "1" for checked, "0" or undefined for unchecked
-  HideBorder?: string;   // "1" for checked, "0" or undefined for unchecked
-  SwapImage?: string;    // "1" for checked, "0" or undefined for unchecked
+// Contentstack boolean fields come as actual booleans
+interface RenderingOptions {
+  hideImage?: boolean;
+  hideBorder?: boolean;
+  swapImage?: boolean;
 }
 
-// Convert string checkbox values to booleans
-const hideImage = HideImage === '1';
-const hideBorder = HideBorder === '1';
-const swapImage = SwapImage === '1';
+// Use boolean values directly
+const hideImage = renderingOptions?.hideImage || false;
+const hideBorder = renderingOptions?.hideBorder || false;
 
-// Use the boolean values in your component logic
 const cardClasses = cn(
   'base-card-styles',
   !hideBorder && 'border border-border',
@@ -107,7 +114,6 @@ const cardClasses = cn(
 #### Button Variant Logic
 ```typescript
 // CRITICAL: Analyze Figma designs to determine correct button variants
-// Different designs may require different variant logic
 const buttonVariant = [analyze your specific design conditions] ? 'outline' : 'default';
 ```
 
@@ -120,66 +126,52 @@ const isFullWidth = [your condition logic];
     variant={buttonVariant}
     className={cn('your-classes', isFullWidth && 'w-full')}
 >
-  <SitecoreLink 
-  field={linkField} 
-  className={isFullWidth ? 'w-full' : ''}
-  >
-    {content}
-  </SitecoreLink>
+  <CMSLink link={linkField} className={isFullWidth ? 'w-full' : ''}>
+    {linkField.title}
+  </CMSLink>
 </Button>
 ```
 
-### SitecoreLink Component Usage
-// CRITICAL: shows correct usage in buttons
-Provide working examples of how SitecoreLink should be used:
+### CMSLink Component Usage
+**CRITICAL**: Shows correct usage in buttons
 
 ```typescript
 // ✅ Correct usage in buttons
 <Button asChild>
-  <SitecoreLink field={linkField}>
-    {linkField.value?.text}
-  </SitecoreLink>
+  <CMSLink link={linkField}>
+    {linkField.title}
+  </CMSLink>
 </Button>
 
-// ❌ NEVER do this (causes [object Object])
-<SitecoreLink field={linkField}>
-  <Text field={linkField} />
-</SitecoreLink>
+// ✅ For href strings
+<CMSLink href="about">About Us</CMSLink>
+// Automatically adds locale: /en-us/about
 
-### Reference Implementation
-Before implementing, examine these existing working components in the codebase:
-- Look at `src/core/atom/Link.tsx` to understand SitecoreLink behavior
-- Check existing button + link combinations in other components
-- Use `grep_search` to find working SitecoreLink patterns: `<SitecoreLink.*field.*>`
-```
-
-### Link Field Text Access
-For Content SDK link fields, access text values using:
-- `linkField.value?.text` - Gets the link text
-- `linkField.value?.href` - Gets the URL
-- Never nest `<Text field={linkField} />` inside `<SitecoreLink>`
+// ❌ NEVER do this
+<a href={linkField.href}>{linkField.title}</a>
+// Won't have locale prefix!
 ```
 
 **Rules:**
 - **Both** wrapper element AND child element need `w-full` class for full-width behavior
-- Consider when full-width is appropriate based on your design
-- Test that parent containers don't constrain width
+- Use `CMSLink` for all internal links to get automatic locale prefixing
+- Never use raw `<a>` tags for internal navigation
 
-#### Content SDK Link Handling
+### Contentstack Link Handling
 ```typescript
-// CRITICAL: Content SDK link patterns for editing vs normal mode
-const shouldWrapWithLink = !page.mode.isEditing && fields.TargetUrl?.value?.href;
+// CRITICAL: CMSLink automatically handles locale and links
+const hasLink = linkField?.href;
 
-return shouldWrapWithLink ? (
-  <SitecoreLink field={fields.TargetUrl}>
+return hasLink ? (
+  <CMSLink link={linkField}>
     <ComponentContent />
-  </SitecoreLink>
+  </CMSLink>
 ) : (
   <ComponentContent />
 );
 ```
 
-#### Container Layout Logic
+### Container Layout Logic
 ```typescript
 // CRITICAL: Conditional container layout for proper element behavior
 <div
@@ -207,9 +199,9 @@ const layoutClasses = cn(
 #### Responsive Element Handling
 ```typescript
 // CRITICAL: Proper responsive behavior and aspect ratios
-<div className="relative w-full" style={{ aspectRatio: 'X/Y' }}>
-  <SitecoreImage 
-    field={imageField} 
+<div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+  <CMSImage 
+    image={imageField} 
     className="w-full h-full object-cover" 
     fill={true}
   />
@@ -223,8 +215,8 @@ const layoutClasses = cn(
 // CRITICAL: Constrain to valid heading elements for accessibility
 const HeadingTag = (headerTag as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') || 'h2';
 
-<HeadingTag className="semantic-text-classes">
-  <Text field={titleField} />
+<HeadingTag className="semantic-text-classes" {...(field.$?.title ?? {})}>
+  {title}
 </HeadingTag>
 ```
 
@@ -239,33 +231,78 @@ const semanticClasses = cn(
 );
 ```
 
-### Testing with Content SDK
+### RTL Implementation (MUST FOLLOW)
+
+#### Direction-Aware Layouts
 ```typescript
-// CRITICAL: Mock Content SDK properly, not JSS
+import { isRTL } from '@/lib/i18n';
+
+// CRITICAL: Use logical properties and RTL-aware flex
+const { locale } = useLocale();
+const rtl = isRTL(locale);
+
+// Flex direction based on locale
+const flexClasses = cn(
+  'flex gap-2',
+  rtl ? 'flex-row-reverse' : 'flex-row'
+);
+
+// Margins and padding
+const spacingClasses = cn(
+  rtl ? 'mr-4' : 'ml-4',      // ❌ Physical properties
+  'ms-4'                       // ✅ Logical property (margin-inline-start)
+);
+```
+
+#### Icon and Arrow Direction
+```typescript
+// CRITICAL: Mirror icons and directional elements for RTL
+const arrowIcon = rtl ? <ArrowLeft /> : <ArrowRight />;
+
+// Or use transform for automatic mirroring
+<img 
+  src="arrow.svg" 
+  className={cn(rtl && 'scale-x-[-1]')}  // Horizontal flip
+  alt="next" 
+/>
+```
+
+#### Navigation and List Order
+```typescript
+// CRITICAL: Lists that display horizontally need RTL handling
+const navClasses = cn(
+  'flex gap-4',
+  rtl && 'flex-row-reverse'
+);
+
+// Or use CSS logical properties
+const navClasses = 'flex gap-4'; // Flex automatically respects RTL
+
+// For breadcrumbs and progress indicators
+const items = rtl ? [...items].reverse() : items;
+```
+
+### Testing with Contentstack
+```typescript
+// CRITICAL: Mock Contentstack properly
 import { vi } from 'vitest';
 
-vi.mock('@sitecore-content-sdk/nextjs', () => ({
-  useSitecore: vi.fn(() => ({
-    page: {
-      mode: {
-        isEditing: false,
-        isDesignLibrary: false,
-        isPreview: false,
-        isNormal: true,
-      },
-      layout: { sitecore: { route: { fields: {} } } }
-    }
-  })),
-  Text: ({ field, tag: Tag = 'div' }) => <Tag>{field?.value}</Tag>,
-  RichText: ({ field }) => <div dangerouslySetInnerHTML={{ __html: field?.value }} />,
+vi.mock('@/contentstack-sdk', () => ({
+  onEntryChange: vi.fn(),
+}));
+
+vi.mock('@contentstack/utils', () => ({
+  addEditableTags: vi.fn(),
 }));
 ```
 
 ## Common Pitfalls to Avoid
 
-### 1. Content SDK Migration Issues
-- ❌ Using JSS hooks (`useSitecoreContext`) instead of Content SDK (`useSitecore`)
-- ❌ Using old JSS field rendering patterns instead of Content SDK components
+### 1. Contentstack Integration Issues
+- ❌ Not adding editable tags for Live Preview
+- ❌ Using raw field data without proper typing
+- ❌ Missing locale parameter in content queries
+- ❌ Not handling locale in components that need it
 
 ### 2. Width and Layout Issues
 - ❌ Only applying `w-full` to child elements but not wrapper elements
@@ -285,31 +322,46 @@ vi.mock('@sitecore-content-sdk/nextjs', () => ({
 - ❌ Inconsistent font families and sizing
 - ❌ Missing responsive typography considerations
 
-### 5. Sitecore Integration Issues
-- ❌ Not wrapping component with `withDatasourceCheck()` (this is available via: `import { withDatasourceCheck } from '@sitecore-content-sdk/nextjs';`)
-- ❌ Missing field null/empty checks
-- ❌ Not handling editing mode properly
-- ❌ Forgetting to apply Sitecore styles from `rendering.params.styles`
+### 5. Contentstack Integration Issues
+- ❌ Missing Live Preview integration with editable tags
+- ❌ Not handling locale in content queries
+- ❌ Forgetting to add `$.` (metadata) attributes for editable fields
+- ❌ Not handling missing/undefined fields gracefully
 
-### 6. Accessibility Issues
+### 6. Link and Locale Issues
+- ❌ Using raw `<a>` tags instead of CMSLink
+- ❌ Not passing locale to server components
+- ❌ Forgetting that CMSLink adds locale prefix automatically
+- ❌ Hard-coding URLs without locale consideration
+
+### 8. RTL and Multilingual Issues
+- ❌ Not checking `isRTL()` when component has directional elements
+- ❌ Using physical CSS properties instead of logical properties (margin-left vs margin-inline-start)
+- ❌ Hard-coding flex directions that break in RTL
+- ❌ Not testing with Arabic locale
+- ❌ Forgetting to mirror icons and navigation for RTL
+
+### 7. Accessibility Issues
 - ❌ Missing alt text for images
 - ❌ Improper heading hierarchy
 - ❌ No keyboard navigation support
 - ❌ Insufficient color contrast
 - ❌ Missing ARIA labels for complex interactions
 
-### CRITICAL: Content SDK Link Pitfalls to Avoid
+### CRITICAL: Contentstack Link Pitfalls to Avoid
 
 ❌ **NEVER DO**:
-- `<SitecoreLink><Text field={linkField} /></SitecoreLink>` (causes "[object Object]")  
-- `<Button><SitecoreLink /></Button>` (breaks button styling)
-- Accessing `linkField.text` directly (use `linkField.value?.text`)
+- `<a href={linkField.href}>` (no locale prefix, not editable)  
+- `<CMSImage image={image} />` without alt text or editable attributes
+- Missing locale prop in server components
+- Not using addEditableTags for Live Preview
 
 ✅ **ALWAYS DO**:
-- `<Button asChild><SitecoreLink>{field.value?.text}</SitecoreLink></Button>`
-- Test link rendering early in development
-- Verify both editing and normal modes work
-```
+- Use `CMSLink` for all internal links
+- Add editable attributes: `{...(field.$?.title ?? {})}`
+- Pass locale to content queries
+- Use proper fallbacks for missing content
+- Reference @multilingual-architecture.md for details
 
 ## Design Pattern Analysis Framework
 
@@ -321,13 +373,13 @@ vi.mock('@sitecore-content-sdk/nextjs', () => ({
 4. **Spacing System**: What consistent gaps, padding, and margins are used?
 5. **Typography Patterns**: What heading levels, text sizes, and font weights are applied?
 6. **Responsive Behavior**: How does the design adapt across different breakpoints?
+7. **Multilingual & RTL Needs**: Does the component have directional elements that need RTL support?
 
 ### Implementation Planning Template
 
 | Design Variant | Layout Type | Key Elements | Interactive Patterns | Special Considerations |
 |----------------|-------------|--------------|---------------------|----------------------|
 | Variant 1 | [layout] | [elements] | [interactions] | [notes] |
-| Variant 2 | [layout] | [elements] | [interactions] | [notes] |
 
 ## Implementation Checklist
 
@@ -338,19 +390,20 @@ vi.mock('@sitecore-content-sdk/nextjs', () => ({
 - [ ] Define typography hierarchy and semantic class usage
 - [ ] Plan conditional logic for different variants and states
 - [ ] Review `@{ComponentName}.MD` for business requirements
-- [ ] Use `grep_search` to find existing SitecoreLink usage patterns
-- [ ] Read `src/core/atom/Link.tsx` to understand wrapper behavior  
-- [ ] Search for working button + link combinations: `grep_search "Button.*asChild.*SitecoreLink"`
+- [ ] Determine if locale prop is needed for the component
+- [ ] Identify which fields need editable tags
 
 ### During Implementation
-- [ ] Use proper Content SDK imports and patterns
-- [ ] Implement `useSitecore()` hook correctly
-- [ ] Handle all page modes (editing, Design Library, preview, normal)
-- [ ] Use proper TypeScript interfaces for Content SDK fields
+- [ ] Use proper Contentstack field access patterns
+- [ ] Add Live Preview editable tags using `$` metadata
+- [ ] Pass locale to content queries when needed
 - [ ] Implement conditional styling based on design analysis
 - [ ] Apply semantic design tokens consistently
 - [ ] Handle full-width elements correctly (wrapper + child)
 - [ ] Include proper field validation and null checks
+- [ ] Use CMSLink for all internal links
+- [ ] Add RTL support for directional layouts (flex-row-reverse when needed)
+- [ ] Use logical CSS properties for better RTL support
 - [ ] Test responsive behavior across breakpoints
 
 ### Post-Implementation Validation
@@ -358,14 +411,15 @@ vi.mock('@sitecore-content-sdk/nextjs', () => ({
 - [ ] Verify interactive states work correctly
 - [ ] Confirm responsive behavior is appropriate
 - [ ] Validate accessibility compliance (keyboard, screen readers, contrast)
-- [ ] Test in Sitecore editing mode and ensure fields are editable
-- [ ] Test Design Library mode rendering
+- [ ] Test in Contentstack Live Preview mode and ensure fields are editable
 - [ ] Check that conditional logic handles edge cases properly
-- [ ] Verify Content SDK field rendering works correctly
-- [ ] Test that link text appears correctly (not "[object Object]")
+- [ ] Verify all links have locale prefix
+- [ ] Test with different locales to ensure proper localization
+- [ ] Test with Arabic locale to verify RTL rendering
+- [ ] Verify directional layouts (icons, flex, margins) work in RTL
 
 ## Deliverable
-Output a single, production-ready file with all necessary imports, types, and logic. The component should match the Figma designs as closely as possible while supporting all required variants and maintaining full Sitecore XM Cloud compatibility with Content SDK integration.
+Output a single, production-ready file with all necessary imports, types, and logic. The component should match the Figma designs as closely as possible while supporting all required variants and maintaining full Contentstack CMS integration with Live Preview support and proper multilingual handling.
 
 ## Usage Instructions
 
@@ -380,11 +434,11 @@ Output a single, production-ready file with all necessary imports, types, and lo
 - Identify conditional logic requirements
 - Plan semantic class usage
 
-### 3. Follow Content SDK Patterns
-- Use `useSitecore()` instead of JSS patterns
-- Implement proper page mode detection
-- Use Content SDK field components
-- Handle Design Library mode appropriately
+### 3. Follow Contentstack Patterns
+- Use CMSLink and CMSImage for media and links
+- Add Live Preview editable tags
+- Handle locale properly
+- Use proper TypeScript interfaces
 
 ### 4. Follow Implementation Patterns
 - Use the provided patterns for width, layout, and typography
@@ -402,12 +456,15 @@ Output a single, production-ready file with all necessary imports, types, and lo
 
 ## Key Benefits
 
-1. **Content SDK Integration**: Updated for latest Sitecore patterns
+1. **Contentstack Integration**: Updated for Contentstack CMS with Live Preview
 2. **Prevents Common Issues**: Includes patterns to avoid width, layout, and interaction problems
 3. **Design Analysis Framework**: Systematic approach to understanding Figma designs
 4. **Quality Assurance**: Comprehensive validation checklist for consistent results
-5. **Best Practices**: Enforces proper use of ShadCN, Tailwind, and Sitecore Content SDK
+5. **Best Practices**: Enforces proper use of ShadCN, Tailwind, and Contentstack CMS
 6. **Accessibility Focus**: Ensures components meet accessibility standards
 7. **Design System Compliance**: Promotes consistent use of semantic tokens
+8. **Multilingual Support**: Automatic locale handling through CMSLink
+9. **Live Preview**: Editable fields in browser for content authors
+10. **RTL Support**: Built-in patterns for right-to-left languages like Arabic
 
-This template helps create high-quality components that match Figma designs exactly while avoiding common implementation pitfalls and leveraging the latest Content SDK capabilities. 
+This template helps create high-quality components that match Figma designs exactly while avoiding common implementation pitfalls and leveraging Contentstack CMS capabilities with proper multilingual and RTL support.

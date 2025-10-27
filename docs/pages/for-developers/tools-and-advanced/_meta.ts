@@ -5,5 +5,6 @@ export default {
   "tools": "🛠️ Development Tools",
   
   // Advanced Topics
-  "content-sdk": "🚀 Content SDK & Advanced"
+  "content-sdk": "🚀 Content SDK & Advanced",
+  "multilingual-architecture": "🌐 Multilingual Architecture"
 };
