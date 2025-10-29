@@ -3,6 +3,7 @@ import { cn } from '@/core/lib/utils';
 import { Card } from '@/core/ui/card';
 import { ContentCardFields } from '@/core/types/components/ContentCard';
 import { CMSImage } from '@/core/atoms/Image';
+import { CMSLink } from '@/core/atoms/Link';
 import ContentCardBtn from './ContentCardBtn';
 import parse from 'html-react-parser';
 import Heading from '@/core/atoms/Heading';
@@ -86,9 +87,9 @@ const CardItem = (props: ContentCardFields): JSX.Element => {
 
             {UseTitleAsLinkText && props.call_to_action.link?.href ? (
               <Heading level={HeadingLevel} {...(props.content?.$?.title ?? {} )}>
-                <a href={props.call_to_action.link.href} className="hover:underline">
+                <CMSLink link={props.call_to_action.link} className="hover:underline">
                   {props.content.title}
-                </a>
+                </CMSLink>
               </Heading>
             ) : (
               <Heading level={HeadingLevel} {...(props.content?.$?.title ?? {} )}>

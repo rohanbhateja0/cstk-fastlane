@@ -60,13 +60,14 @@ export function initLivePreview() {
     },
   });
 }
-// Function to fetch page data based on the URL
-export async function getPage(url: string) {
+
+// Function to fetch page data based on the URL and locale
+export async function getPage(url: string, locale: string = 'en-us', contentType: string = 'page') {
   // Normalize URL to lowercase for case-insensitive matching
   const normalizedUrl = url.toLowerCase();
   
   const result = await stack
-    .contentType("page") // Specifying the content type as "page"
+    .contentType(contentType) // Specifying the content type
     .entry() // Accessing the entry
     .query() // Creating a query
     .where("url", QueryOperation.EQUALS, normalizedUrl) // Filtering entries by URL
@@ -76,9 +77,27 @@ export async function getPage(url: string) {
     const entry = result.entries[0]; // Getting the first entry from the result
 
     if (process.env.NEXT_PUBLIC_CONTENTSTACK_PREVIEW === 'true') {
-      contentstack.Utils.addEditableTags(entry, 'page', true); // Adding editable tags for live preview if enabled
+      contentstack.Utils.addEditableTags(entry, contentType, true); // Adding editable tags for live preview if enabled
     }
 
     return entry; // Returning the fetched entry
   }
+}
+
+// Function to fetch all available locales for a page
+export async function getPageLocales(url: string) {
+  const normalizedUrl = url.toLowerCase();
+  
+  const result = await stack
+    .contentType("page")
+    .entry()
+    .query()
+    .where("url", QueryOperation.EQUALS, normalizedUrl)
+    .find<Page>();
+
+  if (result.entries && result.entries.length > 0) {
+    return result.entries.map(entry => (entry as any).locale || 'en-us');
+  }
+  
+  return [];
 }

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import NextLink from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import Image from 'next/image';
 import { NewsSectionProps } from '@/core/types/Props';
 import { CMSLinkField } from '@/core/types/Fields';
@@ -123,8 +123,8 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
           {/* Footer Section */}
           <div className="flex gap-2.5">
             {linkField?.href && (
-              <a 
-                href={linkField.href}
+              <CMSLink 
+                link={linkField}
                 className="bg-white border border-zinc-200 rounded-md px-3 py-2 h-9 flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors"
                 {...getEditableProps(newsItem.call_to_action?.$?.link)}
               >
@@ -134,7 +134,7 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
                 <div className="w-4 h-4 flex-shrink-0">
                   <ArrowRightIcon />
                 </div>
-              </a>
+              </CMSLink>
             )}
           </div>
         </div>

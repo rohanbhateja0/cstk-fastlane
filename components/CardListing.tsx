@@ -8,10 +8,11 @@ import { CMSImage } from '@/core/atoms/Image';
 import ContentCardBtn from '@/core/molecules/ContentCard/ContentCardBtn';
 import parse from 'html-react-parser';
 import Heading from '@/core/atoms/Heading';
-import NextLink from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { CMSLinkField } from '@/core/types/Fields';
 import { getContentCardRes } from '@/helper';
 import { generateSlug } from '@/core/lib/utils';
+import { useLocale } from '@/hooks/useLocale';
 
 export interface CardListingProps {
   cardListing: {
@@ -62,6 +63,7 @@ export interface CardListingProps {
 
 const CardListing = (props: CardListingProps): JSX.Element => {
   const { cardListing } = props;
+  const { locale } = useLocale();
   const [populatedCards, setPopulatedCards] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -271,8 +273,8 @@ const CardListing = (props: CardListingProps): JSX.Element => {
 
     const linkField = call_to_action.link as CMSLinkField | undefined;
     
-    // For Content Card Model entries, always link to blog detail page
-    const blogDetailUrl = `/blogs/${generateSlug(card.title)}`;
+    // For Content Card Model entries, always link to blog detail page with locale
+    const blogDetailUrl = `/${locale}/blogs/${generateSlug(card.title)}`;
     
     // Determine if this should be a clickable card
     const shouldBeClickable = LinkType === 'Card' && linkField?.href;
@@ -281,13 +283,13 @@ const CardListing = (props: CardListingProps): JSX.Element => {
     return (
       <div key={`card-${index}`} {...(card.$ ?? {})}>
         {shouldBeClickable ? (
-          <NextLink href={linkField!.href} className="block">
+          <CMSLink href={linkField!.href} className="block">
             {cardContent}
-          </NextLink>
+          </CMSLink>
         ) : isContentCardModel ? (
-          <NextLink href={blogDetailUrl} className="block hover:shadow-lg transition-shadow duration-300">
+          <CMSLink href={blogDetailUrl} className="block hover:shadow-lg transition-shadow duration-300">
             {cardContent}
-          </NextLink>
+          </CMSLink>
         ) : (
           cardContent
         )}

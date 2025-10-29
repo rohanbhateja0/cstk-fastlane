@@ -22,9 +22,11 @@ export const searchConfig = {
     'title',
     'content',
     'uid',
+    'url',
     'created_at',
     'updated_at',
-    '_content_type'
+    '_content_type',
+    '_content_type_uid'
   ],
   attributesToHighlight: [
     'title'
@@ -32,12 +34,14 @@ export const searchConfig = {
   attributesToSnippet: [
     'content:20'
   ],
-  // Facets for filtering
+  // Request facet statistics for these attributes
   facets: ['_content_type'],
   // Sort configuration
   sortFacetValuesBy: 'count',
   // Ensure facets are returned
-  maxValuesPerFacet: 100
+  maxValuesPerFacet: 100,
+  // Enable faceting (required for RefinementList to work)
+  getRankingInfo: true
 };
 
 // Sort indices configuration

@@ -163,8 +163,8 @@ export default function NewsBanner(props: NewsBannerProps) {
           {/* Call to Action Button */}
           {linkField?.href && (
             <div className="flex gap-[16px] items-start">
-              <a 
-                href={linkField.href}
+              <CMSLink 
+                link={linkField}
                 className="bg-sky-900 rounded-[6px] px-[12px] py-[8px] h-[36px] flex items-center justify-center gap-[8px] hover:bg-sky-800 transition-colors"
               >
                 <div className="w-[16px] h-[16px] flex-shrink-0 text-neutral-50">
@@ -175,7 +175,7 @@ export default function NewsBanner(props: NewsBannerProps) {
                     {linkField.title || 'Subscribe to receive news posts'}
                   </p>
                 </div>
-              </a>
+              </CMSLink>
             </div>
           )}
         </div>

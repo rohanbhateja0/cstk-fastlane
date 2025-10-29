@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { ArrowLeft } from 'lucide-react';
 import { generateSlug } from '@/core/lib/utils';
 import RichText from '@/components/rich-text';
@@ -10,6 +10,7 @@ import ImageComponent from '@/components/image';
 // import LivePreview from '@/components/LivePreview';
 import { onEntryChange } from '@/contentstack-sdk';
 import { GetContentCardBySlug } from '@/core/ContentQueries/GetContentCard';
+import { useLocale } from '@/hooks/useLocale';
 
 // Content Card Model type based on the MCP data
 type ContentCardModel = {
@@ -67,6 +68,7 @@ type ContentCardModel = {
 export default function BlogDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const { locale } = useLocale();
   
   const [blogPost, setBlogPost] = useState<ContentCardModel | null>(null);
   const [loading, setLoading] = useState(true);
@@ -79,12 +81,15 @@ export default function BlogDetailPage() {
   const fetchBlogPost = async () => {
     try {
       setLoading(true);
+      console.log('Fetching blog post with:', { slug, locale });
       
-      const blogPost = await GetContentCardBySlug(slug);
+      const blogPost = await GetContentCardBySlug(slug, locale);
       
       if (blogPost) {
+        console.log('Blog post found:', blogPost.uid);
         setBlogPost(blogPost);
       } else {
+        console.log('Blog post not found for slug:', slug);
         setError('Blog post not found');
       }
     } catch (err) {
@@ -96,10 +101,10 @@ export default function BlogDetailPage() {
   };
 
   useEffect(() => {
-    if (slug) {
+    if (slug && locale) {
       fetchBlogPost();
     }
-  }, [slug]);
+  }, [slug, locale]);
 
   // Set up live preview - only once per component mount
   useEffect(() => {
@@ -141,13 +146,13 @@ export default function BlogDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link 
-            href="/blogs" 
+          <CMSLink 
+            href={`/${locale}/blogs`} 
             className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blogs
-          </Link>
+          </CMSLink>
           <div className="text-center py-12">
             <div className="text-red-500 text-xl font-semibold mb-2">
               {error || 'Blog post not found'}
@@ -155,12 +160,12 @@ export default function BlogDetailPage() {
             <p className="text-gray-600 mb-4">
               The blog post you're looking for doesn't exist or has been removed.
             </p>
-            <Link 
-              href="/blogs"
+            <CMSLink 
+              href={`/${locale}/blogs`}
               className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               View All Blogs
-            </Link>
+            </CMSLink>
           </div>
         </div>
       </div>
@@ -171,13 +176,13 @@ export default function BlogDetailPage() {
     <div className="min-h-screen bg-white">
       {/* Back Button */}
       <div className="max-w-7xl mx-auto px-6 py-6">
-        <Link 
-          href="/blogs" 
+        <CMSLink 
+          href={`/${locale}/blogs`} 
           className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Blogs
-        </Link>
+        </CMSLink>
       </div>
 
       {/* Hero Section with Background Image */}
