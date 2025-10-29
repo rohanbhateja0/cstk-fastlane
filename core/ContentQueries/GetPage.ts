@@ -16,8 +16,9 @@ export const GetPage = async (entryUrl: string, locale: Locale = 'en-us') => {
             locale: locale,
             referenceFieldPath: [
                 "fastlane_components.news_banner.news_banner",
-                "fastlane_components.carousel.carousels",
-                "fastlane_components.news_section.news_sections"
+            "fastlane_components.carousel.carousels",
+            "fastlane_components.news_section.news_sections",
+            "fastlane_components.contactus_section.contactus_sections"
             ],
             jsonRtePath: [],
         });
@@ -38,9 +39,10 @@ export const GetPage = async (entryUrl: string, locale: Locale = 'en-us') => {
                 entryUrl: normalizedUrl,
                 locale: 'en-us',
                 referenceFieldPath: [
-                    "fastlane_components.news_banner.news_banner",
-                    "fastlane_components.carousel.carousels",
-                    "fastlane_components.news_section.news_sections"
+                   "fastlane_components.news_banner.news_banner",
+            "fastlane_components.carousel.carousels",
+            "fastlane_components.news_section.news_sections",
+            "fastlane_components.contactus_section.contactus_sections"
                 ],
                 jsonRtePath: [],
             });

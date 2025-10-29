@@ -1,30 +1,25 @@
-# Search Page Architecture Guide
+# Search Page Setup Guide
 
-This guide explains the architecture and integration patterns for creating search pages using Contentstack MCP tools and Algolia search, with Figma design integration.
+This guide explains how to create and setup a search page using Figma designs and the existing codebase reference.
 
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Architecture Overview](#architecture-overview)
-3. [Contentstack MCP Integration](#contentstack-mcp-integration)
-4. [Figma Design Integration](#figma-design-integration)
-5. [Algolia Search Architecture](#algolia-search-architecture)
-6. [Component Architecture](#component-architecture)
-7. [Implementation Paths](#implementation-paths)
-8. [Testing Strategy](#testing-strategy)
+2. [Prerequisites](#prerequisites)
+3. [Figma Integration](#figma-integration)
+4. [Search Page Implementation](#search-page-implementation)
+5. [Component Structure](#component-structure)
+6. [Styling and Design](#styling-and-design)
+7. [Testing and Validation](#testing-and-validation)
+8. [Troubleshooting](#troubleshooting)
 
 ## Overview
 
-The search page architecture integrates three key systems:
-- **Contentstack CMS**: Content management and MCP tool integration
-- **Algolia Search**: Search engine and indexing
-- **Figma Designs**: UI/UX design system integration
-
-### Key Features
-- **Contentstack Content Integration**: Search through Contentstack entries using MCP tools
-- **Algolia Search Engine**: Fast, accurate search with advanced features
-- **Figma Design System**: Consistent UI components and patterns
-- **Multi-locale Support**: Search across different language versions
+The search page provides a comprehensive search interface with the following features:
+- **Autosuggest Search**: Real-time search suggestions as users type
+- **Grid/List View Toggle**: Switch between different result layouts
+- **Pagination**: Navigate through multiple pages of results
+- **Results Per Page**: Control how many results are displayed
 - **Responsive Design**: Works across all device sizes
 
 ### Code Examples and Implementation
@@ -125,10 +120,9 @@ Search Interface → Algolia API → Search Results → UI Rendering
 
 #### Search Page Layout Components
 - **Search Header**: Title, search input, search button
-- **Results Header**: Result count, view toggle, sort options
-- **Search Results**: Grid/list view with result cards
-- **Pagination**: Previous/next, page numbers
-- **Filters**: Content type, category, date range filters
+- **Results Header**: Result count, view toggle buttons, sort options
+- **Search Results**: Individual result cards (grid/list layouts)
+- **Pagination**: Previous/next buttons, page numbers
 - **Empty State**: No results found message
 
 #### Responsive Design Breakpoints
@@ -385,7 +379,7 @@ SearchResultCard
 
 ## Troubleshooting
 
-### Common Architecture Issues
+### Common Issues
 
 #### 1. Contentstack MCP Integration Issues
 - **MCP Tool Availability**: Verify MCP tools are properly configured
@@ -438,35 +432,41 @@ SearchResultCard
 
 ## Best Practices
 
-### 1. Architecture Best Practices
+### 1. Code Organization
 
-- **Modular Design**: Design search system with clear separation of concerns
-- **Scalable Architecture**: Plan for future growth and scaling requirements
-- **Error Handling**: Implement comprehensive error handling and recovery
-- **Monitoring**: Set up comprehensive monitoring and alerting systems
+- Keep components small and focused
+- Use TypeScript for type safety
+- Implement proper error boundaries
+- Follow React best practices
 
-### 2. Integration Best Practices
+### 2. User Experience
 
-- **MCP Tool Usage**: Use MCP tools consistently and efficiently
-- **Content Management**: Implement proper content lifecycle management
-- **Search Optimization**: Continuously optimize search performance and relevance
-- **Design System**: Maintain consistency with design system and patterns
+- Provide loading states
+- Handle empty states gracefully
+- Implement keyboard navigation
+- Ensure accessibility compliance
 
-### 3. Performance Best Practices
+### 3. Performance
 
-- **Caching Strategy**: Implement multi-level caching for optimal performance
-- **Content Sync**: Optimize content synchronization processes
-- **Search Queries**: Optimize search queries for performance and relevance
-- **Resource Management**: Implement proper resource management and cleanup
+- Optimize images
+- Use efficient search queries
+- Implement proper caching
+- Monitor bundle size
+
+### 4. Maintenance
+
+- Document components
+- Write unit tests
+- Keep dependencies updated
+- Monitor performance metrics
 
 ## Conclusion
 
-This architecture guide provides a comprehensive approach to building search pages that integrate Contentstack MCP tools, Algolia search, and Figma design systems. The architecture focuses on:
+This guide provides a comprehensive approach to creating a search page using Figma designs and existing codebase references. The implementation focuses on:
 
-- **Modular Design**: Clear separation of concerns and responsibilities
-- **Scalable Integration**: Robust integration patterns that scale with growth
-- **Performance Optimization**: Efficient search and content management
-- **Design System Integration**: Consistent UI/UX following design patterns
-- **Comprehensive Testing**: Thorough testing strategy for all components
+- **Design Fidelity**: Matching Figma designs exactly
+- **User Experience**: Smooth, responsive interactions
+- **Performance**: Fast, efficient search
+- **Maintainability**: Clean, well-documented code
 
-Follow this guide to create a robust, scalable search architecture that leverages the power of Contentstack, Algolia, and Figma while maintaining high performance and user experience standards.
+Follow this guide step-by-step to create a professional, production-ready search page that integrates seamlessly with your existing application.

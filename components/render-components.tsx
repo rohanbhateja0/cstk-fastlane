@@ -8,6 +8,7 @@ import ContentCard from './ContentCard';
 import HeroBanner from './HeroBanner';
 import NewsSection from './NewsSection';
 import NewsBanner from './NewsBanner';
+import ContactUsSection from './ContactUsSection';
 import Accordion from './Accordion';
 import Breadcrumb from './Breadcrumb';
 import Carousel from './Carousel';
@@ -40,8 +41,6 @@ export default function RenderComponents(props: RenderProps) {
       data-locale={locale}
     >
       {components?.map((component, key: number) => {
-
-        console.log('component', component);
          
         if (component.content_section) {
           return (
@@ -53,7 +52,6 @@ export default function RenderComponents(props: RenderProps) {
           );
         }
         if (component.content_card) {
-          console.log('inside content card');
           return (
             <ContentCard 
               contentCard={component.content_card} 
@@ -161,6 +159,16 @@ export default function RenderComponents(props: RenderProps) {
           return (
             <NewsBanner 
               newsBanner={component.news_banner} 
+              page={props.page} 
+              key={`component-${key}`}
+            />
+          );
+        }
+
+        if (component.contactus_section){
+          return (
+            <ContactUsSection 
+              contactUsSection={component.contactus_section} 
               page={props.page} 
               key={`component-${key}`}
             />

@@ -6,6 +6,7 @@ import { ContentCardFields } from "./components/ContentCard";
 import { HeroBannerFields } from "./components/HeroBanner";
 import { NewsSectionFields } from "./components/NewsSection";
 import { NewsBannerFields } from "./components/NewsBanner";
+import { ContactUsSectionFields } from "./components/ContactUsSection";
 import { AccordionFields } from "./components/Accordion";
 import { BreadcrumbFields } from "./components/Breadcrumb";
 import { BaseComponent } from "./components/BaseComponent";
@@ -54,6 +55,10 @@ export type NewsSectionProps = BaseComponent & {
 
 export type NewsBannerProps = BaseComponent & {
   newsBanner: NewsBannerFields;
+}
+
+export type ContactUsSectionProps = BaseComponent & {
+  contactUsSection: ContactUsSectionFields;
 }
 
 export type VideoProps = BaseComponent & {

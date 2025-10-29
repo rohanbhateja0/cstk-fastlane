@@ -69,7 +69,9 @@ export default function NewsBanner(props: NewsBannerProps) {
         // Check if news_banner is a reference object with UID
         if (currentNewsBanner.uid && currentNewsBanner._content_type_uid === 'news_banner') {
           const data = await getNewsBannerRes(currentNewsBanner.uid);
-          setNewsBannerData(data[0]);
+          // ContentStack returns array-like structure, extract the actual entry
+          const bannerEntry = (data && data[0]) ? data[0] : data;
+          setNewsBannerData(bannerEntry);
         } else {
           // If it's already the full news_banner data
           setNewsBannerData(currentNewsBanner);
@@ -105,6 +107,14 @@ export default function NewsBanner(props: NewsBannerProps) {
   const linkField = call_to_action?.link as CMSLinkField | undefined;
   const secondaryLinkField = call_to_action?.secondary_link as CMSLinkField | undefined;
 
+  // Safe getter for $ properties to avoid spreading arrays
+  const getEditableProps = (props: any) => {
+    if (!props) return {};
+    if (Array.isArray(props)) return {};
+    if (typeof props === 'object') return props;
+    return {};
+  };
+
   return (
     <section
       className="bg-sky-950 w-full flex items-center pb-[32px]"
@@ -121,7 +131,7 @@ export default function NewsBanner(props: NewsBannerProps) {
             <HeaderTag 
               className="font-['Zodiak'] text-[48px] leading-[48px] text-[#fafafa] tracking-[-0.4px] not-italic grow basis-0 min-w-0"
               style={{ fontWeight: 540 }}
-              {...(content?.$?.title ?? {})}
+              {...getEditableProps(content?.$?.title)}
             >
               {title}
             </HeaderTag>
@@ -132,7 +142,7 @@ export default function NewsBanner(props: NewsBannerProps) {
             <div className="pt-[24px] w-full flex gap-[8px] items-center">
               <p 
                 className="font-['Zodiak'] font-normal text-[16px] leading-[24px] text-[#fafafa] not-italic grow basis-0 min-w-0"
-                {...(content?.$?.description ?? {})}
+                {...getEditableProps(content?.$?.description)}
               >
                 {description}
               </p>
@@ -145,7 +155,7 @@ export default function NewsBanner(props: NewsBannerProps) {
               <div 
                 className="font-['Zodiak'] font-normal text-[16px] leading-[24px] text-[#fafafa] not-italic grow basis-0 min-w-0"
                 dangerouslySetInnerHTML={{ __html: detail_text }}
-                {...(content?.$?.detail_text ?? {})}
+                {...getEditableProps(content?.$?.detail_text)}
               />
             </div>
           )}
