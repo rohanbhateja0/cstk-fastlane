@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ContactUsSectionProps } from '@/core/types/Props';
 import { CMSLinkField } from '@/core/types/Fields';
 import { getContactUsSectionRes } from '@/helper';
+import { useLocale } from '@/hooks/useLocale';
 
 // Icon Components matching Figma design
 const BellRingIcon = () => (
@@ -139,6 +140,7 @@ const ContactUsCard = ({ contactUsItem, renderingOptions }: { contactUsItem: any
 
 export default function ContactUsSection(props: ContactUsSectionProps) {
   const { contactUsSection, page } = props;
+  const { locale } = useLocale();
   const [contactUsSectionData, setContactUsSectionData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -160,9 +162,36 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
           contactUsSections.map(async (section: any) => {
             // Check if it's a reference object with UID
             if (section.uid && section._content_type_uid === 'contactus_section') {
-              const data = await getContactUsSectionRes(section.uid);
-              // ContentStack returns an array, extract the first element
-              const contactUsItem = Array.isArray(data) ? data[0] : data;
+              const data = await getContactUsSectionRes(section.uid, locale);
+              // ContentStack SDK may return data in array-like format with index "0"
+              // Unwrap the response if it's in that format
+              let contactUsItem = data;
+              if (data && data["0"] && typeof data["0"] === 'object') {
+                contactUsItem = data["0"];
+              } else if (Array.isArray(data) && data.length > 0) {
+                contactUsItem = data[0];
+              }
+              
+              // If localized entry doesn't have an image, fetch from master locale (en-us) as fallback
+              if (contactUsItem && !contactUsItem.image && locale !== 'en-us') {
+                try {
+                  const masterData = await getContactUsSectionRes(section.uid, 'en-us');
+                  let masterItem = masterData;
+                  if (masterData && masterData["0"] && typeof masterData["0"] === 'object') {
+                    masterItem = masterData["0"];
+                  } else if (Array.isArray(masterData) && masterData.length > 0) {
+                    masterItem = masterData[0];
+                  }
+                  
+                  // Use master locale image as fallback if localized entry doesn't have one
+                  if (masterItem && masterItem.image) {
+                    contactUsItem.image = masterItem.image;
+                  }
+                } catch (error) {
+                  console.error('Error fetching master locale image:', error);
+                }
+              }
+              
               return contactUsItem;
             }
             // If it's already the full data
@@ -180,7 +209,7 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
     };
 
     fetchContactUsSectionData();
-  }, [contactUsSection]);
+  }, [contactUsSection, locale]);
 
   if (loading) {
     return <div className="contactus-section-loading py-12 text-center">Loading contact options...</div>;

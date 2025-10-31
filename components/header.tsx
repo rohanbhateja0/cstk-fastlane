@@ -12,7 +12,7 @@ interface HeaderProps {
 }
 
 export default async function Header({ locale }: HeaderProps) {
-  const header = (await GetHeader()) as HeaderFields;
+  const header = (await GetHeader(locale)) as HeaderFields;
 
   return (
     <header>

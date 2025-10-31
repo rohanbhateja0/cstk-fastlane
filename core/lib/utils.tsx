@@ -8,15 +8,24 @@ export function cn(...inputs: ClassValue[]) {
 
 /**
  * Generates a URL-friendly slug from a given text string
+ * Normalizes accented characters (e.g., ó -> o, á -> a)
  * @param text - The text to convert to a slug
  * @returns A URL-friendly slug string
  */
 export function generateSlug(text: string): string {
   return text
     .toLowerCase()
+    // Normalize accented characters to their base forms
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+    // Remove any remaining non-alphanumeric characters except spaces and hyphens
     .replace(/[^a-z0-9\s-]/g, '')
+    // Replace multiple spaces with single hyphen
     .replace(/\s+/g, '-')
+    // Replace multiple hyphens with single hyphen
     .replace(/-+/g, '-')
+    // Trim hyphens from start and end
+    .replace(/^-+|-+$/g, '')
     .trim();
 }
 

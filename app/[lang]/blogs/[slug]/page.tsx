@@ -188,11 +188,11 @@ export default function BlogDetailPage() {
       {/* Hero Section with Background Image */}
       <div className="relative bg-sky-900 min-h-[400px] flex items-center">
         {/* Background Image Overlay */}
-        {!blogPost.rendering_options.hide_image && blogPost.content.image && (
+        {!blogPost.rendering_options?.hide_image && blogPost.content?.image && (
           <div className="absolute inset-0">
             <img 
-              src={blogPost.content.image.url} 
-              alt={blogPost.content.image.title || blogPost.content.title}
+              src={blogPost.content.image?.url || ''} 
+              alt={blogPost.content.image?.title || blogPost.content?.title || blogPost.title || ''}
               className="w-full h-full object-cover opacity-30"
             />
           </div>
@@ -202,15 +202,17 @@ export default function BlogDetailPage() {
         <div className="relative max-w-7xl mx-auto px-6 py-16 w-full">
           <div className="max-w-4xl">
             {/* Category */}
-            <div className="mb-2">
-              <span className="text-sm font-medium text-white">
-                {blogPost.content.category}
-              </span>
-            </div>
+            {blogPost.content?.category && (
+              <div className="mb-2">
+                <span className="text-sm font-medium text-white">
+                  {blogPost.content.category}
+                </span>
+              </div>
+            )}
             
             {/* Title */}
             <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight tracking-tight mb-4">
-              {blogPost.content.title}
+              {blogPost.content?.title || blogPost.title || ''}
             </h1>
             
             {/* Intro Text */}
@@ -227,37 +229,41 @@ export default function BlogDetailPage() {
           {/* Main Content */}
           <div className="flex-1 max-w-4xl">
             {/* Date */}
-            <div className="mb-4">
-              <span className="text-sm font-medium text-zinc-900">
-                {new Date(blogPost.created_at).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </span>
-            </div>
+            {blogPost.created_at && (
+              <div className="mb-4">
+                <span className="text-sm font-medium text-zinc-900">
+                  {new Date(blogPost.created_at).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </span>
+              </div>
+            )}
             
             {/* Rich Text Content */}
-            <div className="prose prose-lg max-w-none">
-              <RichText 
-                richText={{
-                  content: blogPost.content.intro_text,
-                  rendering_options: {
-                    colspan: '1'
-                  },
-                  $: {}
-                }}
-              />
-            </div>
+            {blogPost.content?.intro_text && (
+              <div className="prose prose-lg max-w-none">
+                <RichText 
+                  richText={{
+                    content: blogPost.content.intro_text,
+                    rendering_options: {
+                      colspan: '1'
+                    },
+                    $: {}
+                  }}
+                />
+              </div>
+            )}
           </div>
           
           {/* Sidebar Image */}
-          {!blogPost.rendering_options.hide_image && blogPost.content.image && (
+          {!blogPost.rendering_options?.hide_image && blogPost.content?.image && (
             <div className="w-80 flex-shrink-0">
               <div className="aspect-[502/282] relative">
                 <img 
-                  src={blogPost.content.image.url} 
-                  alt={blogPost.content.image.title || blogPost.content.title}
+                  src={blogPost.content.image?.url || ''} 
+                  alt={blogPost.content.image?.title || blogPost.content?.title || blogPost.title || ''}
                   className="w-full h-full object-cover rounded-lg"
                 />
               </div>

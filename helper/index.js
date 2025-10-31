@@ -206,20 +206,69 @@ export const getNewsSectionRes = async (newsSectionUid) => {
     return response;
 };
 
-export const getContactUsSectionRes = async (contactUsSectionUid) => {
-    const response = await Stack.getEntryByUid({
-        contentTypeUid: "contactus_section",
-        entryUid: contactUsSectionUid,
-        referenceFieldPath: [],
-        jsonRtePath: [],
-    });
-    
-    // response is array-like: {0: {entry_data}, $: {metadata}}
-    // Add editable tags to the actual entry object at index 0
-    if (liveEdit && response && response[0]) {
-        addEditableTags(response[0], "contactus_section", true);
+export const getContactUsSectionRes = async (contactUsSectionUid, locale = 'en-us') => {
+    try {
+        // First try to get the contactus section in the requested locale
+        const response = await Stack.getEntryByUid({
+            contentTypeUid: "contactus_section",
+            entryUid: contactUsSectionUid,
+            referenceFieldPath: [],
+            jsonRtePath: [],
+            locale: locale,
+        });
+        
+        if (response) {
+            // Contentstack SDK may return data in array-like format with index "0"
+            // Unwrap the response if it's in that format
+            let entry = response;
+            if (response["0"] && typeof response["0"] === 'object') {
+                entry = response["0"];
+            } else if (Array.isArray(response) && response.length > 0) {
+                entry = response[0];
+            }
+            
+            // response is array-like: {0: {entry_data}, $: {metadata}}
+            // Add editable tags to the actual entry object
+            if (liveEdit && entry) {
+                addEditableTags(entry, "contactus_section", true);
+            }
+            return response;
+        }
+    } catch (error) {
+        console.log(`ContactUs section not found in locale ${locale}, trying fallback to en-us`);
     }
-    return response;
+    
+    // If the requested locale doesn't exist, fallback to English
+    if (locale !== 'en-us') {
+        try {
+            const fallbackResponse = await Stack.getEntryByUid({
+                contentTypeUid: "contactus_section",
+                entryUid: contactUsSectionUid,
+                referenceFieldPath: [],
+                jsonRtePath: [],
+                locale: 'en-us',
+            });
+            
+            if (fallbackResponse) {
+                // Unwrap the fallback response
+                let entry = fallbackResponse;
+                if (fallbackResponse["0"] && typeof fallbackResponse["0"] === 'object') {
+                    entry = fallbackResponse["0"];
+                } else if (Array.isArray(fallbackResponse) && fallbackResponse.length > 0) {
+                    entry = fallbackResponse[0];
+                }
+                
+                if (liveEdit && entry) {
+                    addEditableTags(entry, "contactus_section", true);
+                }
+                return fallbackResponse;
+            }
+        } catch (fallbackError) {
+            console.error('Fallback to en-us also failed:', fallbackError);
+        }
+    }
+    
+    return null;
 };
 
 export const getContentCardRes = async (cardUid) => {
