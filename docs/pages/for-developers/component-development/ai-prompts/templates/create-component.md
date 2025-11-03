@@ -43,3 +43,19 @@ CRITICAL: Reference the component documentation above for all business logic, fi
 - 'use client'; on top of the component file if useState hook is needed
 - Add the component to the (@components\render-components.tsx)
 - use (@helper\index.js) to create the getentry funtion in case of reference is used
+
+## Multilingual & Localization Requirements
+
+### Links and Navigation
+**CRITICAL**: Always use locale-aware link components for internal navigation:
+
+- **Client Components**: Use `CMSLink` from `@/core/atoms/Link` - automatically adds locale prefix
+- **Server Components**: Use `ServerLink` from `@/core/atoms/ServerLink` with locale prop
+- **NEVER use raw `<a>` tags** for internal links
+- Links should NOT include hardcoded prefixes like `/blogs` or `/news` unless required
+- For search results, use indexed URL field when available
+
+### RTL Support
+- Import and use `useLocale` hook for RTL detection when components have directional elements
+- Use CSS logical properties (`margin-inline-start` vs `margin-left`)
+- Reference @multilingual-architecture.md for detailed RTL implementation patterns

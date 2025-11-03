@@ -5,36 +5,37 @@ import { onEntryChange } from '@/contentstack-sdk';
 import { GetPage } from '@/core/ContentQueries/GetPage';
 import { getPageRes, metaData } from '@/helper';
 import { Page as PageProp } from '@/typescript/pages';
-import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect, useCallback } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import Personalize from '@contentstack/personalize-edge-sdk';
-import contentstack from '@contentstack/delivery-sdk';
+import { useLocale } from '@/hooks/useLocale';
 
 export default function Page() {
-    const entryUrl = usePathname();
-    const searchParams = useSearchParams();
+    const { locale, cleanPath } = useLocale();
     
     // Get variant parameter from cookie (set by middleware)
     // Client components can't read server-side URL rewrites, so we use cookies
-    let variantParam = undefined;
-    if (typeof document !== 'undefined') {
-        const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
-        // Decode URL-encoded value (e.g., "0_0%2C1_null" -> "0_0,1_null")
-        variantParam = cookieValue ? decodeURIComponent(cookieValue) : undefined;
-    }
+    const [variantParam, setVariantParam] = useState<string>('');
+    
+    useEffect(() => {
+        if (typeof document !== 'undefined') {
+            const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+            // Decode URL-encoded value (e.g., "0_0%2C1_null" -> "0_0,1_null")
+            const decoded = cookieValue ? decodeURIComponent(cookieValue) : '';
+            setVariantParam(decoded);
+        }
+    }, []);
 
     const [getEntry, setEntry] = useState<PageProp>();
 
     const fetchData = useCallback(async () => {
         try {
-            const entryRes = await GetPage(entryUrl, variantParam);
+            const entryRes = await GetPage(cleanPath, locale, variantParam);
             if (!entryRes) throw new Error('Status code 404');
             setEntry(entryRes);
         } catch (error) {
             console.error(error);
         }
-    }, [entryUrl, variantParam]);
+    }, [cleanPath, locale, variantParam]);
 
     useEffect(() => {
         onEntryChange(() => fetchData());

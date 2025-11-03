@@ -7,7 +7,7 @@ import { cn } from '@/core/lib/utils';
 import { Button } from '@/core/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/core/ui/sheet';
 import { MenuItems } from '@/core/types/components/Header';
-import Link from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 
 type MegaNavProps = {
   items: MenuItems[];
@@ -38,7 +38,7 @@ export default function MegaNav(props: MegaNavProps){
                   
                   return (
                     <li key={href} className="w-max">
-                      <Link
+                      <CMSLink
                         href={href}
                         className={cn(
                           'bg-transparent border-transparent inline-flex h-full w-full items-center justify-center whitespace-nowrap px-4 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground rounded-md'
@@ -49,7 +49,7 @@ export default function MegaNav(props: MegaNavProps){
                               {title}
                           </span> 
                         )}
-                      </Link>
+                      </CMSLink>
                     </li>
                   );
                 })}
@@ -86,14 +86,14 @@ export default function MegaNav(props: MegaNavProps){
                         const href = item.link.href;
                         
                         return (
-                          <Link
+                          <CMSLink
                             key={href}
                             href={href}
                             className="flex items-center justify-start px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground rounded-md border-transparent bg-transparent"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             {title && <div>{title}</div>}
-                          </Link>
+                          </CMSLink>
                         );
                       })}
                     </div>

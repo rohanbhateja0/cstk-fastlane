@@ -6,24 +6,24 @@ import { onEntryChange } from "@/contentstack-sdk";
 import { GetBlogLandingPage } from "@/core/ContentQueries/GetBlogLandingPage";
 import { getPageRes, metaData } from "@/helper";
 import { Page as PageProp } from "@/typescript/pages";
-import { usePathname } from "next/navigation";
 import React, { useState, useEffect, useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
+import { useLocale } from '@/hooks/useLocale';
 
 export default function Page() {
-  const entryUrl = usePathname();
+  const { locale, cleanPath } = useLocale();
 
   const [getEntry, setEntry] = useState<PageProp>();
 
   const fetchData = useCallback(async () => {
     try {
-      const entryRes = await GetBlogLandingPage(entryUrl);
+      const entryRes = await GetBlogLandingPage(cleanPath, locale);
       if (!entryRes) throw new Error("Status code 404");
       setEntry(entryRes);
     } catch (error) {
       console.error(error);
     }
-  }, [entryUrl]);
+  }, [cleanPath, locale]);
 
   useEffect(() => {
     onEntryChange(() => fetchData());

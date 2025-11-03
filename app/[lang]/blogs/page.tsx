@@ -9,21 +9,31 @@ import { Page as PageProp } from "@/typescript/pages";
 import { usePathname } from "next/navigation";
 import React, { useState, useEffect, useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
+import { useLocale } from '@/hooks/useLocale';
+import { Locale } from "@/lib/i18n";
 
 export default function Page() {
-  const entryUrl = usePathname();
+  const pathname = usePathname();
+  const { locale, cleanPath } = useLocale();
 
   const [getEntry, setEntry] = useState<PageProp>();
 
   const fetchData = useCallback(async () => {
     try {
-      const entryRes = await GetBlogLandingPage(entryUrl);
+      console.log('Fetching data for:', { cleanPath, locale });
+      const entryRes = await GetBlogLandingPage(cleanPath, locale as Locale);
       if (!entryRes) throw new Error("Status code 404");
       setEntry(entryRes);
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching data:', error);
     }
-  }, [entryUrl]);
+  }, [cleanPath, locale]);
+
+  useEffect(() => {
+    if (locale) {
+      fetchData();
+    }
+  }, [fetchData, locale]);
 
   useEffect(() => {
     onEntryChange(() => fetchData());

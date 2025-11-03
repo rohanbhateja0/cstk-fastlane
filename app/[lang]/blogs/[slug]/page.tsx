@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { ArrowLeft } from 'lucide-react';
 import { generateSlug } from '@/core/lib/utils';
 import RichText from '@/components/rich-text';
@@ -10,6 +10,7 @@ import ImageComponent from '@/components/image';
 // import LivePreview from '@/components/LivePreview';
 import { onEntryChange } from '@/contentstack-sdk';
 import { GetContentCardBySlug } from '@/core/ContentQueries/GetContentCard';
+import { useLocale } from '@/hooks/useLocale';
 
 // Content Card Model type based on the MCP data
 type ContentCardModel = {
@@ -67,6 +68,7 @@ type ContentCardModel = {
 export default function BlogDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const { locale } = useLocale();
   
   const [blogPost, setBlogPost] = useState<ContentCardModel | null>(null);
   const [loading, setLoading] = useState(true);
@@ -79,12 +81,15 @@ export default function BlogDetailPage() {
   const fetchBlogPost = async () => {
     try {
       setLoading(true);
+      console.log('Fetching blog post with:', { slug, locale });
       
-      const blogPost = await GetContentCardBySlug(slug);
+      const blogPost = await GetContentCardBySlug(slug, locale);
       
       if (blogPost) {
+        console.log('Blog post found:', blogPost.uid);
         setBlogPost(blogPost);
       } else {
+        console.log('Blog post not found for slug:', slug);
         setError('Blog post not found');
       }
     } catch (err) {
@@ -96,10 +101,10 @@ export default function BlogDetailPage() {
   };
 
   useEffect(() => {
-    if (slug) {
+    if (slug && locale) {
       fetchBlogPost();
     }
-  }, [slug]);
+  }, [slug, locale]);
 
   // Set up live preview - only once per component mount
   useEffect(() => {
@@ -141,13 +146,13 @@ export default function BlogDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link 
-            href="/blogs" 
+          <CMSLink 
+            href={`/${locale}/blogs`} 
             className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blogs
-          </Link>
+          </CMSLink>
           <div className="text-center py-12">
             <div className="text-red-500 text-xl font-semibold mb-2">
               {error || 'Blog post not found'}
@@ -155,12 +160,12 @@ export default function BlogDetailPage() {
             <p className="text-gray-600 mb-4">
               The blog post you're looking for doesn't exist or has been removed.
             </p>
-            <Link 
-              href="/blogs"
+            <CMSLink 
+              href={`/${locale}/blogs`}
               className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               View All Blogs
-            </Link>
+            </CMSLink>
           </div>
         </div>
       </div>
@@ -171,23 +176,23 @@ export default function BlogDetailPage() {
     <div className="min-h-screen bg-white">
       {/* Back Button */}
       <div className="max-w-7xl mx-auto px-6 py-6">
-        <Link 
-          href="/blogs" 
+        <CMSLink 
+          href={`/${locale}/blogs`} 
           className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Blogs
-        </Link>
+        </CMSLink>
       </div>
 
       {/* Hero Section with Background Image */}
       <div className="relative bg-sky-900 min-h-[400px] flex items-center">
         {/* Background Image Overlay */}
-        {!blogPost.rendering_options.hide_image && blogPost.content.image && (
+        {!blogPost.rendering_options?.hide_image && blogPost.content?.image && (
           <div className="absolute inset-0">
             <img 
-              src={blogPost.content.image.url} 
-              alt={blogPost.content.image.title || blogPost.content.title}
+              src={blogPost.content.image?.url || ''} 
+              alt={blogPost.content.image?.title || blogPost.content?.title || blogPost.title || ''}
               className="w-full h-full object-cover opacity-30"
             />
           </div>
@@ -197,15 +202,17 @@ export default function BlogDetailPage() {
         <div className="relative max-w-7xl mx-auto px-6 py-16 w-full">
           <div className="max-w-4xl">
             {/* Category */}
-            <div className="mb-2">
-              <span className="text-sm font-medium text-white">
-                {blogPost.content.category}
-              </span>
-            </div>
+            {blogPost.content?.category && (
+              <div className="mb-2">
+                <span className="text-sm font-medium text-white">
+                  {blogPost.content.category}
+                </span>
+              </div>
+            )}
             
             {/* Title */}
             <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight tracking-tight mb-4">
-              {blogPost.content.title}
+              {blogPost.content?.title || blogPost.title || ''}
             </h1>
             
             {/* Intro Text */}
@@ -222,37 +229,41 @@ export default function BlogDetailPage() {
           {/* Main Content */}
           <div className="flex-1 max-w-4xl">
             {/* Date */}
-            <div className="mb-4">
-              <span className="text-sm font-medium text-zinc-900">
-                {new Date(blogPost.created_at).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </span>
-            </div>
+            {blogPost.created_at && (
+              <div className="mb-4">
+                <span className="text-sm font-medium text-zinc-900">
+                  {new Date(blogPost.created_at).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </span>
+              </div>
+            )}
             
             {/* Rich Text Content */}
-            <div className="prose prose-lg max-w-none">
-              <RichText 
-                richText={{
-                  content: blogPost.content.intro_text,
-                  rendering_options: {
-                    colspan: '1'
-                  },
-                  $: {}
-                }}
-              />
-            </div>
+            {blogPost.content?.intro_text && (
+              <div className="prose prose-lg max-w-none">
+                <RichText 
+                  richText={{
+                    content: blogPost.content.intro_text,
+                    rendering_options: {
+                      colspan: '1'
+                    },
+                    $: {}
+                  }}
+                />
+              </div>
+            )}
           </div>
           
           {/* Sidebar Image */}
-          {!blogPost.rendering_options.hide_image && blogPost.content.image && (
+          {!blogPost.rendering_options?.hide_image && blogPost.content?.image && (
             <div className="w-80 flex-shrink-0">
               <div className="aspect-[502/282] relative">
                 <img 
-                  src={blogPost.content.image.url} 
-                  alt={blogPost.content.image.title || blogPost.content.title}
+                  src={blogPost.content.image?.url || ''} 
+                  alt={blogPost.content.image?.title || blogPost.content?.title || blogPost.title || ''}
                   className="w-full h-full object-cover rounded-lg"
                 />
               </div>

@@ -8,10 +8,11 @@ import { CMSImage } from '@/core/atoms/Image';
 import ContentCardBtn from '@/core/molecules/ContentCard/ContentCardBtn';
 import parse from 'html-react-parser';
 import Heading from '@/core/atoms/Heading';
-import NextLink from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { CMSLinkField } from '@/core/types/Fields';
-import { getContentCardRes } from '@/helper';
 import { generateSlug } from '@/core/lib/utils';
+import { useLocale } from '@/hooks/useLocale';
+import { GetContentCard } from '@/core/ContentQueries/GetContentCard';
 
 export interface CardListingProps {
   cardListing: {
@@ -62,6 +63,7 @@ export interface CardListingProps {
 
 const CardListing = (props: CardListingProps): JSX.Element => {
   const { cardListing } = props;
+  const { locale } = useLocale();
   const [populatedCards, setPopulatedCards] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -79,13 +81,26 @@ const CardListing = (props: CardListingProps): JSX.Element => {
           // Cards are always references, so always fetch the full data
           if (card.uid && card._content_type_uid === 'content_card_model') {
             try {
-              const cardData = await getContentCardRes(card.uid);
-              const fetchedCard = cardData[0]; // getContentCardRes returns an array, we need the first item
-              // Add the content type identifier to the fetched card
-              return {
-                ...fetchedCard,
-                _content_type_uid: 'content_card_model'
-              };
+              // Use GetContentCard which supports locale
+              const fetchedCard = await GetContentCard(card.uid, locale);
+              if (fetchedCard) {
+                console.log('Fetched card structure:', {
+                  uid: fetchedCard.uid,
+                  hasTitle: !!fetchedCard.title,
+                  hasContent: !!fetchedCard.content,
+                  hasContentTitle: !!fetchedCard.content?.title,
+                  title: fetchedCard.title,
+                  contentTitle: fetchedCard.content?.title,
+                  locale: fetchedCard.locale
+                });
+                // Add the content type identifier to the fetched card
+                return {
+                  ...fetchedCard,
+                  _content_type_uid: 'content_card_model'
+                };
+              }
+              // If card not found, return placeholder
+              throw new Error('Card not found');
             } catch (error) {
               console.error('Error fetching card data for UID:', card.uid, error);
               // Return a placeholder card if fetching fails
@@ -131,7 +146,7 @@ const CardListing = (props: CardListingProps): JSX.Element => {
     };
 
     fetchCardData();
-  }, [cardListing?.cards]);
+  }, [cardListing?.cards, locale]);
   
   // Default responsive grid classes
   const getGridClasses = () => {
@@ -157,7 +172,21 @@ const CardListing = (props: CardListingProps): JSX.Element => {
   };
 
   const renderCard = (card: any, index: number) => {
-    const { content, call_to_action, rendering_options } = card;
+    // Debug: Log card structure if title is missing
+    if (!card?.content?.title && !card?.title) {
+      console.warn('Card missing title:', {
+        uid: card?.uid,
+        hasContent: !!card?.content,
+        contentKeys: card?.content ? Object.keys(card.content) : [],
+        cardKeys: Object.keys(card || {}),
+        fullCard: card
+      });
+    }
+    
+    // Safely extract properties with defaults
+    const content = card?.content || {};
+    const call_to_action = card?.call_to_action || {};
+    const rendering_options = card?.rendering_options || {};
     
     const CardOrientation = rendering_options?.card_orientation || 'Vertical';
     const LinkType = rendering_options?.link_type || 'Button';
@@ -174,7 +203,7 @@ const CardListing = (props: CardListingProps): JSX.Element => {
     const isHorizontalFlex = CardOrientation === 'Horizontal Flex';
     const shouldRenderButton = LinkType !== 'Card';
 
-    const buttonComponent = shouldRenderButton ? (
+    const buttonComponent = shouldRenderButton && call_to_action?.link ? (
       <ContentCardBtn 
         CalltoActionLinkMain={call_to_action.link} 
         LinkType={LinkType} 
@@ -240,7 +269,7 @@ const CardListing = (props: CardListingProps): JSX.Element => {
               )}
 
               <Heading level={HeadingLevel} {...(content?.$?.title ?? {})}>
-                {content.title}
+                {content?.title || card?.title || 'Untitled'}
               </Heading>
 
               {/* {content.intro_text && (
@@ -269,27 +298,101 @@ const CardListing = (props: CardListingProps): JSX.Element => {
       </Card>
     );
 
-    const linkField = call_to_action.link as CMSLinkField | undefined;
+    const linkField = call_to_action?.link as CMSLinkField | undefined;
     
-    // For Content Card Model entries, always link to blog detail page
-    const blogDetailUrl = `/blogs/${generateSlug(card.title)}`;
+    // For Content Card Model entries, always link to blog detail page with locale
+    // Use URL field if available (non-localizable, same across all locales), otherwise fallback to generated slug
+    const cardUrl = card?.url || (content?.title || card?.title ? generateSlug(content?.title || card?.title || '') : '');
+    const blogDetailUrl = `/${locale}/blogs/${cardUrl}`;
     
     // Determine if this should be a clickable card
     const shouldBeClickable = LinkType === 'Card' && linkField?.href;
     const isContentCardModel = card._content_type_uid === 'content_card_model';
+    
+    // If the card will be wrapped in a link, don't render the button to avoid nested links
+    const willBeWrappedInLink = shouldBeClickable || isContentCardModel;
+    const shouldRenderButtonWithoutNesting = shouldRenderButton && !willBeWrappedInLink;
+    
+    // Re-create cardContent without button if card will be wrapped in link
+    const finalCardContent = willBeWrappedInLink ? (
+      <Card 
+        className={cn(
+          'font-satoshi overflow-hidden p-6 bg-white rounded-lg shadow-sm',
+          'border border-zinc-300',
+          {
+            'border-none': HideBorder
+          }
+        )}
+      >
+        {content.icon && (
+          <CMSImage 
+            image={content.icon} 
+            className="object-cover w-8 h-8 mb-1" 
+            {...(content.$?.icon ?? {})} 
+          />
+        )}
+        
+        <div
+          className={cn('flex w-full gap-6', {
+            'flex-col md:items-start': isVertical,
+            'flex-row': isHorizontal || isHorizontalFlex,
+          })}
+        >
+          {content.image && !HideImage && (
+            <div
+              className={cn('relative', {
+                'w-full order-2': isVertical,
+                'flex-1 basis-1/2': isHorizontal,
+                'flex-1 basis-3/12': isHorizontalFlex,
+                'order-1': ImageOrder === 'right',
+              })}
+              {...(content?.$?.image ?? {})}
+            >
+              <CMSImage
+                image={content.image}
+                className="object-cover rounded-lg w-full h-full aspect-[16/9]"
+              />
+            </div>
+          )}
+
+          <div
+            className={cn('flex flex-col w-full', {
+              'flex-1 order-1': isVertical,
+              'basis-1/2 gap-4': isHorizontal,
+              'basis-3/4 gap-4': isHorizontalFlex,
+            })}
+          >
+            <div>
+              {content.category && (
+                <div
+                  className="gap-2 inline-flex h-6 items-center rounded-lg leading-7 text-zinc-900 text-sm font-medium mb-1"
+                  {...(content?.$?.category ?? {})}
+                >
+                  {content.category}
+                </div>
+              )}
+
+              <Heading level={HeadingLevel} {...(content?.$?.title ?? {})}>
+                {content?.title || card?.title || 'Untitled'}
+              </Heading>
+            </div>
+          </div>
+        </div>
+      </Card>
+    ) : cardContent;
 
     return (
       <div key={`card-${index}`} {...(card.$ ?? {})}>
         {shouldBeClickable ? (
-          <NextLink href={linkField!.href} className="block">
-            {cardContent}
-          </NextLink>
+          <CMSLink href={linkField!.href} className="block">
+            {finalCardContent}
+          </CMSLink>
         ) : isContentCardModel ? (
-          <NextLink href={blogDetailUrl} className="block hover:shadow-lg transition-shadow duration-300">
-            {cardContent}
-          </NextLink>
+          <CMSLink href={blogDetailUrl} className="block hover:shadow-lg transition-shadow duration-300">
+            {finalCardContent}
+          </CMSLink>
         ) : (
-          cardContent
+          finalCardContent
         )}
       </div>
     );

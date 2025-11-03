@@ -53,10 +53,27 @@ export default {
    * @param {* Json RTE path} jsonRtePath
    *
    */
-  getEntry({ contentTypeUid, referenceFieldPath, jsonRtePath }) {
+  getEntry({ contentTypeUid, referenceFieldPath, jsonRtePath, locale }) {
     return new Promise((resolve, reject) => {
+      // Check if required environment variables are present
+      if (!process.env.CONTENTSTACK_API_KEY && !process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY) {
+        reject(new Error('ContentStack API key is not configured. Please set CONTENTSTACK_API_KEY or NEXT_PUBLIC_CONTENTSTACK_API_KEY environment variable.'));
+        return;
+      }
+      
+      if (!process.env.CONTENTSTACK_DELIVERY_TOKEN) {
+        reject(new Error('ContentStack delivery token is not configured. Please set CONTENTSTACK_DELIVERY_TOKEN environment variable.'));
+        return;
+      }
+      
+      if (!process.env.CONTENTSTACK_ENVIRONMENT) {
+        reject(new Error('ContentStack environment is not configured. Please set CONTENTSTACK_ENVIRONMENT environment variable.'));
+        return;
+      }
+
       const query = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) query.includeReference(referenceFieldPath);
+      if (locale) query.language(locale);
       query
         .toJSON()
         .find()
@@ -71,6 +88,7 @@ export default {
             resolve(result);
           },
           (error) => {
+            console.error('ContentStack API Error:', error);
             reject(error);
           },
         );
@@ -88,11 +106,13 @@ export default {
    * @returns
    */
   getEntryByUrl({
-    contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath, variantParam,
+    contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath, locale,
+    variantParam,
   }) {
     return new Promise((resolve, reject) => {
       const entryQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
+      if (locale) entryQuery.language(locale);
       entryQuery.toJSON();
       
       // Add variant support using Personalize SDK method
@@ -118,6 +138,7 @@ export default {
             paths: jsonRtePath,
             renderOption,
           });
+          
           resolve(result[0]);
         },
         (error) => {
@@ -139,11 +160,13 @@ export default {
    * @returns
    */
   getEntryByUid({
-    contentTypeUid, entryUid, referenceFieldPath, jsonRtePath, variantParam,
+    contentTypeUid, entryUid, referenceFieldPath, jsonRtePath,
+    variantParam,
   }) {
     return new Promise((resolve, reject) => {
       const entryQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
+      if (locale) entryQuery.language(locale);
       entryQuery.toJSON();
       
       // Add variant support using Personalize SDK method

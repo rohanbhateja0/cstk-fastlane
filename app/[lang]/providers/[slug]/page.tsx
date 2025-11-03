@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { User } from '@/core/types/components/UserList';
-import Link from 'next/link';
+import { CMSLink } from '@/core/atoms/Link';
 import { ArrowLeft, Mail, Phone, Globe, MapPin, Building } from 'lucide-react';
 import { generateSlug } from '@/core/lib/utils';
+import { useLocale } from '@/hooks/useLocale';
 
 export default function ProviderDetailPage() {
   const params = useParams();
+  const { locale } = useLocale();
   const slug = params.slug as string;
   
   const [user, setUser] = useState<User | null>(null);
@@ -79,13 +81,13 @@ export default function ProviderDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link 
-            href="/providers" 
+          <CMSLink 
+            href={`/${locale}/providers`} 
             className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Providers
-          </Link>
+          </CMSLink>
           <div className="text-center py-12">
             <div className="text-red-500 text-xl font-semibold mb-2">
               {error || 'Provider not found'}
@@ -93,12 +95,12 @@ export default function ProviderDetailPage() {
             <p className="text-gray-600 mb-4">
               The provider you're looking for doesn't exist or has been removed.
             </p>
-            <Link 
-              href="/providers"
+            <CMSLink 
+              href={`/${locale}/providers`} 
               className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               View All Providers
-            </Link>
+            </CMSLink>
           </div>
         </div>
       </div>
@@ -109,13 +111,13 @@ export default function ProviderDetailPage() {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
-        <Link 
-          href="/providers" 
+        <CMSLink 
+          href={`/${locale}/providers`} 
           className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Providers
-        </Link>
+        </CMSLink>
 
         {/* Provider Detail Card */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
