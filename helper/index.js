@@ -65,7 +65,6 @@ export const getPageRes = async (entryUrl) => {
 };
 
 export const getFastLanePage = async (entryUrl) => {
-    console.log('in get fast Lane Page');
     const response = await Stack.getEntryByUrl({
         contentTypeUid: "blank_page",
         entryUrl,
@@ -73,8 +72,6 @@ export const getFastLanePage = async (entryUrl) => {
         jsonRtePath: ["page_components.content_section.content.intro_text"],
     });
     liveEdit && addEditableTags(response[0], "blank_page", true);
-    console.log('returned');
-    console.log(response);
     return response[0];    
 };
 

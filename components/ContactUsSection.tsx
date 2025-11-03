@@ -7,6 +7,7 @@ import { ContactUsSectionProps } from '@/core/types/Props';
 import { CMSLinkField } from '@/core/types/Fields';
 import { getContactUsSectionRes } from '@/helper';
 import Personalize from '@contentstack/personalize-edge-sdk';
+import { usePersonalize } from '@/components/context/PersonalizeContext';
 
 // Icon Components matching Figma design
 const BellRingIcon = () => (
@@ -142,6 +143,7 @@ const ContactUsCard = ({ contactUsItem, renderingOptions }: { contactUsItem: any
 export default function ContactUsSection(props: ContactUsSectionProps) {
   const { contactUsSection, page } = props;
   const searchParams = useSearchParams();
+  const personalizeSdk = usePersonalize();
   
   // Get variant parameter from cookie (set by middleware)
   // Client components can't read server-side URL rewrites, so we use cookies
@@ -168,8 +170,6 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
           return;
         }
 
-        console.log('📋 Fetching ContactUs sections with variant:', variantParam);
-
         // Fetch all contactus_section entries
         const fetchedData = await Promise.all(
           contactUsSections.map(async (section: any) => {
@@ -179,11 +179,6 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
               const data = await getContactUsSectionRes(section.uid, variantParam);
               // ContentStack returns an array, extract the first element
               const contactUsItem = Array.isArray(data) ? data[0] : data;
-              
-              if (variantParam && contactUsItem) {
-                console.log('✅ Fetched ContactUs variant:', contactUsItem.title);
-              }
-              
               return contactUsItem;
             }
             // If it's already the full data
@@ -202,6 +197,28 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
 
     fetchContactUsSectionData();
   }, [contactUsSection, variantParam]);
+
+  // Trigger impression events when personalized content is shown
+  useEffect(() => {
+    if (!personalizeSdk || !variantParam) return;
+
+    // Parse the variant parameter to get experience short UIDs
+    // Format: "0_0,1_null" where 0 and 1 are experience short UIDs
+    const experiences = variantParam.split(',').map(pair => {
+      const [expShortUid] = pair.split('_');
+      return expShortUid;
+    }).filter(uid => uid && uid !== 'null');
+
+    // Trigger impression for each experience
+    experiences.forEach(async (expShortUid) => {
+      try {
+        await personalizeSdk.triggerImpression(expShortUid);
+        console.log(`📊 Impression triggered for experience: ${expShortUid}`);
+      } catch (error) {
+        console.error('Error triggering impression:', error);
+      }
+    });
+  }, [personalizeSdk, variantParam]);
 
   if (loading) {
     return <div className="contactus-section-loading py-12 text-center">Loading contact options...</div>;

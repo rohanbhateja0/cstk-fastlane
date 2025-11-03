@@ -107,8 +107,6 @@ export default {
         } catch (error) {
           console.error('❌ Error applying variants:', error);
         }
-      } else {
-        console.log('ℹ️ SDK - No variantParam provided, fetching base content');
       }
       
       const data = entryQuery.where('url', `${entryUrl}`).find();
@@ -160,8 +158,6 @@ export default {
         } catch (error) {
           console.error('❌ Error applying variants (UID):', error);
         }
-      } else {
-        console.log('ℹ️ SDK (UID) - No variantParam provided, fetching base content');
       }
       
       const data = entryQuery.where('uid', `${entryUid}`).find();

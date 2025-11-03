@@ -1,30 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { usePersonalize } from '@/components/context/PersonalizeContext';
 
 export default function TestPersonalizeClient() {
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [currentCountry, setCurrentCountry] = useState<string | null>(null);
   const [enrolledUser, setEnrolledUser] = useState<boolean>(false);
-  const [currentEnrolledUser, setCurrentEnrolledUser] = useState<boolean>(false);
+  const [userGroup, setUserGroup] = useState<string>('');
   const personalizeSdk = usePersonalize();
-
-  useEffect(() => {
-    // Load current settings from localStorage
-    const savedCountry = localStorage.getItem('test_country_client');
-    if (savedCountry) {
-      setCurrentCountry(savedCountry);
-      setSelectedCountry(savedCountry);
-    }
-
-    const savedEnrolled = localStorage.getItem('test_enrolled_user_client');
-    if (savedEnrolled) {
-      const isEnrolled = savedEnrolled === 'true';
-      setCurrentEnrolledUser(isEnrolled);
-      setEnrolledUser(isEnrolled);
-    }
-  }, []);
 
   const applySettings = async () => {
     if (!personalizeSdk) {
@@ -33,33 +15,22 @@ export default function TestPersonalizeClient() {
     }
 
     try {
-      const attributes: any = {};
-      
-      if (selectedCountry) {
-        attributes.COUNTRY = selectedCountry;
-        console.log('🌍 Setting COUNTRY attribute:', selectedCountry);
+      const attributes: Record<string, any> = {
+        'IsEnrolledUser': enrolledUser
+      };
+
+      if (userGroup) {
+        attributes['UserGroup'] = userGroup;
       }
       
-      // Always set Enrolled User attribute (true/false)
-      attributes['Enrolled User'] = enrolledUser;
-      console.log('👤 Setting "Enrolled User" attribute:', enrolledUser);
+      console.log('👤 Setting attributes:', attributes);
       
-      // Set both attributes using Personalize SDK
       await personalizeSdk.set(attributes);
       
-      // Save to localStorage
-      if (selectedCountry) {
-        localStorage.setItem('test_country_client', selectedCountry);
-        setCurrentCountry(selectedCountry);
-      }
-      localStorage.setItem('test_enrolled_user_client', String(enrolledUser));
-      setCurrentEnrolledUser(enrolledUser);
+      // Trigger conversion event for setting attributes
+      await personalizeSdk.triggerEvent('attributes_applied');
       
       console.log('✅ Attributes set successfully:', attributes);
-      console.log('🔄 Reloading page to apply changes...');
-      
-      // Reload to apply personalization
-      window.location.reload();
     } catch (error) {
       console.error('❌ Error setting attributes:', error);
     }
@@ -74,46 +45,28 @@ export default function TestPersonalizeClient() {
     try {
       console.log('🗑️ Clearing all attributes');
       
-      // Clear the attributes
       await personalizeSdk.set({
-        COUNTRY: '',
-        'Enrolled User': false,
+        'IsEnrolledUser': false,
+        'UserGroup': 'None'
       });
       
-      // Remove from localStorage
-      localStorage.removeItem('test_country_client');
-      localStorage.removeItem('test_enrolled_user_client');
-      setCurrentCountry(null);
-      setSelectedCountry('');
-      setCurrentEnrolledUser(false);
+      // Trigger conversion event for clearing attributes
+      await personalizeSdk.triggerEvent('attributes_cleared');
+      
       setEnrolledUser(false);
+      setUserGroup('');
       
       console.log('✅ Attributes cleared');
-      console.log('🔄 Reloading page to apply changes...');
-      
-      // Reload to apply changes
-      window.location.reload();
     } catch (error) {
       console.error('❌ Error clearing attributes:', error);
     }
   };
 
-  const countries = [
-    'Canada',
-    'United States of America',
-    'United Kingdom',
-    'Germany',
-    'France',
-    'Japan',
-    'Australia',
-    'Mexico',
-  ];
-
   return (
     <div className="container flex-grow max-w-[800px] mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-4">Test Personalization (Client-Side)</h1>
+      <h1 className="text-3xl font-bold mb-4">Test Personalization - Client Side</h1>
       <p className="text-gray-600 mb-8">
-        This page uses the client-side Personalize SDK to set the COUNTRY attribute.
+        This page uses the client-side Personalize SDK to set the <strong>IsEnrolledUser</strong> and <strong>UserGroup</strong> attributes.
       </p>
 
       {!personalizeSdk && (
@@ -122,102 +75,116 @@ export default function TestPersonalizeClient() {
         </div>
       )}
 
-      {(currentCountry || currentEnrolledUser) && (
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
-          <h2 className="text-lg font-semibold text-green-800 mb-3">Current Settings</h2>
-          {currentCountry && (
-            <div className="mb-2">
-              <span className="text-green-700 font-medium">Country: </span>
-              <span className="font-mono bg-green-100 px-2 py-1 rounded">{currentCountry}</span>
-            </div>
-          )}
-          <div className="mb-2">
-            <span className="text-green-700 font-medium">Enrolled User: </span>
-            <span className="font-mono bg-green-100 px-2 py-1 rounded">
-              {currentEnrolledUser ? 'Yes ✅' : 'No'}
-            </span>
-          </div>
-          <p className="text-sm text-green-600 mt-3">
-            You should see personalized content based on these settings on the ContactUs page.
-          </p>
+      <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
+        <h2 className="text-lg font-semibold text-green-800 mb-3">Current Selection</h2>
+        <div className="mb-2">
+          <span className="text-green-700 font-medium">IsEnrolledUser: </span>
+          <span className="font-mono bg-green-100 px-3 py-1 rounded text-lg">
+            {enrolledUser ? '✅ true' : '❌ false'}
+          </span>
         </div>
-      )}
-
-      {!currentCountry && !currentEnrolledUser && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
-          <h2 className="text-lg font-semibold text-blue-800 mb-2">No Settings Applied</h2>
-          <p className="text-blue-700">
-            Select a country and/or enrollment status below to test personalized content.
-          </p>
+        <div className="mb-2">
+          <span className="text-green-700 font-medium">UserGroup: </span>
+          <span className="font-mono bg-green-100 px-3 py-1 rounded text-lg">
+            {userGroup ? `👥 ${userGroup}` : '❌ Not set'}
+          </span>
         </div>
-      )}
+        <p className="text-sm text-green-600 mt-3">
+          Click "Apply" to set these attributes and personalize content.
+        </p>
+      </div>
 
       <div className="space-y-6">
-        <div>
-          <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
-            Select Country
-          </label>
-          <select
-            id="country"
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
-            className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={!personalizeSdk}
-          >
-            <option value="">-- Select a Country --</option>
-            {countries.map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label className="flex items-center space-x-3 cursor-pointer">
+        <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+          <label className="flex items-center space-x-4 cursor-pointer">
             <input
               type="checkbox"
               checked={enrolledUser}
               onChange={(e) => setEnrolledUser(e.target.checked)}
               disabled={!personalizeSdk}
-              className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed"
+              className="w-6 h-6 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed"
             />
-            <span className="text-sm font-medium text-gray-700">
-              Enrolled User
-            </span>
+            <div>
+              <span className="text-lg font-medium text-gray-900">
+                Is Enrolled User
+              </span>
+              <p className="text-sm text-gray-500 mt-1">
+                Check this box to mark the user as enrolled and see personalized content
+              </p>
+            </div>
           </label>
-          <p className="text-xs text-gray-500 mt-1 ml-8">
-            Check this box to mark the user as enrolled
-          </p>
+        </div>
+
+        <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+          <div className="mb-3">
+            <span className="text-lg font-medium text-gray-900">User Group</span>
+            <p className="text-sm text-gray-500 mt-1">
+              Select the user group to see group-specific personalized content
+            </p>
+          </div>
+          <div className="space-y-3">
+            <label className="flex items-center space-x-3 cursor-pointer">
+              <input
+                type="radio"
+                name="userGroup"
+                value="clinicians"
+                checked={userGroup === 'clinicians'}
+                onChange={(e) => setUserGroup(e.target.value)}
+                disabled={!personalizeSdk}
+                className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed"
+              />
+              <span className="text-gray-900">👨‍⚕️ Clinicians</span>
+            </label>
+            <label className="flex items-center space-x-3 cursor-pointer">
+              <input
+                type="radio"
+                name="userGroup"
+                value="patients"
+                checked={userGroup === 'patients'}
+                onChange={(e) => setUserGroup(e.target.value)}
+                disabled={!personalizeSdk}
+                className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed"
+              />
+              <span className="text-gray-900">🧑‍🦱 Patients</span>
+            </label>
+            <label className="flex items-center space-x-3 cursor-pointer">
+              <input
+                type="radio"
+                name="userGroup"
+                value=""
+                checked={userGroup === ''}
+                onChange={(e) => setUserGroup(e.target.value)}
+                disabled={!personalizeSdk}
+                className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed"
+              />
+              <span className="text-gray-500">None (No group)</span>
+            </label>
+          </div>
         </div>
 
         <div className="flex gap-4">
           <button
             onClick={applySettings}
             disabled={!personalizeSdk}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+            className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition shadow-md hover:shadow-lg"
           >
-            Apply Settings
+            {enrolledUser ? '✅ Set as Enrolled User' : 'Set as Non-Enrolled User'}
           </button>
 
-          {(currentCountry || currentEnrolledUser) && (
-            <button
-              onClick={clearSettings}
-              disabled={!personalizeSdk}
-              className="px-6 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
-            >
-              Clear All Settings
-            </button>
-          )}
+          <button
+            onClick={clearSettings}
+            disabled={!personalizeSdk}
+            className="px-6 py-4 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition shadow-md hover:shadow-lg"
+          >
+            Reset
+          </button>
         </div>
 
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
           <h3 className="font-semibold text-gray-800 mb-2">How to Test:</h3>
           <ol className="list-decimal list-inside space-y-2 text-gray-700 text-sm">
-            <li>Select a country from the dropdown above</li>
-            <li>Check/uncheck the "Enrolled User" checkbox</li>
-            <li>Click "Apply Settings" to set the attributes</li>
-            <li>The page will reload automatically</li>
+            <li>Select "Is Enrolled User" checkbox and/or choose a "User Group"</li>
+            <li>Click the button to apply the settings</li>
             <li>
               Navigate to{' '}
               <a href="/contactus" className="text-blue-600 hover:underline font-mono">
@@ -225,59 +192,61 @@ export default function TestPersonalizeClient() {
               </a>{' '}
               to see personalized content
             </li>
-            <li>Check the browser console for debug logs</li>
+            <li>Check the browser console for logs showing the applied attributes</li>
           </ol>
         </div>
 
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h3 className="font-semibold text-blue-800 mb-2">Expected Behavior:</h3>
-          <ul className="list-disc list-inside space-y-1 text-blue-700 text-sm">
+          <ul className="list-disc list-inside space-y-2 text-blue-700 text-sm">
             <li>
-              <strong>Canada:</strong> Should show Canada-specific variants
+              <strong>IsEnrolledUser = true:</strong> Display personalized content for enrolled users
             </li>
             <li>
-              <strong>United States of America:</strong> Should show US-specific variants
+              <strong>IsEnrolledUser = false:</strong> Display base content (non-enrolled)
             </li>
             <li>
-              <strong>Enrolled User = Yes:</strong> Should show enrolled user variants
+              <strong>UserGroup = clinicians:</strong> Display clinician-specific content
             </li>
             <li>
-              <strong>Other Settings:</strong> Should show base entries (default content)
+              <strong>UserGroup = patients:</strong> Display patient-specific content
+            </li>
+          </ul>
+        </div>
+
+        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+          <h3 className="font-semibold text-purple-800 mb-2">📊 Event Tracking:</h3>
+          <ul className="list-disc list-inside space-y-2 text-purple-700 text-sm">
+            <li>
+              <strong>Impressions:</strong> Automatically triggered when personalized content is shown on ContactUs page
+            </li>
+            <li>
+              <strong>Conversions:</strong> Triggered when you apply or clear attributes
+              <ul className="list-circle list-inside ml-4 mt-1">
+                <li><code className="bg-purple-100 px-1 rounded">attributes_applied</code> - When settings are applied</li>
+                <li><code className="bg-purple-100 px-1 rounded">attributes_cleared</code> - When settings are reset</li>
+              </ul>
             </li>
           </ul>
         </div>
       </div>
 
       <div className="mt-8 pt-8 border-t border-gray-200">
-        <h3 className="font-semibold text-gray-800 mb-4">Quick Test Presets:</h3>
-        <div className="flex flex-wrap gap-2">
+        <h3 className="font-semibold text-gray-800 mb-4">Quick Actions:</h3>
+        <div className="flex flex-wrap gap-3">
           <button
-            onClick={() => { setSelectedCountry('Canada'); setEnrolledUser(false); setTimeout(applySettings, 100); }}
+            onClick={() => { setEnrolledUser(true); setTimeout(applySettings, 100); }}
             disabled={!personalizeSdk}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed shadow-md"
           >
-            🇨🇦 Canada
+            ✅ Set Enrolled (true)
           </button>
           <button
-            onClick={() => { setSelectedCountry('United States of America'); setEnrolledUser(false); setTimeout(applySettings, 100); }}
+            onClick={() => { setEnrolledUser(false); setTimeout(applySettings, 100); }}
             disabled={!personalizeSdk}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed shadow-md"
           >
-            🇺🇸 United States of America
-          </button>
-          <button
-            onClick={() => { setSelectedCountry(''); setEnrolledUser(true); setTimeout(applySettings, 100); }}
-            disabled={!personalizeSdk}
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-semibold hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
-          >
-            ✅ Enrolled User
-          </button>
-          <button
-            onClick={() => { setSelectedCountry('Canada'); setEnrolledUser(true); setTimeout(applySettings, 100); }}
-            disabled={!personalizeSdk}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
-          >
-            🇨🇦 + ✅ Canada + Enrolled
+            ❌ Set Not Enrolled (false)
           </button>
         </div>
       </div>
