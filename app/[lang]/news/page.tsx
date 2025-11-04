@@ -3,26 +3,36 @@
 import RenderComponents from '@/components/render-components';
 import { onEntryChange } from '@/contentstack-sdk';
 import { GetPage } from '@/core/ContentQueries/GetPage';
-import { getPageRes, metaData } from '@/helper';
 import { Page as PageProp } from '@/typescript/pages';
-import { usePathname } from 'next/navigation';
 import React, { useState, useEffect, useCallback } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import { useLocale } from '@/hooks/useLocale';
 
-export default function Page() {
-    const entryUrl = usePathname();
+export default function NewsPage() {
+    const { locale, cleanPath } = useLocale();
+    
+    // Get variant parameter from cookie (set by middleware)
+    const [variantParam, setVariantParam] = useState<string>('');
+    
+    useEffect(() => {
+        if (typeof document !== 'undefined') {
+            const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+            // Decode URL-encoded value (e.g., "2_0%2C1_null" -> "2_0,1_null")
+            const decoded = cookieValue ? decodeURIComponent(cookieValue) : '';
+            setVariantParam(decoded);
+        }
+    }, []);
 
     const [getEntry, setEntry] = useState<PageProp>();
 
     const fetchData = useCallback(async () => {
         try {
-            const entryRes = await GetPage(entryUrl);
+            const entryRes = await GetPage(cleanPath, locale, variantParam);
             if (!entryRes) throw new Error('Status code 404');
             setEntry(entryRes);
         } catch (error) {
             console.error('Error fetching News page:', error);
         }
-    }, [entryUrl]);
+    }, [cleanPath, locale, variantParam]);
 
     useEffect(() => {
         fetchData();
@@ -66,3 +76,4 @@ export default function Page() {
         </div>
     );
 }
+

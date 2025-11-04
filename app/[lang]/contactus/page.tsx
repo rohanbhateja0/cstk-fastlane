@@ -4,31 +4,35 @@ import RenderComponents from '@/components/render-components';
 import { onEntryChange } from '@/contentstack-sdk';
 import { GetPage } from '@/core/ContentQueries/GetPage';
 import { Page as PageProp } from '@/typescript/pages';
-import { usePathname } from 'next/navigation';
 import React, { useState, useEffect, useCallback } from 'react';
+import { useLocale } from '@/hooks/useLocale';
 
 export default function ContactUsPage() {
-    const entryUrl = usePathname();
+    const { locale, cleanPath } = useLocale();
     
     // Get variant parameter from cookie (set by middleware)
-    let variantParam = undefined;
-    if (typeof document !== 'undefined') {
-        const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
-        // Decode URL-encoded value (e.g., "2_0%2C1_null" -> "2_0,1_null")
-        variantParam = cookieValue ? decodeURIComponent(cookieValue) : undefined;
-    }
+    const [variantParam, setVariantParam] = useState<string>('');
+    
+    useEffect(() => {
+        if (typeof document !== 'undefined') {
+            const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+            // Decode URL-encoded value (e.g., "2_0%2C1_null" -> "2_0,1_null")
+            const decoded = cookieValue ? decodeURIComponent(cookieValue) : '';
+            setVariantParam(decoded);
+        }
+    }, []);
 
     const [getEntry, setEntry] = useState<PageProp>();
 
     const fetchData = useCallback(async () => {
         try {
-            const entryRes = await GetPage(entryUrl, 'en-us', variantParam);
+            const entryRes = await GetPage(cleanPath, locale, variantParam);
             if (!entryRes) throw new Error('Status code 404');
             setEntry(entryRes);
         } catch (error) {
             console.error('Error fetching ContactUs page:', error);
         }
-    }, [entryUrl, variantParam]);
+    }, [cleanPath, locale, variantParam]);
 
     useEffect(() => {
         fetchData();

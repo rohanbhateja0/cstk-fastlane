@@ -57,6 +57,11 @@ const getIconForCategory = (category?: string) => {
 
 // Individual ContactUs Card Component - Matching Figma Design
 const ContactUsCard = ({ contactUsItem, renderingOptions }: { contactUsItem: any, renderingOptions: any }) => {
+  // Guard against null/undefined contactUsItem
+  if (!contactUsItem) {
+    return null;
+  }
+  
   // Extract data from Contentstack structure
   const {
     title,
@@ -176,9 +181,18 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
         const fetchedData = await Promise.all(
           contactUsSections.map(async (section: any) => {
             // Check if it's a reference object with UID
-            if (section.uid && section._content_type_uid === 'contactus_section') {
+            if (section.uid) {
+              // If it already has full data (has title), use it
+              if (section.title || section.description) {
+                return section;
+              }
+              
               // Pass variant parameter to helper function
               const data = await getContactUsSectionRes(section.uid, locale, variantParam);
+              if (!data) {
+                return null;
+              }
+              
               // ContentStack SDK may return data in array-like format with index "0"
               // Unwrap the response if it's in that format
               let contactUsItem = data;
@@ -188,8 +202,12 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
                 contactUsItem = data[0];
               }
               
+              if (!contactUsItem) {
+                return null;
+              }
+              
               // If localized entry doesn't have an image, fetch from master locale (en-us) as fallback
-              if (contactUsItem && !contactUsItem.image && locale !== 'en-us') {
+              if (!contactUsItem.image && locale !== 'en-us') {
                 try {
                   const masterData = await getContactUsSectionRes(section.uid, 'en-us');
                   let masterItem = masterData;
@@ -215,7 +233,8 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
           })
         );
 
-        setContactUsSectionData(fetchedData);
+        // Filter out null values
+        setContactUsSectionData(fetchedData.filter(Boolean));
       } catch (error) {
         console.error('Error fetching contactus section data:', error);
         setContactUsSectionData([]);

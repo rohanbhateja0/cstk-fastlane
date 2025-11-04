@@ -187,20 +187,70 @@ export const getNewsBannerRes = async (newsBannerUid) => {
     return response;
 };
 
-export const getNewsSectionRes = async (newsSectionUid) => {
-    const response = await Stack.getEntryByUid({
-        contentTypeUid: "news_section",
-        entryUid: newsSectionUid,
-        referenceFieldPath: [],
-        jsonRtePath: [],
-    });
-    
-    // response is array-like: {0: {entry_data}, $: {metadata}}
-    // Add editable tags to the actual entry object at index 0
-    if (liveEdit && response && response[0]) {
-        addEditableTags(response[0], "news_section", true);
+export const getNewsSectionRes = async (newsSectionUid, locale = 'en-us', variantParam = '') => {
+    try {
+        // First try to get the news section in the requested locale
+        const response = await Stack.getEntryByUid({
+            contentTypeUid: "news_section",
+            entryUid: newsSectionUid,
+            referenceFieldPath: [],
+            jsonRtePath: [],
+            locale: locale,
+            variantParam: variantParam,
+        });
+        
+        if (response) {
+            // Unwrap the response if it's in array-like format
+            let entry = response;
+            if (response["0"] && typeof response["0"] === 'object') {
+                entry = response["0"];
+            } else if (Array.isArray(response) && response.length > 0) {
+                entry = response[0];
+            }
+            
+            // response is array-like: {0: {entry_data}, $: {metadata}}
+            // Add editable tags to the actual entry object
+            if (liveEdit && entry) {
+                addEditableTags(entry, "news_section", true);
+            }
+            return response;
+        }
+    } catch (error) {
+        console.log(`News section not found in locale ${locale}, trying fallback to en-us`);
     }
-    return response;
+    
+    // If the requested locale doesn't exist, fallback to English
+    if (locale !== 'en-us') {
+        try {
+            const fallbackResponse = await Stack.getEntryByUid({
+                contentTypeUid: "news_section",
+                entryUid: newsSectionUid,
+                referenceFieldPath: [],
+                jsonRtePath: [],
+                locale: 'en-us',
+                variantParam: variantParam,
+            });
+            
+            if (fallbackResponse) {
+                // Unwrap the fallback response
+                let entry = fallbackResponse;
+                if (fallbackResponse["0"] && typeof fallbackResponse["0"] === 'object') {
+                    entry = fallbackResponse["0"];
+                } else if (Array.isArray(fallbackResponse) && fallbackResponse.length > 0) {
+                    entry = fallbackResponse[0];
+                }
+                
+                if (liveEdit && entry) {
+                    addEditableTags(entry, "news_section", true);
+                }
+                return fallbackResponse;
+            }
+        } catch (fallbackError) {
+            console.error('Fallback to en-us also failed:', fallbackError);
+        }
+    }
+    
+    return null;
 };
 
 export const getContactUsSectionRes = async (contactUsSectionUid, locale = 'en-us', variantParam = '') => {

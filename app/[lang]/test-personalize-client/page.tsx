@@ -187,8 +187,8 @@ export default function TestPersonalizeClient() {
             <li>Click the button to apply the settings</li>
             <li>
               Navigate to{' '}
-              <a href="/contactus" className="text-blue-600 hover:underline font-mono">
-                /contactus
+              <a href="/en-us/contactus" className="text-blue-600 hover:underline font-mono">
+                /en-us/contactus
               </a>{' '}
               to see personalized content
             </li>
