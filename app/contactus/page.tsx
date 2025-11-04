@@ -22,7 +22,7 @@ export default function ContactUsPage() {
 
     const fetchData = useCallback(async () => {
         try {
-            const entryRes = await GetPage(entryUrl, variantParam);
+            const entryRes = await GetPage(entryUrl, 'en-us', variantParam);
             if (!entryRes) throw new Error('Status code 404');
             setEntry(entryRes);
         } catch (error) {
