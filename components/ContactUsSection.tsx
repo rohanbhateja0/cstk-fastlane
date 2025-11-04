@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import NextLink from 'next/link';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { ContactUsSectionProps } from '@/core/types/Props';
 import { CMSLinkField } from '@/core/types/Fields';
 import { getContactUsSectionRes } from '@/helper';
 import { useLocale } from '@/hooks/useLocale';
+import { usePersonalize } from './context/PersonalizeContext';
+import Personalize from '@contentstack/personalize-edge-sdk';
 
 // Icon Components matching Figma design
 const BellRingIcon = () => (
@@ -54,6 +57,11 @@ const getIconForCategory = (category?: string) => {
 
 // Individual ContactUs Card Component - Matching Figma Design
 const ContactUsCard = ({ contactUsItem, renderingOptions }: { contactUsItem: any, renderingOptions: any }) => {
+  // Guard against null/undefined contactUsItem
+  if (!contactUsItem) {
+    return null;
+  }
+  
   // Extract data from Contentstack structure
   const {
     title,
@@ -141,6 +149,18 @@ const ContactUsCard = ({ contactUsItem, renderingOptions }: { contactUsItem: any
 export default function ContactUsSection(props: ContactUsSectionProps) {
   const { contactUsSection, page } = props;
   const { locale } = useLocale();
+  const searchParams = useSearchParams();
+  const personalizeSdk = usePersonalize();
+  
+  // Get variant parameter from cookie (set by middleware)
+  // Client components can't read server-side URL rewrites, so we use cookies
+  let variantParam = undefined;
+  if (typeof document !== 'undefined') {
+      const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+      // Decode URL-encoded value (e.g., "0_0%2C1_null" -> "0_0,1_null")
+      variantParam = cookieValue ? decodeURIComponent(cookieValue) : undefined;
+  }
+  
   const [contactUsSectionData, setContactUsSectionData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -161,8 +181,18 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
         const fetchedData = await Promise.all(
           contactUsSections.map(async (section: any) => {
             // Check if it's a reference object with UID
-            if (section.uid && section._content_type_uid === 'contactus_section') {
-              const data = await getContactUsSectionRes(section.uid, locale);
+            if (section.uid) {
+              // If it already has full data (has title), use it
+              if (section.title || section.description) {
+                return section;
+              }
+              
+              // Pass variant parameter to helper function
+              const data = await getContactUsSectionRes(section.uid, locale, variantParam);
+              if (!data) {
+                return null;
+              }
+              
               // ContentStack SDK may return data in array-like format with index "0"
               // Unwrap the response if it's in that format
               let contactUsItem = data;
@@ -172,8 +202,12 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
                 contactUsItem = data[0];
               }
               
+              if (!contactUsItem) {
+                return null;
+              }
+              
               // If localized entry doesn't have an image, fetch from master locale (en-us) as fallback
-              if (contactUsItem && !contactUsItem.image && locale !== 'en-us') {
+              if (!contactUsItem.image && locale !== 'en-us') {
                 try {
                   const masterData = await getContactUsSectionRes(section.uid, 'en-us');
                   let masterItem = masterData;
@@ -199,7 +233,8 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
           })
         );
 
-        setContactUsSectionData(fetchedData);
+        // Filter out null values
+        setContactUsSectionData(fetchedData.filter(Boolean));
       } catch (error) {
         console.error('Error fetching contactus section data:', error);
         setContactUsSectionData([]);
@@ -209,7 +244,29 @@ export default function ContactUsSection(props: ContactUsSectionProps) {
     };
 
     fetchContactUsSectionData();
-  }, [contactUsSection, locale]);
+  }, [contactUsSection, locale, variantParam]);
+
+  // Trigger impression events when personalized content is shown
+  useEffect(() => {
+    if (!personalizeSdk || !variantParam) return;
+
+    // Parse the variant parameter to get experience short UIDs
+    // Format: "0_0,1_null" where 0 and 1 are experience short UIDs
+    const experiences = variantParam.split(',').map(pair => {
+      const [expShortUid] = pair.split('_');
+      return expShortUid;
+    }).filter(uid => uid && uid !== 'null');
+
+    // Trigger impression for each experience
+    experiences.forEach(async (expShortUid) => {
+      try {
+        await personalizeSdk.triggerImpression(expShortUid);
+        console.log(`📊 Impression triggered for experience: ${expShortUid}`);
+      } catch (error) {
+        console.error('Error triggering impression:', error);
+      }
+    });
+  }, [personalizeSdk, variantParam]);
 
   if (loading) {
     return <div className="contactus-section-loading py-12 text-center">Loading contact options...</div>;

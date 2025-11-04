@@ -66,6 +66,17 @@ const CardListing = (props: CardListingProps): JSX.Element => {
   const { locale } = useLocale();
   const [populatedCards, setPopulatedCards] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [variantParam, setVariantParam] = useState<string>('');
+
+  // Get variant parameter from cookie (set by middleware)
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+      // Decode URL-encoded value (e.g., "0_0%2C1_null" -> "0_0,1_null")
+      const decoded = cookieValue ? decodeURIComponent(cookieValue) : '';
+      setVariantParam(decoded);
+    }
+  }, []);
 
   // Fetch card data - cards are always references
   useEffect(() => {
@@ -81,8 +92,8 @@ const CardListing = (props: CardListingProps): JSX.Element => {
           // Cards are always references, so always fetch the full data
           if (card.uid && card._content_type_uid === 'content_card_model') {
             try {
-              // Use GetContentCard which supports locale
-              const fetchedCard = await GetContentCard(card.uid, locale);
+              // Use GetContentCard which supports locale and personalization
+              const fetchedCard = await GetContentCard(card.uid, locale, variantParam);
               if (fetchedCard) {
                 console.log('Fetched card structure:', {
                   uid: fetchedCard.uid,
@@ -146,7 +157,7 @@ const CardListing = (props: CardListingProps): JSX.Element => {
     };
 
     fetchCardData();
-  }, [cardListing?.cards, locale]);
+  }, [cardListing?.cards, locale, variantParam]);
   
   // Default responsive grid classes
   const getGridClasses = () => {

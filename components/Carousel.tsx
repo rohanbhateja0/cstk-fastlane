@@ -7,6 +7,7 @@ import ImageComponent from './image';
 import RichText from './rich-text';
 import { CMSLink } from '@/core/atoms/Link';
 import { getCarouselRes } from '@/helper';
+import { useLocale } from '@/hooks/useLocale';
 
 interface CarouselProps {
   carousel: {
@@ -18,10 +19,22 @@ interface CarouselProps {
 }
 
 export default function Carousel({ carousel, page }: CarouselProps) {
+  const { locale } = useLocale();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [carouselData, setCarouselData] = useState<CarouselFields | null>(null);
   const [loading, setLoading] = useState(true);
+  const [variantParam, setVariantParam] = useState<string>('');
+
+  // Get variant parameter from cookie (set by middleware)
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+      // Decode URL-encoded value (e.g., "0_0%2C1_null" -> "0_0,1_null")
+      const decoded = cookieValue ? decodeURIComponent(cookieValue) : '';
+      setVariantParam(decoded);
+    }
+  }, []);
 
   // Fetch carousel data if it's a reference
   useEffect(() => {
@@ -38,7 +51,7 @@ export default function Carousel({ carousel, page }: CarouselProps) {
 
         // Check if carousel is a reference object with UID
         if (currentCarousel.uid && currentCarousel._content_type_uid === 'carousel') {
-          const data = await getCarouselRes(currentCarousel.uid);
+          const data = await getCarouselRes(currentCarousel.uid, locale, variantParam);
           setCarouselData(data[0]);
         } else {
           // If it's already the full carousel data
@@ -52,8 +65,10 @@ export default function Carousel({ carousel, page }: CarouselProps) {
       }
     };
 
-    fetchCarouselData();
-  }, [carousel]);
+    if (locale) {
+      fetchCarouselData();
+    }
+  }, [carousel, locale, variantParam]);
 
   // Auto-play functionality
   useEffect(() => {

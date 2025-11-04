@@ -4,7 +4,7 @@ import { Locale } from "@/lib/i18n";
 
 const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true";
 
-export const GetPage = async (entryUrl: string, locale: Locale = 'en-us') => {
+export const GetPage = async (entryUrl: string, locale: Locale = 'en-us', variantParam = '') => {
     // Normalize URL to lowercase for case-insensitive matching
     const normalizedUrl = entryUrl.toLowerCase();
     
@@ -21,6 +21,7 @@ export const GetPage = async (entryUrl: string, locale: Locale = 'en-us') => {
             "fastlane_components.contactus_section.contactus_sections"
             ],
             jsonRtePath: [],
+            variantParam: variantParam,
         });
         
         // Unwrap the response if it's in array format
@@ -55,6 +56,7 @@ export const GetPage = async (entryUrl: string, locale: Locale = 'en-us') => {
             "fastlane_components.contactus_section.contactus_sections"
                 ],
                 jsonRtePath: [],
+                variantParam: variantParam,
             });
             
             // Unwrap English response
@@ -79,6 +81,7 @@ export const GetPage = async (entryUrl: string, locale: Locale = 'en-us') => {
                     ],
                     jsonRtePath: [],
                     locale: locale,
+                    variantParam: variantParam,
                 });
                 
                 // Unwrap localized response

@@ -6,6 +6,7 @@ import { NewsSectionProps } from '@/core/types/Props';
 import { CMSLinkField } from '@/core/types/Fields';
 import RichText from './rich-text';
 import { getNewsSectionRes } from '@/helper';
+import { useLocale } from '@/hooks/useLocale';
 
 // Arrow Right Icon Component
 const ArrowRightIcon = () => (
@@ -145,8 +146,20 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
 
 export default function NewsSection(props: NewsSectionProps) {
   const { newsSection } = props;
+  const { locale } = useLocale();
   const [newsSectionData, setNewsSectionData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Get variant parameter from cookie (set by middleware)
+  const [variantParam, setVariantParam] = useState<string>('');
+  
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+      const decoded = cookieValue ? decodeURIComponent(cookieValue) : '';
+      setVariantParam(decoded);
+    }
+  }, []);
 
   // Fetch news section data if it's a reference
   useEffect(() => {
@@ -165,18 +178,26 @@ export default function NewsSection(props: NewsSectionProps) {
         const fetchedData = await Promise.all(
           newsSections.map(async (section: any) => {
             // Check if it's a reference object with UID
-            if (section.uid && section._content_type_uid === 'news_section') {
-              const data = await getNewsSectionRes(section.uid);
+            if (section.uid) {
+              // If it already has full data (has title), use it
+              if (section.title || section.description) {
+                return section;
+              }
+              
+              // Otherwise fetch it with locale support
+              const data = await getNewsSectionRes(section.uid, locale, variantParam);
               // ContentStack returns an array, extract the first element
-              const newsItem = Array.isArray(data) ? data[0] : data;
-              return newsItem;
+              if (data) {
+                const newsItem = Array.isArray(data) ? data[0] : (data["0"] || data);
+                return newsItem;
+              }
             }
             // If it's already the full data
             return section;
           })
         );
 
-        setNewsSectionData(fetchedData);
+        setNewsSectionData(fetchedData.filter(Boolean));
       } catch (error) {
         console.error('Error fetching news section data:', error);
         setNewsSectionData([]);
@@ -185,8 +206,10 @@ export default function NewsSection(props: NewsSectionProps) {
       }
     };
 
-    fetchNewsSectionData();
-  }, [newsSection]);
+    if (locale) {
+      fetchNewsSectionData();
+    }
+  }, [newsSection, locale, variantParam]);
 
   if (loading) {
     return <div className="news-section-loading py-12 text-center">Loading news section...</div>;

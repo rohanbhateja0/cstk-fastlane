@@ -1,5 +1,6 @@
 import * as contentstack from 'contentstack';
 import * as Utils from '@contentstack/utils';
+import Personalize from '@contentstack/personalize-edge-sdk';
 
 import ContentstackLivePreview from '@contentstack/live-preview-utils';
 
@@ -52,7 +53,7 @@ export default {
    * @param {* Json RTE path} jsonRtePath
    *
    */
-  getEntry({ contentTypeUid, referenceFieldPath, jsonRtePath, locale }) {
+  getEntry({ contentTypeUid, referenceFieldPath, jsonRtePath, locale, variantParam }) {
     return new Promise((resolve, reject) => {
       // Check if required environment variables are present
       if (!process.env.CONTENTSTACK_API_KEY && !process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY) {
@@ -73,6 +74,37 @@ export default {
       const query = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) query.includeReference(referenceFieldPath);
       if (locale) query.language(locale);
+      
+      // Add variant support - apply BEFORE toJSON()
+      if (variantParam) {
+        try {
+          // Try to convert variant param to variant aliases using Personalize SDK
+          if (Personalize && typeof Personalize.variantParamToVariantAliases === 'function') {
+            const variantAliases = Personalize.variantParamToVariantAliases(variantParam);
+            if (variantAliases && variantAliases.length > 0) {
+              const variantAlias = variantAliases.join(',');
+              // Use addParam with the variant alias if variants() method doesn't exist
+              if (typeof query.variants === 'function') {
+                query.variants(variantAlias);
+              } else {
+                query.addParam('personalization_variants', variantAlias);
+              }
+            }
+          } else {
+            // Fallback: use variantParam directly as query parameter
+            query.addParam('personalization_variants', variantParam);
+          }
+        } catch (error) {
+          console.error('❌ Error applying variants (getEntry):', error);
+          // Fallback: use variantParam directly
+          try {
+            query.addParam('personalization_variants', variantParam);
+          } catch (fallbackError) {
+            console.error('❌ Fallback variant param also failed:', fallbackError);
+          }
+        }
+      }
+      
       query
         .toJSON()
         .find()
@@ -101,17 +133,49 @@ export default {
    * @param {* url for entry to be fetched} entryUrl
    * @param {* reference field name} referenceFieldPath
    * @param {* Json RTE path} jsonRtePath
+   * @param {* variant parameter} variantParam
    * @returns
    */
   getEntryByUrl({
     contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath, locale,
+    variantParam,
   }) {
     return new Promise((resolve, reject) => {
       const entryQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
       if (locale) entryQuery.language(locale);
-      entryQuery.toJSON();
       
+      // Add variant support - apply BEFORE toJSON()
+      if (variantParam) {
+        try {
+          // Try to convert variant param to variant aliases using Personalize SDK
+          if (Personalize && typeof Personalize.variantParamToVariantAliases === 'function') {
+            const variantAliases = Personalize.variantParamToVariantAliases(variantParam);
+            if (variantAliases && variantAliases.length > 0) {
+              const variantAlias = variantAliases.join(',');
+              // Use addParam with the variant alias if variants() method doesn't exist
+              if (typeof entryQuery.variants === 'function') {
+                entryQuery.variants(variantAlias);
+              } else {
+                entryQuery.addParam('personalization_variants', variantAlias);
+              }
+            }
+          } else {
+            // Fallback: use variantParam directly as query parameter
+            entryQuery.addParam('personalization_variants', variantParam);
+          }
+        } catch (error) {
+          console.error('❌ Error applying variants:', error);
+          // Fallback: use variantParam directly
+          try {
+            entryQuery.addParam('personalization_variants', variantParam);
+          } catch (fallbackError) {
+            console.error('❌ Fallback variant param also failed:', fallbackError);
+          }
+        }
+      }
+      
+      entryQuery.toJSON();
       const data = entryQuery.where('url', `${entryUrl}`).find();
       data.then(
         (result) => {
@@ -139,17 +203,49 @@ export default {
    * @param {* UID for entry to be fetched} entryUid
    * @param {* reference field name} referenceFieldPath
    * @param {* Json RTE path} jsonRtePath
+   * @param {* variant parameter} variantParam
    * @returns
    */
   getEntryByUid({
     contentTypeUid, entryUid, referenceFieldPath, jsonRtePath, locale,
+    variantParam,
   }) {
     return new Promise((resolve, reject) => {
       const entryQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) entryQuery.includeReference(referenceFieldPath);
       if (locale) entryQuery.language(locale);
-      entryQuery.toJSON();
       
+      // Add variant support - apply BEFORE toJSON()
+      if (variantParam) {
+        try {
+          // Try to convert variant param to variant aliases using Personalize SDK
+          if (Personalize && typeof Personalize.variantParamToVariantAliases === 'function') {
+            const variantAliases = Personalize.variantParamToVariantAliases(variantParam);
+            if (variantAliases && variantAliases.length > 0) {
+              const variantAlias = variantAliases.join(',');
+              // Use addParam with the variant alias if variants() method doesn't exist
+              if (typeof entryQuery.variants === 'function') {
+                entryQuery.variants(variantAlias);
+              } else {
+                entryQuery.addParam('personalization_variants', variantAlias);
+              }
+            }
+          } else {
+            // Fallback: use variantParam directly as query parameter
+            entryQuery.addParam('personalization_variants', variantParam);
+          }
+        } catch (error) {
+          console.error('❌ Error applying variants (UID):', error);
+          // Fallback: use variantParam directly
+          try {
+            entryQuery.addParam('personalization_variants', variantParam);
+          } catch (fallbackError) {
+            console.error('❌ Fallback variant param also failed:', fallbackError);
+          }
+        }
+      }
+      
+      entryQuery.toJSON();
       const data = entryQuery.where('uid', `${entryUid}`).find();
       data.then(
         (result) => {

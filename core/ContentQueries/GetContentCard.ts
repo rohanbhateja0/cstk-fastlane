@@ -4,7 +4,7 @@ import { Locale } from "@/lib/i18n";
 
 const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true" || process.env.NODE_ENV === "development";
 
-export const GetContentCard = async (entryUid: string, locale: Locale = 'en-us') => {
+export const GetContentCard = async (entryUid: string, locale: Locale = 'en-us', variantParam = '') => {
     try {
         // First try to get the content card in the requested locale
         const response = await Stack.getEntryByUid({
@@ -13,6 +13,7 @@ export const GetContentCard = async (entryUid: string, locale: Locale = 'en-us')
             referenceFieldPath: [],
             jsonRtePath: ["content.intro_text"],
             locale: locale,
+            variantParam: variantParam,
         });
         
         if (response) {
@@ -52,6 +53,7 @@ export const GetContentCard = async (entryUid: string, locale: Locale = 'en-us')
                 referenceFieldPath: [],
                 jsonRtePath: ["content.intro_text"],
                 locale: 'en-us',
+                variantParam: variantParam,
             });
             
             if (fallbackResponse) {
@@ -74,10 +76,10 @@ export const GetContentCard = async (entryUid: string, locale: Locale = 'en-us')
     return null;
 };
 
-export const GetContentCardBySlug = async (slug: string, locale: Locale = 'en-us') => {
+export const GetContentCardBySlug = async (slug: string, locale: Locale = 'en-us', variantParam = '') => {
     try {
         const targetLocale = locale;
-        console.log('GetContentCardBySlug called with:', { slug, locale: targetLocale });
+        console.log('GetContentCardBySlug called with:', { slug, locale: targetLocale, variantParam });
         
         // Helper function to generate slug from title (for fallback if URL field is missing)
         // Supports both new format (normalized accents) and old format (removed accents)
@@ -114,6 +116,7 @@ export const GetContentCardBySlug = async (slug: string, locale: Locale = 'en-us
             referenceFieldPath: [],
             jsonRtePath: ["content.intro_text"],
             locale: targetLocale,
+            variantParam: variantParam,
         });
         
         console.log('ContentStack response:', response);
@@ -168,6 +171,7 @@ export const GetContentCardBySlug = async (slug: string, locale: Locale = 'en-us
                     referenceFieldPath: [],
                     jsonRtePath: ["content.intro_text"],
                     locale: "en-us",
+                    variantParam: variantParam,
                 });
                 
                 // Find entry by URL field first (preferred method)
@@ -208,6 +212,7 @@ export const GetContentCardBySlug = async (slug: string, locale: Locale = 'en-us
                         referenceFieldPath: [],
                         jsonRtePath: ["content.intro_text"],
                         locale: targetLocale,
+                        variantParam: variantParam,
                     });
                     
                     if (localizedEntryResponse) {

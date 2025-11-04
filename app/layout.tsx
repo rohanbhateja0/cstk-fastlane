@@ -1,3 +1,4 @@
+import { PersonalizeProvider } from "@/components/context/PersonalizeContext";
 import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
@@ -35,7 +36,9 @@ export default function RootLayout({
   return (
     <html>
       <body>
+      <PersonalizeProvider>
         {children}
+        </PersonalizeProvider>
       </body>
     </html>
   );

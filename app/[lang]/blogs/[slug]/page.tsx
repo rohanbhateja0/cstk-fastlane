@@ -69,21 +69,30 @@ export default function BlogDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const { locale } = useLocale();
+  const [variantParam, setVariantParam] = useState<string>('');
   
   const [blogPost, setBlogPost] = useState<ContentCardModel | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const livePreviewSetup = useRef(false);
 
-
+  // Get variant parameter from cookie (set by middleware)
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+      // Decode URL-encoded value (e.g., "0_0%2C1_null" -> "0_0,1_null")
+      const decoded = cookieValue ? decodeURIComponent(cookieValue) : '';
+      setVariantParam(decoded);
+    }
+  }, []);
 
   // Fetch blog post by slug
   const fetchBlogPost = async () => {
     try {
       setLoading(true);
-      console.log('Fetching blog post with:', { slug, locale });
+      console.log('Fetching blog post with:', { slug, locale, variantParam });
       
-      const blogPost = await GetContentCardBySlug(slug, locale);
+      const blogPost = await GetContentCardBySlug(slug, locale, variantParam);
       
       if (blogPost) {
         console.log('Blog post found:', blogPost.uid);
@@ -104,7 +113,7 @@ export default function BlogDetailPage() {
     if (slug && locale) {
       fetchBlogPost();
     }
-  }, [slug, locale]);
+  }, [slug, locale, variantParam]);
 
   // Set up live preview - only once per component mount
   useEffect(() => {

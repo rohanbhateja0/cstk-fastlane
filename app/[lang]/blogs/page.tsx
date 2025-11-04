@@ -15,19 +15,30 @@ import { Locale } from "@/lib/i18n";
 export default function Page() {
   const pathname = usePathname();
   const { locale, cleanPath } = useLocale();
+  const [variantParam, setVariantParam] = useState<string>('');
+
+  // Get variant parameter from cookie (set by middleware)
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+      // Decode URL-encoded value (e.g., "0_0%2C1_null" -> "0_0,1_null")
+      const decoded = cookieValue ? decodeURIComponent(cookieValue) : '';
+      setVariantParam(decoded);
+    }
+  }, []);
 
   const [getEntry, setEntry] = useState<PageProp>();
 
   const fetchData = useCallback(async () => {
     try {
-      console.log('Fetching data for:', { cleanPath, locale });
-      const entryRes = await GetBlogLandingPage(cleanPath, locale as Locale);
+      console.log('Fetching data for:', { cleanPath, locale, variantParam });
+      const entryRes = await GetBlogLandingPage(cleanPath, locale as Locale, variantParam);
       if (!entryRes) throw new Error("Status code 404");
       setEntry(entryRes);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  }, [cleanPath, locale]);
+  }, [cleanPath, locale, variantParam]);
 
   useEffect(() => {
     if (locale) {
