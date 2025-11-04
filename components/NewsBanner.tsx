@@ -7,6 +7,7 @@ import { cn } from '@/core/lib/utils';
 import { NewsBannerProps as NewsBannerPropsType } from '@/core/types/Props';
 import { CMSLinkField } from '@/core/types/Fields';
 import { getNewsBannerRes } from '@/helper';
+import { useLocale } from '@/hooks/useLocale';
 
 interface NewsBannerProps {
   newsBanner: {
@@ -45,8 +46,20 @@ const getHeaderTag = (headerTag: string): keyof JSX.IntrinsicElements => {
 };
 
 export default function NewsBanner(props: NewsBannerProps) {
+  const { locale } = useLocale();
   const [newsBannerData, setNewsBannerData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
+  const [variantParam, setVariantParam] = useState<string>('');
+
+  // Get variant parameter from cookie (set by middleware)
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const cookieValue = document.cookie.split('; ').find(row => row.startsWith('personalize_variants='))?.split('=')[1];
+      // Decode URL-encoded value (e.g., "0_0%2C1_null" -> "0_0,1_null")
+      const decoded = cookieValue ? decodeURIComponent(cookieValue) : '';
+      setVariantParam(decoded);
+    }
+  }, []);
 
   // Fetch news banner data if it's a reference
   useEffect(() => {
@@ -68,7 +81,7 @@ export default function NewsBanner(props: NewsBannerProps) {
 
         // Check if news_banner is a reference object with UID
         if (currentNewsBanner.uid && currentNewsBanner._content_type_uid === 'news_banner') {
-          const data = await getNewsBannerRes(currentNewsBanner.uid);
+          const data = await getNewsBannerRes(currentNewsBanner.uid, locale, variantParam);
           // ContentStack returns array-like structure, extract the actual entry
           const bannerEntry = (data && data[0]) ? data[0] : data;
           setNewsBannerData(bannerEntry);
@@ -84,8 +97,10 @@ export default function NewsBanner(props: NewsBannerProps) {
       }
     };
 
-    fetchNewsBannerData();
-  }, [props.newsBanner]);
+    if (locale) {
+      fetchNewsBannerData();
+    }
+  }, [props.newsBanner, locale, variantParam]);
 
   if (loading) {
     return <div className="news-banner-loading py-12 text-center">Loading news banner...</div>;

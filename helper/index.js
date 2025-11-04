@@ -159,24 +159,28 @@ export const getSuperheroGalleryRes = async () => {
     return response;
 };
 
-export const getCarouselRes = async (carouselUid) => {
+export const getCarouselRes = async (carouselUid, locale = 'en-us', variantParam = '') => {
     const response = await Stack.getEntryByUid({
         contentTypeUid: "carousel",
         entryUid: carouselUid,
         referenceFieldPath: ["slides"],
         jsonRtePath: ["description", "slides.description"],
+        locale: locale,
+        variantParam: variantParam,
     });
     
     liveEdit && addEditableTags(response, "carousel", true);
     return response;
 };
 
-export const getNewsBannerRes = async (newsBannerUid) => {
+export const getNewsBannerRes = async (newsBannerUid, locale = 'en-us', variantParam = '') => {
     const response = await Stack.getEntryByUid({
         contentTypeUid: "news_banner",
         entryUid: newsBannerUid,
         referenceFieldPath: [],
         jsonRtePath: ["content.detail_text"],
+        locale: locale,
+        variantParam: variantParam,
     });
     
     // response is array-like: {0: {entry_data}, $: {metadata}}

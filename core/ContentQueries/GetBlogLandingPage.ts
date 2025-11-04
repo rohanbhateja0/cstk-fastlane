@@ -4,8 +4,8 @@ import { Locale } from "@/lib/i18n";
 
 const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true";
 
-export const GetBlogLandingPage = async (entryUrl: string, locale: Locale = 'en-us') => {
-    console.log('GetBlogLandingPage called with:', { entryUrl, locale });
+export const GetBlogLandingPage = async (entryUrl: string, locale: Locale = 'en-us', variantParam = '') => {
+    console.log('GetBlogLandingPage called with:', { entryUrl, locale, variantParam });
     
     try {
         // First try to get the page in the requested locale
@@ -15,6 +15,7 @@ export const GetBlogLandingPage = async (entryUrl: string, locale: Locale = 'en-
             locale: locale,
             referenceFieldPath: [],
             jsonRtePath: [],
+            variantParam: variantParam,
         });
         
         // Unwrap the response if it's in array format
@@ -45,6 +46,7 @@ export const GetBlogLandingPage = async (entryUrl: string, locale: Locale = 'en-
                 locale: 'en-us',
                 referenceFieldPath: [],
                 jsonRtePath: [],
+                variantParam: variantParam,
             });
             
             // Unwrap English response
@@ -64,6 +66,7 @@ export const GetBlogLandingPage = async (entryUrl: string, locale: Locale = 'en-
                     referenceFieldPath: [],
                     jsonRtePath: [],
                     locale: locale,
+                    variantParam: variantParam,
                 });
                 
                 // Unwrap localized response
