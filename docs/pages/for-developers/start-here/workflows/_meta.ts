@@ -3,4 +3,5 @@ export default {
   'sitecore-component-prerequisites': 'Sitecore Component Prerequisites',
   'create-new-component': 'Create New Component Workflow',
   'enhance-existing-component': 'Enhance Existing Component Workflow',
+  'add-personalization-to-component': 'Add Personalization to Component',
 };
