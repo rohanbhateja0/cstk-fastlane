@@ -4,6 +4,7 @@ export default {
   // Component Creation & Enhancement Prompts
   "create-component": "Create New Component",
   "enhance-existing-component": "Enhance Existing Component",
+  "add-personalization-to-component": "Add Personalization to Component",
 
   "create-sitecore-graphql-list-component": "TODO: Create GraphQL List Component",
 
