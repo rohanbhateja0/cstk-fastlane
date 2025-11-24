@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useLytics } from '@/components/context/LyticsContext';
 
 export default function NewsletterSubscribePage() {
   const router = useRouter();
+  const lytics = useLytics();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -31,21 +33,48 @@ export default function NewsletterSubscribePage() {
     setError(null);
 
     try {
-      const response = await fetch('/api/newsletter-subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // Simulate a brief delay for UX
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      const data = await response.json();
+      // Track successful subscription with Lytics
+      try {
+        if (lytics) {
+          // Identify the user with their information
+          lytics.identify({
+            email: formData.email,
+            name: `${formData.firstName} ${formData.lastName}`,
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            phone_number: formData.phoneNumber,
+          });
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to subscribe');
+          // Send newsletter subscription event
+          lytics.send('newsletter_subscribed', {
+            email: formData.email,
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            phone_number: formData.phoneNumber,
+            page: window.location.pathname,
+            subscription_status: 'active',
+            subscribed_at: new Date().toISOString(),
+          });
+
+          console.log('✅ Lytics: Newsletter subscription tracked for', formData.email);
+          console.log('✅ User identified with:', {
+            email: formData.email,
+            name: `${formData.firstName} ${formData.lastName}`,
+            phone: formData.phoneNumber,
+          });
+        } else {
+          console.warn('⚠️ Lytics SDK not available');
+        }
+      } catch (lyticsError) {
+        console.error('❌ Lytics tracking failed:', lyticsError);
+        throw new Error('Failed to track subscription');
       }
 
       setSuccess(true);
+      
       // Reset form
       setFormData({
         firstName: '',
