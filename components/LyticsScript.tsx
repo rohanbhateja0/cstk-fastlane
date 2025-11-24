@@ -21,15 +21,15 @@ export default function LyticsScript() {
     }
 
     // Check if Lytics is already loaded
-    if (window.jstag && window.jstag.init) {
+    if (window.jstag && window.jstag.config) {
       console.log('Lytics: Already initialized');
       return;
     }
 
     // Lytics Tracking Tag Version 3
-    !(function () {
+    (function () {
       "use strict";
-      var o = window.jstag || (window.jstag = {}),
+      var o = window.jstag || (window.jstag = {} as any),
         r: any[] = [];
       function n(e: string) {
         o[e] = function () {
@@ -88,12 +88,12 @@ export default function LyticsScript() {
     })();
 
     // Initialize Lytics tracking tag
-    window.jstag.init({
+    window.jstag?.init?.({
       src: `https://c.lytics.io/api/tag/${lyticsAccountId}/latest.min.js`,
     });
 
     // Send initial page view
-    window.jstag.pageView();
+    window.jstag?.pageView?.();
 
     console.log('Lytics: Initialized successfully');
   }, []);
@@ -104,22 +104,23 @@ export default function LyticsScript() {
 // TypeScript declarations for Lytics jstag
 declare global {
   interface Window {
-    jstag: {
-      init: (config: { src: string; [key: string]: any }) => void;
-      send: (eventName: string, data?: Record<string, any>) => void;
-      mock: (...args: any[]) => void;
-      identify: (attributes: Record<string, any>) => void;
-      pageView: (data?: Record<string, any>) => void;
-      unblock: () => void;
-      getid: (callback: (id: string) => void) => void;
-      setid: (id: string) => void;
-      loadEntity: (entityName: string, callback: (entity: any) => void) => void;
-      getEntity: (entityName: string) => any;
-      on: (event: string, callback: (...args: any[]) => void) => void;
-      once: (event: string, callback: (...args: any[]) => void) => void;
-      call: (method: string, ...args: any[]) => void;
-      loadScript: (src: string, onload: () => void, onerror: () => void) => void;
+    jstag?: {
+      init?: (config: { src: string; [key: string]: any }) => any;
+      send?: (eventName: string, data?: Record<string, any>) => void;
+      mock?: (...args: any[]) => void;
+      identify?: (attributes: Record<string, any>) => void;
+      pageView?: (data?: Record<string, any>) => void;
+      unblock?: () => void;
+      getid?: (callback: (id: string) => void) => void;
+      setid?: (id: string) => void;
+      loadEntity?: (entityName: string, callback: (entity: any) => void) => void;
+      getEntity?: (entityName: string) => any;
+      on?: (event: string, callback: (...args: any[]) => void) => void;
+      once?: (event: string, callback: (...args: any[]) => void) => void;
+      call?: (method: string, ...args: any[]) => void;
+      loadScript?: (src: string, onload: () => void, onerror: () => void) => any;
       config?: any;
+      [key: string]: any;
     };
   }
 }
