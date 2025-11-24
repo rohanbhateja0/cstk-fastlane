@@ -8,6 +8,8 @@ import localFont from 'next/font/local';
 import { Locale, isValidLocale, defaultLocale, isRTL, getTextDirection } from '@/lib/i18n';
 import RTLProvider from '@/components/RTLProvider';
 import { PersonalizeProvider } from '@/components/context/PersonalizeContext';
+import { LyticsProvider } from '@/components/context/LyticsContext';
+import LyticsScript from '@/components/LyticsScript';
 
 const satoshi = localFont({
   src: [
@@ -94,18 +96,21 @@ export default async function LangLayout({
         
       </head>
       <body className={`${satoshi.variable} ${zodiak.variable} ${isRTL(locale) ? 'rtl' : 'ltr'}`}>
+        <LyticsScript />
         <PersonalizeProvider>
-          <RTLProvider locale={locale}>
-            <div className="fastlanewebsite">
-              <Header locale={locale} />
-              <main>
-                <>
-                  {children}
-                </>
-              </main>
-            </div>
-            <Footer locale={locale} />
-          </RTLProvider>
+          <LyticsProvider>
+            <RTLProvider locale={locale}>
+              <div className="fastlanewebsite">
+                <Header locale={locale} />
+                <main>
+                  <>
+                    {children}
+                  </>
+                </main>
+              </div>
+              <Footer locale={locale} />
+            </RTLProvider>
+          </LyticsProvider>
         </PersonalizeProvider>
       </body>
     </html>

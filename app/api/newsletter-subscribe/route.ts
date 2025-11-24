@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
       entry_uid: entry.uid,
     });
   } catch (error: any) {
-    console.error('Error creating newsletter subscription:', error);
+    console.error('Error creating newsletter subscription:', error.message || error);
     return NextResponse.json(
       { error: 'Failed to subscribe. Please try again later.' },
       { status: 500 }
