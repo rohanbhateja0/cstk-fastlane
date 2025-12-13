@@ -8,7 +8,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useLocale } from '@/hooks/useLocale';
 
 export default function ContactUsPage() {
-    const { locale, cleanPath } = useLocale();
+    const { locale } = useLocale();
+    const contactusPath = '/contactus';
     
     // Get variant parameter from cookie (set by middleware)
     const [variantParam, setVariantParam] = useState<string>('');
@@ -26,20 +27,30 @@ export default function ContactUsPage() {
 
     const fetchData = useCallback(async () => {
         try {
-            const entryRes = await GetPage(cleanPath, locale, variantParam);
+            const entryRes = await GetPage(contactusPath, locale, variantParam);
             if (!entryRes) throw new Error('Status code 404');
             setEntry(entryRes);
         } catch (error) {
             console.error('Error fetching ContactUs page:', error);
         }
-    }, [cleanPath, locale, variantParam]);
+    }, [contactusPath, locale, variantParam]);
 
     useEffect(() => {
         fetchData();
     }, [fetchData]);
 
     useEffect(() => {
-        onEntryChange(() => fetchData());
+        if (typeof onEntryChange === 'function') {
+            const unsubscribe = (onEntryChange as any)(() => {
+                fetchData();
+            });
+            
+            return () => {
+                if (typeof unsubscribe === 'function') {
+                    unsubscribe();
+                }
+            };
+        }
     }, [fetchData]);
 
 

@@ -14,7 +14,8 @@ import { Locale } from "@/lib/i18n";
 
 export default function Page() {
   const pathname = usePathname();
-  const { locale, cleanPath } = useLocale();
+  const { locale } = useLocale();
+  const blogsPath = '/blogs';
   const [variantParam, setVariantParam] = useState<string>('');
 
   // Get variant parameter from cookie (set by middleware)
@@ -31,14 +32,13 @@ export default function Page() {
 
   const fetchData = useCallback(async () => {
     try {
-      console.log('Fetching data for:', { cleanPath, locale, variantParam });
-      const entryRes = await GetBlogLandingPage(cleanPath, locale as Locale, variantParam);
+      const entryRes = await GetBlogLandingPage(blogsPath, locale as Locale, variantParam);
       if (!entryRes) throw new Error("Status code 404");
       setEntry(entryRes);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  }, [cleanPath, locale, variantParam]);
+  }, [blogsPath, locale, variantParam]);
 
   useEffect(() => {
     if (locale) {
@@ -47,7 +47,17 @@ export default function Page() {
   }, [fetchData, locale]);
 
   useEffect(() => {
-    onEntryChange(() => fetchData());
+    if (typeof onEntryChange === 'function') {
+      const unsubscribe = (onEntryChange as any)(() => {
+        fetchData();
+      });
+      
+      return () => {
+        if (typeof unsubscribe === 'function') {
+          unsubscribe();
+        }
+      };
+    }
   }, [fetchData]);
 
   return getEntry?.main ? (

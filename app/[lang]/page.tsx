@@ -21,7 +21,6 @@ export default function Home() {
       if (pageData) {
         setPage(pageData);
       } else {
-        console.log(`No content found for locale ${locale}, page will show fallback content`);
         setPage(null);
       }
     } catch (error) {

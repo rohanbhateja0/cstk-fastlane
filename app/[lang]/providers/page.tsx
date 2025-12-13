@@ -11,22 +11,33 @@ import Skeleton from "react-loading-skeleton";
 import { useLocale } from '@/hooks/useLocale';
 
 export default function Page() {
-  const { locale, cleanPath } = useLocale();
+  const { locale } = useLocale();
+  const providersPath = '/providers';
 
   const [getEntry, setEntry] = useState<PageProp>();
 
   const fetchData = useCallback(async () => {
     try {
-      const entryRes = await GetBlogLandingPage(cleanPath, locale);
+      const entryRes = await GetBlogLandingPage(providersPath, locale);
       if (!entryRes) throw new Error("Status code 404");
       setEntry(entryRes);
     } catch (error) {
       console.error(error);
     }
-  }, [cleanPath, locale]);
+  }, [providersPath, locale]);
 
   useEffect(() => {
-    onEntryChange(() => fetchData());
+    if (typeof onEntryChange === 'function') {
+      const unsubscribe = (onEntryChange as any)(() => {
+        fetchData();
+      });
+      
+      return () => {
+        if (typeof unsubscribe === 'function') {
+          unsubscribe();
+        }
+      };
+    }
   }, [fetchData]);
 
   return getEntry?.main ? (

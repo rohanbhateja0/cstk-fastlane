@@ -38,7 +38,17 @@ export default function Page() {
     }, [cleanPath, locale, variantParam]);
 
     useEffect(() => {
-        onEntryChange(() => fetchData());
+        if (typeof onEntryChange === 'function') {
+            const unsubscribe = (onEntryChange as any)(() => {
+                fetchData();
+            });
+            
+            return () => {
+                if (typeof unsubscribe === 'function') {
+                    unsubscribe();
+                }
+            };
+        }
     }, [fetchData]);
 
 

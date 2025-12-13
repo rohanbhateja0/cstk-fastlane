@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { CMSLink } from '@/core/atoms/Link';
 import { ArrowLeft } from 'lucide-react';
@@ -74,7 +74,6 @@ export default function BlogDetailPage() {
   const [blogPost, setBlogPost] = useState<ContentCardModel | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const livePreviewSetup = useRef(false);
 
   // Get variant parameter from cookie (set by middleware)
   useEffect(() => {
@@ -90,15 +89,12 @@ export default function BlogDetailPage() {
   const fetchBlogPost = async () => {
     try {
       setLoading(true);
-      console.log('Fetching blog post with:', { slug, locale, variantParam });
       
       const blogPost = await GetContentCardBySlug(slug, locale, variantParam);
       
       if (blogPost) {
-        console.log('Blog post found:', blogPost.uid);
         setBlogPost(blogPost);
       } else {
-        console.log('Blog post not found for slug:', slug);
         setError('Blog post not found');
       }
     } catch (err) {
@@ -115,15 +111,20 @@ export default function BlogDetailPage() {
     }
   }, [slug, locale, variantParam]);
 
-  // Set up live preview - only once per component mount
+  // Set up live preview
   useEffect(() => {
-    if (!livePreviewSetup.current) {
-      livePreviewSetup.current = true;
-      onEntryChange(() => {
+    if (typeof onEntryChange === 'function') {
+      const unsubscribe = (onEntryChange as any)(() => {
         fetchBlogPost();
       });
+      
+      return () => {
+        if (typeof unsubscribe === 'function') {
+          unsubscribe();
+        }
+      };
     }
-  }, [slug]);
+  }, [fetchBlogPost]);
 
   if (loading) {
     return (
