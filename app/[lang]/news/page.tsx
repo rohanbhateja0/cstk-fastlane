@@ -6,9 +6,17 @@ import { GetPage } from '@/core/ContentQueries/GetPage';
 import { Page as PageProp } from '@/typescript/pages';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocale } from '@/hooks/useLocale';
+import { useSearchParams } from 'next/navigation';
 
 export default function NewsPage() {
-    const { locale, cleanPath } = useLocale();
+    const { locale } = useLocale();
+    const searchParams = useSearchParams();
+    
+    // Check if we're in Visual Builder mode
+    const livePreview = searchParams.get('live_preview');
+    const isVisualBuilder = !!livePreview;
+    
+    const newsPath = '/news';
     
     // Get variant parameter from cookie (set by middleware)
     const [variantParam, setVariantParam] = useState<string>('');
@@ -26,20 +34,30 @@ export default function NewsPage() {
 
     const fetchData = useCallback(async () => {
         try {
-            const entryRes = await GetPage(cleanPath, locale, variantParam);
+            const entryRes = await GetPage(newsPath, locale, variantParam);
             if (!entryRes) throw new Error('Status code 404');
             setEntry(entryRes);
         } catch (error) {
             console.error('Error fetching News page:', error);
         }
-    }, [cleanPath, locale, variantParam]);
+    }, [newsPath, locale, variantParam, isVisualBuilder]);
 
     useEffect(() => {
         fetchData();
     }, [fetchData]);
 
     useEffect(() => {
-        onEntryChange(() => fetchData());
+        if (typeof onEntryChange === 'function') {
+            const unsubscribe = (onEntryChange as any)(() => {
+                fetchData();
+            });
+            
+            return () => {
+                if (typeof unsubscribe === 'function') {
+                    unsubscribe();
+                }
+            };
+        }
     }, [fetchData]);
 
 

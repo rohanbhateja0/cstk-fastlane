@@ -91,11 +91,11 @@ export default async function LangLayout({
   const direction = getTextDirection(locale);
 
   return (
-    <html lang={locale} dir={direction} className={isRTL(locale) ? 'rtl' : 'ltr'}>
+    <html lang={locale} dir={direction} className={isRTL(locale) ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <head>
         
       </head>
-      <body className={`${satoshi.variable} ${zodiak.variable} ${isRTL(locale) ? 'rtl' : 'ltr'}`}>
+      <body className={`${satoshi.variable} ${zodiak.variable} ${isRTL(locale) ? 'rtl' : 'ltr'}`} suppressHydrationWarning>
         <LyticsScript />
         <PersonalizeProvider>
           <LyticsProvider>
