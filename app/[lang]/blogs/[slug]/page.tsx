@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { CMSLink } from '@/core/atoms/Link';
 import { ArrowLeft } from 'lucide-react';
 import { generateSlug } from '@/core/lib/utils';
 import RichText from '@/components/rich-text';
 import ImageComponent from '@/components/image';
+import { CMSImage } from '@/core/atoms/Image';
 // import LivePreview from '@/components/LivePreview';
 import { onEntryChange } from '@/contentstack-sdk';
 import { GetContentCardBySlug } from '@/core/ContentQueries/GetContentCard';
@@ -27,6 +28,10 @@ type ContentCardModel = {
       description: string;
       height: number;
       width: number;
+      $?: {
+        url?: any;
+        [key: string]: any;
+      };
     };
     icon?: {
       uid: string;
@@ -36,6 +41,17 @@ type ContentCardModel = {
       description: string;
       height: number;
       width: number;
+      $?: {
+        url?: any;
+        [key: string]: any;
+      };
+    };
+    $?: {
+      title?: any;
+      category?: any;
+      intro_text?: any;
+      image?: any;
+      [key: string]: any;
     };
   };
   call_to_action: {
@@ -63,6 +79,9 @@ type ContentCardModel = {
   locale: string;
   created_at: string;
   updated_at: string;
+  $?: {
+    [key: string]: any;
+  };
 };
 
 export default function BlogDetailPage() {
@@ -85,10 +104,13 @@ export default function BlogDetailPage() {
     }
   }, []);
 
-  // Fetch blog post by slug
-  const fetchBlogPost = async () => {
+  // Fetch blog post by slug - memoized to prevent infinite loops
+  const fetchBlogPost = useCallback(async () => {
+    if (!slug || !locale) return;
+    
     try {
       setLoading(true);
+      setError(null);
       
       const blogPost = await GetContentCardBySlug(slug, locale, variantParam);
       
@@ -96,24 +118,24 @@ export default function BlogDetailPage() {
         setBlogPost(blogPost);
       } else {
         setError('Blog post not found');
+        setBlogPost(null);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       console.error('Error fetching blog post:', err);
+      setBlogPost(null);
     } finally {
       setLoading(false);
     }
-  };
+  }, [slug, locale, variantParam]);
 
   useEffect(() => {
-    if (slug && locale) {
-      fetchBlogPost();
-    }
-  }, [slug, locale, variantParam]);
+    fetchBlogPost();
+  }, [fetchBlogPost]);
 
   // Set up live preview
   useEffect(() => {
-    if (typeof onEntryChange === 'function') {
+    if (typeof onEntryChange === 'function' && slug && locale) {
       const unsubscribe = (onEntryChange as any)(() => {
         fetchBlogPost();
       });
@@ -124,7 +146,7 @@ export default function BlogDetailPage() {
         }
       };
     }
-  }, [fetchBlogPost]);
+  }, [fetchBlogPost, slug, locale]);
 
   if (loading) {
     return (
@@ -182,8 +204,37 @@ export default function BlogDetailPage() {
     );
   }
 
+  // Helper function to safely get editable props - filters out invalid DOM attributes
+  const getEditableProps = (props: any) => {
+    if (!props) return {};
+    if (Array.isArray(props)) return {};
+    if (typeof props === 'object') {
+      const keys = Object.keys(props);
+      if (keys.length > 0 && keys.every(key => !isNaN(Number(key)))) {
+        return {}; // Skip objects with only numeric keys
+      }
+      
+      // Filter out invalid DOM attributes (like ACL, uppercase props, etc.)
+      // Only keep valid HTML attributes (lowercase, kebab-case) and data-* attributes
+      const filtered: any = {};
+      for (const key of keys) {
+        // Allow data-* attributes (Contentstack uses these for editable tags)
+        if (key.startsWith('data-')) {
+          filtered[key] = props[key];
+        }
+        // Allow valid lowercase/kebab-case HTML attributes
+        else if (key === key.toLowerCase() && /^[a-z][a-z0-9-]*$/.test(key)) {
+          filtered[key] = props[key];
+        }
+        // Skip invalid attributes (uppercase, special chars, etc.)
+      }
+      return filtered;
+    }
+    return {};
+  };
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white" {...getEditableProps(blogPost.$)}>
       {/* Back Button */}
       <div className="max-w-7xl mx-auto px-6 py-6">
         <CMSLink 
@@ -196,12 +247,12 @@ export default function BlogDetailPage() {
       </div>
 
       {/* Hero Section with Background Image */}
-      <div className="relative bg-sky-900 min-h-[400px] flex items-center">
+      <div className="relative bg-sky-900 min-h-[400px] flex items-center" {...getEditableProps(blogPost.content?.$)}>
         {/* Background Image Overlay */}
         {!blogPost.rendering_options?.hide_image && blogPost.content?.image && (
-          <div className="absolute inset-0">
-            <img 
-              src={blogPost.content.image?.url || ''} 
+          <div className="absolute inset-0" {...getEditableProps(blogPost.content.image?.$?.url)}>
+            <CMSImage 
+              image={{ ...blogPost.content.image, $: blogPost.content.image.$ || {} } as any}
               alt={blogPost.content.image?.title || blogPost.content?.title || blogPost.title || ''}
               className="w-full h-full object-cover opacity-30"
             />
@@ -213,7 +264,7 @@ export default function BlogDetailPage() {
           <div className="max-w-4xl">
             {/* Category */}
             {blogPost.content?.category && (
-              <div className="mb-2">
+              <div className="mb-2" {...getEditableProps(blogPost.content?.$?.category)}>
                 <span className="text-sm font-medium text-white">
                   {blogPost.content.category}
                 </span>
@@ -221,7 +272,10 @@ export default function BlogDetailPage() {
             )}
             
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight tracking-tight mb-4">
+            <h1 
+              className="text-4xl md:text-5xl font-bold text-white leading-tight tracking-tight mb-4"
+              {...getEditableProps(blogPost.content?.$?.title)}
+            >
               {blogPost.content?.title || blogPost.title || ''}
             </h1>
             
@@ -253,14 +307,14 @@ export default function BlogDetailPage() {
             
             {/* Rich Text Content */}
             {blogPost.content?.intro_text && (
-              <div className="prose prose-lg max-w-none">
+              <div className="prose prose-lg max-w-none" {...getEditableProps(blogPost.content?.$?.intro_text)}>
                 <RichText 
                   richText={{
                     content: blogPost.content.intro_text,
                     rendering_options: {
                       colspan: '1'
                     },
-                    $: {}
+                    $: blogPost.content?.$?.intro_text || {}
                   }}
                 />
               </div>
@@ -269,10 +323,10 @@ export default function BlogDetailPage() {
           
           {/* Sidebar Image */}
           {!blogPost.rendering_options?.hide_image && blogPost.content?.image && (
-            <div className="w-80 flex-shrink-0">
+            <div className="w-80 flex-shrink-0" {...getEditableProps(blogPost.content.image?.$?.url)}>
               <div className="aspect-[502/282] relative">
-                <img 
-                  src={blogPost.content.image?.url || ''} 
+                <CMSImage 
+                  image={{ ...blogPost.content.image, $: blogPost.content.image.$ || {} } as any}
                   alt={blogPost.content.image?.title || blogPost.content?.title || blogPost.title || ''}
                   className="w-full h-full object-cover rounded-lg"
                 />
