@@ -34,7 +34,7 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
   const linkField = newsItem.call_to_action?.link as CMSLinkField | undefined;
 
   // Determine the header tag dynamically
-  const HeaderTag = header_tag as keyof JSX.IntrinsicElements;
+  const HeaderTag = header_tag as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
   // Image order classes
   const imageOrderClass = image_order === 'right' ? 'order-2' : 'order-1';
@@ -53,6 +53,18 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
       return props;
     }
     return {};
+  };
+
+  // Create header element using React.createElement for React 19 compatibility
+  const createHeaderElement = (title: string, editableProps: any) => {
+    return React.createElement(
+      HeaderTag,
+      {
+        className: "font-['Satoshi'] font-bold text-2xl leading-none text-zinc-950 tracking-[-0.4px]",
+        ...editableProps
+      },
+      title
+    );
   };
 
   return (
@@ -103,12 +115,7 @@ const NewsCard = ({ newsItem, renderingOptions }: { newsItem: any, renderingOpti
             )}
             
             {/* Title */}
-            <HeaderTag 
-              className="font-['Satoshi'] font-bold text-2xl leading-none text-zinc-950 tracking-[-0.4px]"
-              {...getEditableProps(newsItem.$?.title)}
-            >
-              {title}
-            </HeaderTag>
+            {createHeaderElement(title, getEditableProps(newsItem.$?.title))}
             
             {/* Description */}
             {description && (

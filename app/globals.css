@@ -6,7 +6,7 @@
 
 .scChromeData,
 .scpm {
-  display: none!;
+  display: none !important;
 }
 
 /*
@@ -60,10 +60,10 @@ a:hover {
 }
 /* src/styles/globals.css */
 .slick-next {
-  @apply right-6!;
+  @apply !right-6;
 }
 .slick-prev {
-  @apply left-6 z-10!;
+  @apply !left-6 z-10;
 }
 
 @layer base {

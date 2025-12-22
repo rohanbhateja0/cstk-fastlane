@@ -40,9 +40,10 @@ const getAlignmentClasses = (alignment: string): string => {
   }
 };
 
-const getHeaderTag = (headerTag: string): keyof JSX.IntrinsicElements => {
-  const validTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-  return validTags.includes(headerTag.toLowerCase()) ? headerTag.toLowerCase() as keyof JSX.IntrinsicElements : 'h2';
+const getHeaderTag = (headerTag: string): 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' => {
+  const validTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
+  const lowerTag = headerTag.toLowerCase();
+  return (validTags.includes(lowerTag as typeof validTags[number]) ? lowerTag : 'h2') as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 };
 
 export default function NewsBanner(props: NewsBannerProps) {
