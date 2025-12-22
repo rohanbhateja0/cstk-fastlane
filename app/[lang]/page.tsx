@@ -32,10 +32,10 @@ export default function Home() {
   }, [cleanPath, locale]);
 
   useEffect(() => {
-    if (locale) {
+    if (locale && cleanPath) {
       fetchData();
     }
-  }, [fetchData, locale]);
+  }, [fetchData, locale, cleanPath]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -71,12 +71,11 @@ export default function Home() {
 
   return (
     <>
-      {page.main?.map((grid: any, key: number) => {
-      return (
-        <>
-            <FlexGrid flexGrid={grid} page={page} key={key} />
-        </>
-      )})}
+      {page.main?.map((grid: any, index: number) => {
+        return (
+          <FlexGrid key={index} flexGrid={grid} page={page} />
+        );
+      })}
       {/* <LivePreview page={page} /> */}
     </>
   );
