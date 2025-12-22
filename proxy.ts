@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from 'next/server';
 import { locales, defaultLocale } from '@/lib/i18n';
 import Personalize from '@contentstack/personalize-edge-sdk';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
   // Ignore requests for static files, API routes, manifest, and Next.js internals
