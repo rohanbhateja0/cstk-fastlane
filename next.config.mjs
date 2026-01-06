@@ -49,9 +49,20 @@ const nextConfig = {
             }
         ];
 
-        // Only add X-Frame-Options in production to allow iframe embedding in development/preview
-        // This is needed for Contentstack live preview and other iframe scenarios
-        if (process.env.NODE_ENV === 'production') {
+        // For non-production/preview: Allow Contentstack Visual Builder to embed via CSP
+        // For production: Use X-Frame-Options for security
+        // Vercel sets NODE_ENV=production even for preview deployments, so check VERCEL_ENV
+        const isProduction = process.env.VERCEL_ENV === 'production' || 
+                            (process.env.NODE_ENV === 'production' && !process.env.VERCEL_ENV);
+        
+        if (!isProduction) {
+            // Allow iframe embedding from Contentstack Visual Builder and same origin
+            headers.push({
+                key: 'Content-Security-Policy',
+                value: "frame-ancestors 'self' https://app.contentstack.com https://*.contentstack.com;"
+            });
+        } else {
+            // Production: restrict to same origin only
             headers.push({
                 key: 'X-Frame-Options',
                 value: 'SAMEORIGIN'
