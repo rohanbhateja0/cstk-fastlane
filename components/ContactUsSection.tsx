@@ -77,7 +77,7 @@ const ContactUsCard = ({ contactUsItem, renderingOptions }: { contactUsItem: any
   } = renderingOptions;
 
   // Determine the header tag dynamically
-  const HeaderTag = header_tag as keyof JSX.IntrinsicElements;
+  const HeaderTag = header_tag as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
   // Safe getter for $ properties to avoid spreading arrays and objects with numeric keys
   const getEditableProps = (props: any) => {
@@ -94,6 +94,18 @@ const ContactUsCard = ({ contactUsItem, renderingOptions }: { contactUsItem: any
     return {};
   };
 
+  // Create header element using React.createElement for React 19 compatibility
+  const createHeaderElement = () => {
+    return React.createElement(
+      HeaderTag,
+      {
+        className: "font-['Zodiak'] font-bold text-[24px] leading-none tracking-[-0.4px] text-[#09090b] w-full shrink-0",
+        ...getEditableProps(contactUsItem.$?.title)
+      },
+      title
+    );
+  };
+
   return (
     <div 
       className={`w-full md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] bg-white ${hide_border ? '' : 'border border-[#d4d4d8]'} rounded-lg relative`}
@@ -108,12 +120,7 @@ const ContactUsCard = ({ contactUsItem, renderingOptions }: { contactUsItem: any
           </div>
           
           {/* Title */}
-          <HeaderTag 
-            className="font-['Zodiak'] font-bold text-[24px] leading-none tracking-[-0.4px] text-[#09090b] w-full shrink-0"
-            {...getEditableProps(contactUsItem.$?.title)}
-          >
-            {title}
-          </HeaderTag>
+          {createHeaderElement()}
           
           {/* Description */}
           {description && (

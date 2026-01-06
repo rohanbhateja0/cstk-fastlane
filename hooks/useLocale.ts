@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { Locale, isRTL, getTextDirection, defaultLocale, isValidLocale } from '@/lib/i18n';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 export function useLocale() {
   const pathname = usePathname();
@@ -20,8 +20,10 @@ export function useLocale() {
     }
   }, [pathname]);
 
-  // Clean path removes the locale segment
-  const cleanPath = '/' + pathname.split('/').slice(2).join('/');
+  // Clean path removes the locale segment - memoized to prevent unnecessary recalculations
+  const cleanPath = useMemo(() => {
+    return '/' + pathname.split('/').slice(2).join('/');
+  }, [pathname]);
 
   return {
     locale,

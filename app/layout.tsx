@@ -33,9 +33,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   // This layout should never be reached due to middleware redirects
+  // suppressHydrationWarning is needed because nested [lang]/layout.tsx sets lang/dir attributes
   return (
-    <html>
-      <body>
+    <html suppressHydrationWarning>
+      <body suppressHydrationWarning>
       <PersonalizeProvider>
         {children}
         </PersonalizeProvider>
