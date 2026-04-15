@@ -33,6 +33,8 @@ async function createContentType(uid: string, schema: any, options: any, title?:
     } 
   };
 
+  console.log('Creating Content Type with body:', JSON.stringify(body, null, 2));
+
   const res = await fetch(`${BASE_URL}/v3/content_types`, {
     method: "POST",
     headers: {
@@ -45,7 +47,8 @@ async function createContentType(uid: string, schema: any, options: any, title?:
 
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(`Contentstack CMA createContentType error: ${JSON.stringify(error)}`);
+    console.error('ContentStack API Error:', JSON.stringify(error, null, 2));
+    throw new Error(`Contentstack CMA createContentType error (${res.status}): ${JSON.stringify(error)}`);
   }
 
   return res.json();
@@ -62,6 +65,8 @@ async function updateContentType(uid: string, schema: any, options: any, title?:
     } 
   };
 
+  console.log('Updating Content Type with body:', JSON.stringify(body, null, 2).substring(0, 1000) + '...');
+
   const res = await fetch(`${BASE_URL}/v3/content_types/${uid}`, {
     method: "PUT",
     headers: {
@@ -74,10 +79,13 @@ async function updateContentType(uid: string, schema: any, options: any, title?:
 
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(`Contentstack CMA updateContentType error: ${JSON.stringify(error)}`);
+    console.error('ContentStack UPDATE Error:', JSON.stringify(error, null, 2));
+    throw new Error(`Contentstack CMA updateContentType error (${res.status}): ${JSON.stringify(error)}`);
   }
 
-  return res.json();
+  const result = await res.json();
+  console.log('ContentStack UPDATE Success!');
+  return result;
 }
 
 async function getGlobalField(uid: string) {

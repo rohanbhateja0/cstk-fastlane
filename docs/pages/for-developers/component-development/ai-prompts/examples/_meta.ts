@@ -1,7 +1,15 @@
 export default {
   'index': 'Prompt Examples Overview',
+  'configure-mcp-server': 'Configure MCP Server',
   'create-hero-banner': 'Create Hero Banner Example',
+  'create-news-banner': 'Create News Banner Example',
+  'create-news-section': 'Create News Section Example',
+  'create-news-detail-section': 'Create News Detail Section',
+  'create-news-subscription-form': 'Create News Subscription Form',
   'create-product-card': 'Create Product Card Example',
+  'create-card-listing': 'Create Card Listing Example',
+  'create-carousel': 'Create Carousel Example',
+  'create-contactus-section': 'Create Contact Us Section',
   'enhance-content-card': 'Enhance ContentCard Example',
   'enhance-hero-banner': 'Enhance HeroBanner Example',
 };
