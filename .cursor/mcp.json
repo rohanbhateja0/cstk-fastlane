@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "mcp-figma-desktop": {
+      "url": "http://127.0.0.1:3845/mcp"
+    },
+    "mcp-contentstack": {
+      "command": "npx",
+      "args": ["-y", "@contentstack/mcp"],
+      "env": {
+        "CONTENTSTACK_API_KEY": "${env:CONTENTSTACK_API_KEY}",
+        "CONTENTSTACK_DELIVERY_TOKEN": "${env:CONTENTSTACK_DELIVERY_TOKEN}",
+        "CONTENTSTACK_MANAGEMENT_TOKEN": "${env:CONTENTSTACK_MANAGEMENT_TOKEN}"
+      }
+    }
+  }
+}
